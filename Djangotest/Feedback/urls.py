@@ -4,5 +4,6 @@ from . import views
 #from .views import (reporter_create)
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^create/$',views.create)
+    url(r'^login',views.login_view),
+    url(r'^logout',views.logout_view),
 ]

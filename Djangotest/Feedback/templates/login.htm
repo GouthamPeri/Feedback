@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{% static "w3.css" %}">
+<body>
+<div class="w3-center w3-blue w3-padding-16 w3-card-8">
+  <h1 style="font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif " >MVGR FEEDBACK SYSTEM</h1>
+</div>
+<div class="w3-container w3-padding-16">
+  <div class="w3-container w3-center">
+    <img src="{% static "mvgr.jpg"%}" style="width:50%"  class="w3-round w3-card-8"></img>
+  </div>
+<center>
+  <button style="margin:20px" onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-green w3-xlarge">Login</button>
+</center>
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">&times;</span>
+      </div>
+
+
+      <form class="w3-container" action="/feedback/login" method="POST">
+        <div class="w3-section">
+          <label><b>Username</b></label>
+          <div class=" w3-margin-bottom">{{form.id_no}}</div>
+          <label><b>Password</b></label>
+          <div> {{form.crypt_password }}</div>
+          <button class="w3-btn-block w3-green w3-section w3-padding" type="submit">Login</button>
+        </div>
+      </form>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-btn w3-red">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+            
+</body>
+</html>

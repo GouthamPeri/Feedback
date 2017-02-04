@@ -26,12 +26,10 @@ SECRET_KEY = 't#*u7jrom)x$r3rr7y1y58rjzb@hd*0vxo4nz_u8$uj70x@fvr'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+STATIC_URL="/static/"
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'Feedback.apps.FeedbackConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -103,7 +101,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/var/www/static/',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -122,4 +123,3 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
