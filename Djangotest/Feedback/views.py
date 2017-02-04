@@ -44,6 +44,7 @@ def login_view(request):
     return render_to_response("login.htm", {'form': form,'form2':  form2 })
 
 def logout_view(request):
+    s.delete(request.session.session_key)
     logout(request)
 
 def index(request):
