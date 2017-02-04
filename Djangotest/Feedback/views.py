@@ -21,9 +21,10 @@ def login_view(request):
             user = authenticate(username = username, password=password)
 
             if not user is None:
+                logout(request)
                 login(request, user)
-                print(request.session.session_key)
-                s[request.session.session_key] = username
+                if not request.session.session_key in s:
+                    s[request.session.session_key] = username
                 return HttpResponseRedirect('/feedback/')
             else:
                 print("not authenticated")
@@ -45,7 +46,7 @@ def login_view(request):
     return render_to_response("login.htm", {'form': form,'form2':  form2 })
 
 def logout_view(request):
-    s.delete(request.session.session_key)
+    del request.session[request.session.session_key]
     logout(request)
 
 def index(request):
