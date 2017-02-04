@@ -18,11 +18,12 @@ def login_view(request):
             form = LoginForm(request)
             username = request.POST['id_no']
             password = request.POST['crypt_password']
-            s[request.session.session_key]=username
             user = authenticate(username = username, password=password)
 
             if not user is None:
                 login(request, user)
+                print(request.session.session_key)
+                s[request.session.session_key] = username
                 return HttpResponseRedirect('/feedback/')
             else:
                 print("not authenticated")
