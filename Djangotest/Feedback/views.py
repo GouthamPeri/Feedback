@@ -21,14 +21,12 @@ def login_view(request):
             user = authenticate(username = username, password=password)
 
             if not user is None:
-                logout(request)
                 login(request, user)
-                if not request.session.session_key in s:
-                    s[request.session.session_key] = username
+                if not s.has_key(request.user.username):
+                    s[request.user.username] = request.session.session_key
                 return HttpResponseRedirect('/feedback/')
             else:
-                print("not authenticated")
-                return HttpResponse(request.user.is_authenticated())
+                return HttpResponse("Invalid Authentication")
         else:
             form2 = RegistrationForm(request)
             username=request.POST['id_no']
@@ -42,15 +40,15 @@ def login_view(request):
             return HttpResponse("<h1>Successfully Registered</h1>")
     else:
         form = LoginForm()
-        form2=RegistrationForm()
+        form2 = RegistrationForm()
     return render_to_response("login.htm", {'form': form,'form2':  form2 })
 
 def logout_view(request):
-    del request.session[request.session.session_key]
+    del s[request.user.username]
     logout(request)
-
+    return HttpResponse("Successfully Loggedout")
 def index(request):
-    print(s[request.session.session_key])
-    return HttpResponse("hello " + str(s[request.session.session_key]))
+    print(s[request.user.username])
+    return HttpResponse("hello " + request.user.username + str(s[request.user.username]))
 
 
