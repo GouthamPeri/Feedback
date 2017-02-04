@@ -14,21 +14,28 @@ requests = {}
 s = SessionStore()
 def login_view(request):
     if request.POST:
-        username = request.POST['id_no']
-        password = request.POST['crypt_password']
-        s[request.session.session_key]=username
-        user = authenticate(username = username, password=password)
+        if 'crypt_password' in request.POST:
+            username = request.POST['id_no']
+            password = request.POST['crypt_password']
+            s[request.session.session_key]=username
+            user = authenticate(username = username, password=password)
 
-        if not user is None:
-            login(request, user)
-            return HttpResponseRedirect('/feedback/')
+            if not user is None:
+                login(request, user)
+                return HttpResponseRedirect('/feedback/')
+            else:
+                print("not authenticated")
+                return HttpResponse(request.user.is_authenticated())
         else:
-            print("not authenticated")
-            return HttpResponse(request.user.is_authenticated())
+            username=request.POST['id_no']
+            password1=request.POST['password1']
+            password2=request.POST['password2']
+            if password1!=password2:
+                return HttpResponse("Passwords Mismatch")
     else:
         form = LoginForm()
-
-    return render_to_response("login.htm", {'form': form })
+        form2=RegistrationForm()
+    return render_to_response("login.htm", {'form': form,'form2':  form2 })
 
 def logout_view(request):
     logout(request)
