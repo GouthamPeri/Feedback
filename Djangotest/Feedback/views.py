@@ -59,6 +59,9 @@ def index(request):
 def admin(request):
     return render_to_response("admin.htm")
 
+def academic_year(request):
+    return render_to_response("academic_year.htm")
+
 def test_multiple(request):
     entries = 1
     myformset = modelformset_factory(AcademicYear, SomeForm, extra=entries)
