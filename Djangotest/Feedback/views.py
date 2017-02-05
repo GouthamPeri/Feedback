@@ -57,7 +57,7 @@ def index(request):
     print(s[request.user.username])
     return HttpResponse("hello " + request.user.username + str(s[request.user.username]))
 
-#@login_required
+@login_required
 def admin(request):
     return render_to_response("admin.htm")
 
@@ -67,14 +67,15 @@ def academic_year(request):
     formset=myformset(queryset=AcademicYear.objects.none())
     countform = FieldCountForm()
     deleteform = DeleteForm()
-    if 'key' in request.POST:
+    print(request.POST)
+    if 'academic_year_code' in request.POST:
         try:
-            AcademicYear.objects.get(academic_year_code=int(request.POST['key'])).delete()
+            AcademicYear.objects.get(academic_year_code=int(request.POST['academic_year_code'])).delete()
         except:
-            error = "Key does not exist"
+            error = "Year code does not exist"
             return render_to_response('academic_year.htm',
                                       {'formset': formset, 'countform': countform, 'deleteform': deleteform,
-                                       'error': error})
+                                       'error': error, 'database': myformset()})
     if 'count' in request.POST:
         entries = int(request.POST['count'])
         myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
@@ -82,6 +83,7 @@ def academic_year(request):
         formset = myformset(request.POST, queryset=AcademicYear.objects.none())
         if formset.is_valid():
             formset.save()
+            print(formset)
             formset = myformset(queryset=AcademicYear.objects.none())
         else:
             return HttpResponse("WRONG DATA")
@@ -90,7 +92,7 @@ def academic_year(request):
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
-    return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform, 'deleteform': deleteform})
+    return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform, 'deleteform': deleteform, 'database': myformset()})
 
 def display(request):
     form = modelformset_factory(AcademicYear, AcademicYearForm)()

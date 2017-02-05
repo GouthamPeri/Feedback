@@ -16,7 +16,7 @@ class FieldCountForm(forms.Form):
     count = forms.IntegerField()
 
 class DeleteForm(forms.Form):
-    key = forms.IntegerField()
+    academic_year_code = forms.IntegerField()
 
 class AcademicYearForm(forms.ModelForm):
     class Meta:
