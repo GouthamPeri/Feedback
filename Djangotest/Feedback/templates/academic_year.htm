@@ -13,7 +13,35 @@
                 <h2>w3-half</h2>
             </div>
             <div class="w3-half w3-container">
-                <h2>w3-half</h2>
+                <label class="w3-label">Add Records</label>
+                <form method="post" action="">
+                    <table>{{ countform }}</table>
+                    <button style="margin:20px" class="w3-btn w3-green w3-large">Reload</button>
+                </form>
+
+                <div id="add" class="">
+                    <div class="">
+                        <form method="post" action="">
+                            <table>
+                                {{ formset }}
+                            </table>
+                            <button style="margin:20px" class="w3-btn w3-green w3-large">Add</button>
+                        </form>
+                    </div>
+                </div>
+                <label class="w3-label">Delete Records</label>
+
+                <div id="delete">
+                    <div class="">
+                        <form method="post" action="">
+                            <label>Enter key to delete</label><br/>
+                            <table>
+                                {{ deleteform }}
+                            </table>
+                            <button style="margin:20px" class="w3-btn w3-green w3-large">Delete</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

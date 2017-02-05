@@ -13,7 +13,7 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput)
 
 class FieldCountForm(forms.Form):
-    count = forms.IntegerField()
+    count = forms.IntegerField(initial=1)
 
 class DeleteForm(forms.Form):
     key = forms.IntegerField()

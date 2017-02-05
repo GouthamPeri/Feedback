@@ -55,22 +55,16 @@ def logout_view(request):
 def index(request):
     print(s[request.user.username])
     return HttpResponse("hello " + request.user.username + str(s[request.user.username]))
-#@login_required
-def admin(request):
-    return render_to_response("admin.htm")
 
 #@login_required
 def admin(request):
     return render_to_response("admin.htm")
 
 def academic_year(request):
-    return render_to_response("academic_year.htm")
-
-def test_multiple(request):
     entries = 1
     myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
-    myformset2 = modelformset_factory(AcademicYear, AcademicYearForm)
     countform = FieldCountForm()
+    deleteform = DeleteForm()
     if 'key' in request.POST:
         AcademicYear.objects.get(academic_year_code=int(request.POST['key'])).delete()
         return HttpResponse(AcademicYear.objects.all())
@@ -89,7 +83,7 @@ def test_multiple(request):
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
-    return render_to_response('test.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform})
+    return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform, 'deleteform': deleteform})
 
 def display(request):
     form = modelformset_factory(AcademicYear, AcademicYearForm)()
