@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.backends.db import SessionStore
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 import datetime
@@ -63,11 +64,17 @@ def admin(request):
 def academic_year(request):
     entries = 1
     myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
+    formset=myformset(queryset=AcademicYear.objects.none())
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if 'key' in request.POST:
-        AcademicYear.objects.get(academic_year_code=int(request.POST['key'])).delete()
-        return HttpResponse(AcademicYear.objects.all())
+        try:
+            AcademicYear.objects.get(academic_year_code=int(request.POST['key'])).delete()
+        except:
+            error = "Key does not exist"
+            return render_to_response('academic_year.htm',
+                                      {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                                       'error': error})
     if 'count' in request.POST:
         entries = int(request.POST['count'])
         myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
