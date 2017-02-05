@@ -18,8 +18,8 @@ def login_view(request):
             form = LoginForm(request)
             username = request.POST['id_no']
             password = request.POST['crypt_password']
-            if request.session.session_key is None:
-                return HttpResponse("You are already logged in as {0}".format(request.user.username))
+            #if request.session.session_key is None:
+            #    return HttpResponse("You are already logged in as {0}".format(request.user.username))
             user = authenticate(username=username, password=password)
 
             print(s.__dict__)
@@ -59,16 +59,24 @@ def index(request):
 def admin(request):
     return render_to_response("admin.htm")
 
+#@login_required
+def admin(request):
+    return render_to_response("admin.htm")
+
 def academic_year(request):
     return render_to_response("academic_year.htm")
 
 def test_multiple(request):
     entries = 1
-    myformset = modelformset_factory(AcademicYear, SomeForm, extra=entries)
+    myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
+    myformset2 = modelformset_factory(AcademicYear, AcademicYearForm)
     countform = FieldCountForm()
+    if 'key' in request.POST:
+        AcademicYear.objects.get(academic_year_code=int(request.POST['key'])).delete()
+        return HttpResponse(AcademicYear.objects.all())
     if 'count' in request.POST:
         entries = int(request.POST['count'])
-        myformset = modelformset_factory(AcademicYear, SomeForm, extra=entries)
+        myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
     if 'form-INITIAL_FORMS' in request.POST:
         formset = myformset(request.POST, queryset=AcademicYear.objects.none())
         if formset.is_valid():
@@ -79,5 +87,10 @@ def test_multiple(request):
     else:
         formset = myformset(queryset=AcademicYear.objects.none())
         countform = FieldCountForm()
+        deleteform = DeleteForm()
 
-    return render_to_response('test.html', {'formset': formset, 'countform': countform})
+    return render_to_response('test.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform})
+
+def display(request):
+    form = modelformset_factory(AcademicYear, AcademicYearForm)()
+    return render_to_response('display.html', {'display': form})

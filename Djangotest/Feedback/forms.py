@@ -12,10 +12,14 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
 
-class SomeForm(forms.ModelForm):
-    class Meta:
-        model=AcademicYear
-        fields = ['academic_year_code', 'academic_year']
-
 class FieldCountForm(forms.Form):
     count = forms.IntegerField()
+
+class DeleteForm(forms.Form):
+    key = forms.IntegerField()
+
+class AcademicYearForm(forms.ModelForm):
+    class Meta:
+        model = AcademicYear
+        fields = ['academic_year_code', 'academic_year']
+
