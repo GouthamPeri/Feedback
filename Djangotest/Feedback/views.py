@@ -1,16 +1,16 @@
 from django.http import HttpResponse
 #from .models import *
 from .forms import *
+from django.forms import modelformset_factory
 from threading import current_thread
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 import datetime
 
-requests = {}
 s = SessionStore()
 def login_view(request):
     if request.POST:
@@ -18,11 +18,14 @@ def login_view(request):
             form = LoginForm(request)
             username = request.POST['id_no']
             password = request.POST['crypt_password']
-            user = authenticate(username = username, password=password)
+            if request.session.session_key is None:
+                return HttpResponse("You are already logged in as {0}".format(request.user.username))
+            user = authenticate(username=username, password=password)
 
+            print(s.__dict__)
             if not user is None:
                 login(request, user)
-                if not s.has_key(request.user.username):
+                if not request.user.username in s:
                     s[request.user.username] = request.session.session_key
                 return HttpResponseRedirect('/feedback/')
             else:
@@ -47,8 +50,29 @@ def logout_view(request):
     del s[request.user.username]
     logout(request)
     return HttpResponse("Successfully Loggedout")
+
+@login_required
 def index(request):
     print(s[request.user.username])
     return HttpResponse("hello " + request.user.username + str(s[request.user.username]))
 
 
+def test_multiple(request):
+    entries = 1
+    myformset = modelformset_factory(AcademicYear, SomeForm, extra=entries)
+    countform = FieldCountForm()
+    if 'count' in request.POST:
+        entries = int(request.POST['count'])
+        myformset = modelformset_factory(AcademicYear, SomeForm, extra=entries)
+    if 'form-INITIAL_FORMS' in request.POST:
+        formset = myformset(request.POST, queryset=AcademicYear.objects.none())
+        if formset.is_valid():
+            formset.save()
+            formset = myformset(queryset=AcademicYear.objects.none())
+        else:
+            return HttpResponse("WRONG DATA")
+    else:
+        formset = myformset(queryset=AcademicYear.objects.none())
+        countform = FieldCountForm()
+
+    return render_to_response('test.html', {'formset': formset, 'countform': countform})
