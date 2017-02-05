@@ -60,7 +60,7 @@ def index(request):
 @login_required
 def admin(request):
     return render_to_response("admin.htm")
-
+@login_required 
 def academic_year(request):
     entries = 1
     myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
