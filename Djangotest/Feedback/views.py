@@ -55,7 +55,9 @@ def logout_view(request):
 def index(request):
     print(s[request.user.username])
     return HttpResponse("hello " + request.user.username + str(s[request.user.username]))
-
+#@login_required
+def admin(request):
+    return render_to_response("admin.htm")
 
 def test_multiple(request):
     entries = 1
