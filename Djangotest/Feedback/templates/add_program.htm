@@ -14,7 +14,46 @@
                 <h2>w3-half</h2>
             </div>
             <div class="w3-half w3-container">
-                <h2>w3-half</h2>
+                <center><label class="w3-label" style="font-size:x-large">Add Records</label></center><hr>
+                <form method="post" action="">
+                    <table style="width:55%">
+                        <tr>
+                            <td>{{ countform }}</td>
+                        </tr>
+                    </table><br>
+                    <button style="margin-left:360px" class="w3-btn w3-green w3-large w3-round">Reload</button>
+                </form>
+
+                <div id="add" class="">
+                    <div class="">
+                        <form method="post" action="">
+                            <table class="w3-table" style="width:55%">
+                                {% for form in formset %}
+                                    <tr>
+                                        <td>{{ form }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table><br>
+                            <button style="margin-left:365px" class="w3-btn w3-green w3-large w3-round">Add</button>
+                        </form>
+                    </div>
+                </div>
+                <hr/>
+                <center><label class="w3-label" style="font-size:x-large">Delete Records</label></center><hr>
+
+                <div id="delete">
+                    <div class="">
+                        <form method="post" action="">
+                            <label>Enter key to delete</label><br/><br>
+                            <table style="width:55%">
+                                <tr>
+                                    <td>{{ deleteform }}</td>
+                                </tr>
+                            </table><br>
+                            <button style="margin-left:360px" class="w3-btn w3-green w3-large w3-round">Delete</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

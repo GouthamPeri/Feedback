@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^logout',views.logout_view),
     url(r'^admin', views.admin),
     url(r'^display', views.display),
-    url(r'^academic_year', views.academic_year)
+    url(r'^academic_year', views.academic_year),
+    url(r'^add_program', views.add_program)
 ]
