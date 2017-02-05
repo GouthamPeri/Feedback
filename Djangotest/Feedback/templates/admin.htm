@@ -4,52 +4,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <body>
-        <nav class="w3-sidenav w3-animate-left w3-white w3-card-4" style="display:none; width:25%" id="mySidenav">
-            <a href="javascript:void(0)" onclick="w3_close()"
-            class="w3-closenav w3-large">Close &times;</a>
-            <a href="#">Academic Year</a>
-            <a href="#">Faculty</a>
-            <a href="#">Regulation</a>
-            <a href="#">Program</a>
-            <a href="#">Program Structure</a>
-            <a href="#">Subject Type</a>
-            <a href="#">Subject Delivery Type</a>
-            <a href="#">Subject Option </a>
-            <a href="#">Feedback Type</a>
-            <a href="#">Feedback Questions</a>
-            <a href="#">Courses Offered</a>
-            <a href="#">Student Type</a>
-            <a href="#">Student</a>
-            <a href="#">Course Registration</a>
-            <a href="#">Course Feedback Assignment</a>
-            <a href="#">Feedback Comment Log</a>
 
-        </nav>
+    <a href="#"><button class="w3-btn w3-green">Academic Year</button></a>
 
-        <header class="w3-container w3-teal">
-          <span class="w3-opennav w3-xlarge" onclick="w3_open()">&#9776;</span>
-          <h1>My Header</h1>
-        </header>
+        <div class="w3-dropdown-hover">
+    <button class="w3-btn w3-green" onclick="dropFunction()">Faculty</button>
+    <div class="w3-dropdown-content w3-card-2 w3-light-grey" id="myDIV">
+      <a href="#about">About</a>
+      <a href="#base">Base</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+      <a href="#custom">Custom</a>
+      <a href="#support">Support</a>
+      <a href="#tools">Tools</a>
+    </div>
+  </div>
 
-        <img src="img_car.jpg" alt="Car" style="width:100%">
 
-        <div class="w3-container">
-            <p>In this example, the sidenav is hidden (style="display:none") and is only shown when you click on the menu icon in the top left corner. When it is opened, it hides a part of the page content (it lays on top of it).</p>
-        </div>
+<script>
+// Dropdown
+function dropFunction() {
+    var x = document.getElementById("myDIV");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
 
-        <footer class="w3-container w3-teal">
-          <h5>Footer</h5>
-          <p>Footer information goes here</p>
-        </footer>
+</script>
 
-        <script>
-        function w3_open() {
-            document.getElementById("mySidenav").style.display = "block";
-        }
-        function w3_close() {
-            document.getElementById("mySidenav").style.display = "none";
-        }
-        </script>
 
     </body>
 </html>
