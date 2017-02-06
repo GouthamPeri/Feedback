@@ -19,6 +19,7 @@ class DeleteForm(forms.Form):
     academic_year_code = forms.IntegerField()
 
 class AcademicYearForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class':'w3-check'}))
     class Meta:
         model = AcademicYear
         fields = ['academic_year_code', 'academic_year']

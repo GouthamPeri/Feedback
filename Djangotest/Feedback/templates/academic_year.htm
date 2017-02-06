@@ -16,27 +16,34 @@
             <div class="w3-responsive">
                 <table class="w3-table-all w3-center">
                     <tr class="w3-green">
+                        <th>S no</th>
                         <th>Academic Year Code</th>
                         <th>Academic Year</th>
                     </tr>
-                    {% for form in database %}
-                        <tr>
-                            {% if not form.academic_year_code.value is None %}
-                                <td>{{ form.academic_year_code.value }}</td>
-                                <td>{{ form.academic_year.value }}</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
+                    <form method="post" name="table" action="">
+                        {% for form in database %}
+                            <tr>
+                                {% if not form.academic_year_code.value is None %}
+                                    <td>{{ form.check }}</td>
+                                    <td>{{ form.academic_year_code.value }}</td>
+                                    <td>{{ form.academic_year.value }}</td>
+                                {% endif %}
+                            </tr>
 
+                        {% endfor %}
+                        <tr><td>{{ del_button|safe }}</td><td></td><td></td></tr>
+
+                    </form>
                     <form method="post" name="add" action="">
                         {{ formset.management_form }}
                         {% for form in formset %}
                         <tr>
+                            <td></td>
                             <td>{{ form.academic_year_code }}</td>
                             <td>{{ form.academic_year }}</td>
                         </tr>
                         {% endfor %}
-                        <tr><td>{{ add_button|safe }}</td><td></td></tr>
+                        <tr><td>{{ add_button|safe }}</td><td></td><td></td></tr>
                     </form>
 
                 </table>
@@ -52,10 +59,10 @@
             </div>
 
         </div>
-            <div class="w3-container" style="margin-top:50px">
+            <!--<<div class="w3-container" style="margin-top:50px">
                 <center><label class="w3-label" style="font-size:x-large">Delete Records</label></center><hr>
 
-                <div id="delete">
+                div id="delete">
                     <div class="">
                         <form method="post" action="">
                             <label>Enter year code to delete</label><br/><br>
@@ -64,11 +71,11 @@
                                     <td>{{ deleteform }}</td>
                                 </tr>
                             </table><br>
-                            <button style="margin-left:360px" class="w3-btn w3-green w3-large w3-round">Delete</button>
                         </form>
+
                     </div>
                 </div>
-            </div>
+            </div>-->
     </body>
     <script>
     w3IncludeHTML();

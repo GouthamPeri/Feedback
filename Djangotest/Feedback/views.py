@@ -63,35 +63,45 @@ def academic_year(request):
     formset=myformset(queryset=AcademicYear.objects.none())
     countform = FieldCountForm()
     deleteform = DeleteForm()
+    data = {
+
+    }
     if request.method == 'POST':
-        if 'academic_year_code' in request.POST:
-            try:
-                AcademicYear.objects.get(academic_year_code=int(request.POST['academic_year_code'])).delete()
-            except:
-                error = "Year code does not exist"
-        elif 'add_empty_records' in request.POST:
+        print(request.POST)
+        if 'add_empty_records' in request.POST: #add rows
             entries = int(request.POST['add_empty_records'])
-            print(entries)
+
             myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
             formset = myformset(queryset=AcademicYear.objects.none())
-        else:
+        elif 'form-0-academic_year_code' in request.POST: #add records
             formset = myformset(request.POST, queryset=AcademicYear.objects.none())
             if formset.is_valid():
                 formset.save()
-                #print(formset)
                 formset = myformset(queryset=AcademicYear.objects.none())
             else:
                 error = "Already exists or Invalid"
+        else: #delete selected records
+            print(''.join(request.POST.keys()))
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices.sort(reverse=True)
+            objects = AcademicYear.objects.all()
+            try:
+                for i in indices:
+                    objects[int(i)].delete()
+            except:
+                error = "Year code does not exist or error performing deletion"
+
     else:
         formset = myformset(queryset=AcademicYear.objects.none())
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
-    return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform,
-                                                    'deleteform': deleteform, 'database': myformset(),
-                                                    'username': request.user.username, 'add_button':
-                                                    '<button class="w3-btn w3-green w3-large w3-round">Add</button>',
-                                                    'error': error})
+    return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                                                    'database': myformset(), 'username': request.user.username,
+                                                    'error': error,
+                                                    'add_button': '<button class="w3-btn w3-green w3-large w3-round">Add</button>',
+                                                    'del_button': '<button onclick="document.forms[\'table\'].submit()"'
+                                                                  ' class="w3-btn w3-green w3-large w3-round">Delete</button>'})
 
 
 def display(request):
