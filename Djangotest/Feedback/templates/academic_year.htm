@@ -5,13 +5,14 @@
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% if error %}
+        <script>alert("{{ error }}")</script>
+        {% endif %}
     </head>
     <body>
         <div w3-include-html="admin.htm"></div>
         <div style="margin-top:50px" class="w3-half w3-container">
-            {% if error %}
-                <script>alert("{{ error }}")</script>
-            {% endif %}
+
             <div class="w3-responsive">
                 <table class="w3-table-all w3-center">
                     <tr class="w3-green">
