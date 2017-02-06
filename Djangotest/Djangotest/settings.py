@@ -24,13 +24,13 @@ SECRET_KEY = 't#*u7jrom)x$r3rr7y1y58rjzb@hd*0vxo4nz_u8$uj70x@fvr'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SESSION_COOKIE_AGE = 300 #expires after 5 mins
+#SESSION_COOKIE_AGE = 300 #expires after 5 mins
 
 SESSION_SAVE_EVERY_REQUEST = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.7', '192.168.0.8', 'localhost']
+ALLOWED_HOSTS = ['192.168.0.7', '192.168.0.8', 'localhost', '192.168.43.82']
 STATIC_URL="/static/"
 # Application definition
 
@@ -48,7 +48,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

@@ -55,36 +55,33 @@ def admin(request):
     return render_to_response("admin.htm", {'username': request.user.username})
 
 
-@login_required 
+@login_required
 def academic_year(request):
-
+    error = ''
     entries = 1
     myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
     formset=myformset(queryset=AcademicYear.objects.none())
     countform = FieldCountForm()
     deleteform = DeleteForm()
-    if 'academic_year_code' in request.POST:
-        try:
-            AcademicYear.objects.get(academic_year_code=int(request.POST['academic_year_code'])).delete()
-        except:
-            error = "Year code does not exist"
-            return render_to_response('academic_year.htm',
-                                      {'formset': formset, 'countform': countform, 'deleteform': deleteform,
-                                       'error': error, 'database': myformset(), 'username': request.user.username})
-    if 'count' in request.POST:
-        entries = int(request.POST['count'])
-        myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
-    if 'form-INITIAL_FORMS' in request.POST:
-        formset = myformset(request.POST, queryset=AcademicYear.objects.none())
-        if formset.is_valid():
-            formset.save()
-            #print(formset)
+    if request.method == 'POST':
+        if 'academic_year_code' in request.POST:
+            try:
+                AcademicYear.objects.get(academic_year_code=int(request.POST['academic_year_code'])).delete()
+            except:
+                error = "Year code does not exist"
+        elif 'add_empty_records' in request.POST:
+            entries = int(request.POST['add_empty_records'])
+            print(entries)
+            myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
             formset = myformset(queryset=AcademicYear.objects.none())
         else:
-            error = "Already exists"
-            return render_to_response('academic_year.htm',
-                                      {'formset': formset, 'countform': countform, 'deleteform': deleteform,
-                                       'error': error, 'database': myformset(), 'username': request.user.username})
+            formset = myformset(request.POST, queryset=AcademicYear.objects.none())
+            if formset.is_valid():
+                formset.save()
+                #print(formset)
+                formset = myformset(queryset=AcademicYear.objects.none())
+            else:
+                error = "Already exists or Invalid"
     else:
         formset = myformset(queryset=AcademicYear.objects.none())
         countform = FieldCountForm()
@@ -92,9 +89,11 @@ def academic_year(request):
 
     return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform,
                                                     'deleteform': deleteform, 'database': myformset(),
-                                                    'username': request.user.username})
+                                                    'username': request.user.username, 'add_button':
+                                                    '<button class="w3-btn w3-green w3-large w3-round">Add</button>',
+                                                    'error': error})
 
 
 def display(request):
-    form = modelformset_factory(AcademicYear, AcademicYearForm)()
+    form = testform()
     return render_to_response('display.html', {'display': form})

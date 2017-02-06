@@ -13,7 +13,7 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput)
 
 class FieldCountForm(forms.Form):
-    count = forms.IntegerField()
+    add_empty_records = forms.IntegerField()
 
 class DeleteForm(forms.Form):
     academic_year_code = forms.IntegerField()
@@ -23,3 +23,5 @@ class AcademicYearForm(forms.ModelForm):
         model = AcademicYear
         fields = ['academic_year_code', 'academic_year']
 
+class testform(forms.Form):
+    f = forms.SelectMultiple(choices=('hey', 'hi', 'none'))

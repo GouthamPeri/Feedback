@@ -11,7 +11,7 @@
     </head>
     <body>
         <div w3-include-html="admin.htm"></div>
-        <div style="margin-top:50px" class="w3-half w3-container">
+        <div style="margin-top:50px" class="w3-container">
 
             <div class="w3-responsive">
                 <table class="w3-table-all w3-center">
@@ -19,41 +19,40 @@
                         <th>Academic Year Code</th>
                         <th>Academic Year</th>
                     </tr>
-                {% for form in database %}
-                    <tr>
-                        {% if not form.academic_year_code.value is None %}
-                            <td>{{ form.academic_year_code.value }}</td>
-                            <td>{{ form.academic_year.value }}</td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
+                    {% for form in database %}
+                        <tr>
+                            {% if not form.academic_year_code.value is None %}
+                                <td>{{ form.academic_year_code.value }}</td>
+                                <td>{{ form.academic_year.value }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+
+                    <form method="post" name="add" action="">
+                        {{ formset.management_form }}
+                        {% for form in formset %}
+                        <tr>
+                            <td>{{ form.academic_year_code }}</td>
+                            <td>{{ form.academic_year }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr><td>{{ add_button|safe }}</td><td></td></tr>
+                    </form>
+
                 </table>
+                <form method="post" name='count' action="">
+                    <table>
+                        <tr>
+                            <td>{{ countform }}</td>
+                            <td><button class="w3-btn w3-green w3-large w3-round">Reload</button></td>
+                        </tr>
+                    </table>
+
+                </form>
             </div>
 
         </div>
-        <div class="w3-row">
-            <div class="w3-half w3-container" style="margin-top:50px"><hr>
-                <center><label class="w3-label" style="font-size:x-large">Add Records</label></center><hr>
-                <form method="post" action="">
-                    <table style="width:55%">
-                        <tr>
-                            <td>{{ countform }}</td>
-                        </tr>
-                    </table><br>
-                    <button style="margin-left:360px" class="w3-btn w3-green w3-large w3-round">Reload</button>
-                </form>
-
-                <div id="add" class="">
-                    <div class="">
-                        <form method="post" action="">
-                            <table class="w3-table" style="width:55%">
-                                {{ formset }}
-                            </table><br>
-                            <button style="margin-left:365px" class="w3-btn w3-green w3-large w3-round">Add</button>
-                        </form>
-                    </div>
-                </div>
-                <hr/>
+            <div class="w3-container" style="margin-top:50px">
                 <center><label class="w3-label" style="font-size:x-large">Delete Records</label></center><hr>
 
                 <div id="delete">
@@ -70,7 +69,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </body>
     <script>
     w3IncludeHTML();
