@@ -12,6 +12,11 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
 
+class ChangePasswordForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput)
+    password1 = forms.CharField(widget=forms.PasswordInput)
+    password2 = forms.CharField(widget=forms.PasswordInput)
+
 class FieldCountForm(forms.Form):
     add_empty_records = forms.IntegerField()
 

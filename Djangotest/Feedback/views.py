@@ -81,13 +81,13 @@ def academic_year(request):
             else:
                 error = "Already exists or Invalid"
         else: #delete selected records
-            print(''.join(request.POST.keys()))
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
             indices.sort(reverse=True)
             objects = AcademicYear.objects.all()
             try:
                 for i in indices:
-                    objects[int(i)].delete()
+                    objects[i].delete()
             except:
                 error = "Year code does not exist or error performing deletion"
 
@@ -98,10 +98,25 @@ def academic_year(request):
 
     return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                                     'database': myformset(), 'username': request.user.username,
-                                                    'error': error,
-                                                    'add_button': '<button class="w3-btn w3-green w3-large w3-round">Add</button>',
-                                                    'del_button': '<button onclick="document.forms[\'table\'].submit()"'
-                                                                  ' class="w3-btn w3-green w3-large w3-round">Delete</button>'})
+                                                    'error': error})
+
+def change_password(request):
+    error = ''
+    if request.method == 'POST':
+        if not authenticate(request.user.username, request.POST['password']) is None:
+            try:
+                user = User.objects.get(username=request.user.username)
+                if request.POST['password1'] == request.POST['password2']:
+                    user.set_password(request.POST['password1'])
+                    user.save()
+            except:
+                error = "Error changing password"
+        else:
+            error = "Wrong password!"
+    else:
+        password_form = ChangePasswordForm()
+
+    return render_to_response('change_password.html', {'password_form':password_form, 'error': error})
 
 
 def display(request):

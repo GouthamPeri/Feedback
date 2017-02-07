@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^admin', views.admin),
     url(r'^display', views.display),
     url(r'^academic_year', views.academic_year),
-    #url(r'^add_program', views.add_program)
+    url(r'^change_password', views.change_password)
 ]

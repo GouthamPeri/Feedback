@@ -54,21 +54,24 @@
                     </form>
                     <tr>
                         <td>
-                            <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red">-</button>
+                            <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red">&#x2212;</button>
                         </td>
                         <td><button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green">+</button></td>
-                        <td></td>
+                        <td>
+
+                        </td>
                     </tr>
 
 
-                        <form method="post" name='count' action="">
-                        <tr><td>{{ countform }}</td></tr>
-
-
-                        <tr><td>   <button class="reset w3-btn-floating w3-green">&#x21bb;</button></td><td></td></tr>
-                        </form>
-
-
+                </table>
+                <table class="w3-table" style="width:50%">
+                    <tr>
+                    <form method="post" name='count' action="">
+                        <td><b>Empty Records</b></td>
+                        <td>{{countform.add_empty_records}}</td>
+                        <td><button class="reset w3-btn-floating w3-green">&#x21bb;</button></td>
+                    </form>
+                    </tr>
                 </table>
 
             </div>
