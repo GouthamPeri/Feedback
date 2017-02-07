@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+def is_member(user):
+    return user.groups.filter(name="Dept Admin").exists();
 
 def login_view(request):
     if request.POST:
@@ -56,6 +58,7 @@ def admin(request):
 
 
 @login_required
+@user_passes_test(is_member)
 def academic_year(request):
     error = ''
     entries = 1
@@ -102,13 +105,18 @@ def academic_year(request):
 
 def change_password(request):
     error = ''
+    password_form = ChangePasswordForm()
     if request.method == 'POST':
-        if not authenticate(request.user.username, request.POST['password']) is None:
+        if not authenticate(username=request.user.username, password=request.POST['password']) is None:
             try:
                 user = User.objects.get(username=request.user.username)
                 if request.POST['password1'] == request.POST['password2']:
                     user.set_password(request.POST['password1'])
                     user.save()
+                    logout(request)
+                    return HttpResponseRedirect("login")
+                else:
+                    error="Passwords mismatch!"
             except:
                 error = "Error changing password"
         else:
