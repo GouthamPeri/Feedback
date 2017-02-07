@@ -4,7 +4,6 @@
         <script src="{% static 'include.js' %}">
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         {% if error %}
         <script>alert("{{ error }}")</script>
         {% endif %}
@@ -18,37 +17,53 @@
         </style>
     </head>
     <body>
-        <div w3-include-html="admin.htm"></div>
+        <div w3-include-html="admin.html"></div>
         <div style="margin-top:50px" class="w3-container">
             {% block table_display %}
             <div class="w3-responsive">
                 <table class="w3-table-all w3-center">
                     <tr class="w3-green">
                         <th>S no</th>
-                        <th>Academic Year Code</th>
-                        <th>Academic Year</th>
+                        <th>Faculty Code</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact</th>
+                        <th>Email ID</th>
+                        <th>Dept</th>
+                        <th>Join</th>
+                        <th>Relieve</th>
                     </tr>
                     <form method="post" name="table" action="">
                         {% for form in database %}
                             <tr>
-                                {% if not form.academic_year_code.value is None %}
+                                {% if not form.faculty_code.value is None %}
                                     <td>{{ form.check }}</td>
-                                    <td>{{ form.academic_year_code.value }}</td>
-                                    <td>{{ form.academic_year.value }}</td>
+                                    <td>{{ form.faculty_code.value }}</td>
+                                    <td>{{ form.faculty_first_name.value }}</td>
+                                    <td>{{ form.faculty_last_name.value }}</td>
+                                    <td>{{ form.faculty_tel.value }}</td>
+                                    <td>{{ form.faculty_email.value }}</td>
+                                    <td>{{ form.home_department.value }}</td>
+                                    <td>{{ form.joining_date.value }}</td>
+                                    <td>{{ form.relieved_date.value }}</td>
                                 {% endif %}
                             </tr>
 
                         {% endfor %}
-                        <tr><td></td><td></td><td></td></tr>
-
                     </form>
                     <form method="post" name="add" action="">
                         {{ formset.management_form }}
                         {% for form in formset %}
                         <tr>
                             <td></td>
-                            <td>{{ form.academic_year_code }}</td>
-                            <td>{{ form.academic_year }}</td>
+                            <td>{{ form.faculty_code }}</td>
+                            <td>{{ form.faculty_first_name }}</td>
+                            <td>{{ form.faculty_last_name }}</td>
+                            <td>{{ form.faculty_tel }}</td>
+                            <td>{{ form.faculty_email }}</td>
+                            <td>{{ form.home_department }}</td>
+                            <td>{{ form.joining_date }}</td>
+                            <td>{{ form.relieved_date }}</td>
                         </tr>
                         {% endfor %}
                     </form>
@@ -57,12 +72,8 @@
                             <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red">&#x2212;</button>
                         </td>
                         <td><button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green">+</button></td>
-                        <td>
-
-                        </td>
+                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                     </tr>
-
-
                 </table>
                 <table class="w3-table" style="width:50%">
                     <tr>
@@ -73,10 +84,8 @@
                     </form>
                     </tr>
                 </table>
-
             </div>
             {% endblock %}
-
         </div>
     </body>
     <script>

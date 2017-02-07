@@ -1,0 +1,77 @@
+{% load static %}
+<html>
+    <head>
+        <script src="{% static 'include.js' %}">
+        </script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        {% if error %}
+        <script>alert("{{ error }}")</script>
+        {% endif %}
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div w3-include-html="admin.html"></div>
+        <div style="margin-top:50px" class="w3-container">
+            {% block table_display %}
+            <div class="w3-responsive">
+                <table class="w3-table-all w3-center">
+                    <tr class="w3-green">
+                        <th>S no</th>
+                        <th>Academic Year Code</th>
+                        <th>Academic Year</th>
+                    </tr>
+                    <form method="post" name="table" action="">
+                        {% for form in database %}
+                            <tr>
+                                {% if not form.academic_year_code.value is None %}
+                                    <td>{{ form.check }}</td>
+                                    <td>{{ form.academic_year_code.value }}</td>
+                                    <td>{{ form.academic_year.value }}</td>
+                                {% endif %}
+                            </tr>
+
+                        {% endfor %}
+                    </form>
+                    <form method="post" name="add" action="">
+                        {{ formset.management_form }}
+                        {% for form in formset %}
+                        <tr>
+                            <td></td>
+                            <td>{{ form.academic_year_code }}</td>
+                            <td>{{ form.academic_year }}</td>
+                        </tr>
+                        {% endfor %}
+                    </form>
+                    <tr>
+                        <td>
+                            <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red">&#x2212;</button>
+                        </td>
+                        <td><button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green">+</button></td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+                <table class="w3-table" style="width:50%">
+                    <tr>
+                    <form method="post" name='count' action="">
+                        <td><b>Empty Records</b></td>
+                        <td>{{countform.add_empty_records}}</td>
+                        <td><button class="reset w3-btn-floating w3-green">&#x21bb;</button></td>
+                    </form>
+                    </tr>
+                </table>
+            </div>
+            {% endblock %}
+        </div>
+    </body>
+    <script>
+    w3IncludeHTML();
+</script>
+</html>

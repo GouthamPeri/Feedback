@@ -5,12 +5,11 @@ from django.forms import modelformset_factory
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.sessions.backends.db import SessionStore
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-def is_member(user):
+def is_dept_admin(user):
     return user.groups.filter(name="Dept Admin").exists();
 
 def login_view(request):
@@ -39,7 +38,7 @@ def login_view(request):
     else:
         form = LoginForm()
         form2 = RegistrationForm()
-    return render_to_response("login.htm", {'form': form,'form2':  form2 })
+    return render_to_response("login.html", {'form': form,'form2':  form2 })
 
 
 def logout_view(request):
@@ -54,11 +53,11 @@ def index(request):
 
 @login_required
 def admin(request):
-    return render_to_response("admin.htm", {'username': request.user.username})
+    return render_to_response("admin.html", {'username': request.user.username})
 
 
 @login_required
-@user_passes_test(is_member)
+@user_passes_test(is_dept_admin)
 def academic_year(request):
     error = ''
     entries = 1
@@ -66,9 +65,6 @@ def academic_year(request):
     formset=myformset(queryset=AcademicYear.objects.none())
     countform = FieldCountForm()
     deleteform = DeleteForm()
-    data = {
-
-    }
     if request.method == 'POST':
         print(request.POST)
         if 'add_empty_records' in request.POST: #add rows
@@ -82,7 +78,7 @@ def academic_year(request):
                 formset.save()
                 formset = myformset(queryset=AcademicYear.objects.none())
             else:
-                error = "Already exists or Invalid"
+                error = "ERROR: Already exists/Invalid/Empty records"
         else: #delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = map(int, indices)
@@ -92,16 +88,61 @@ def academic_year(request):
                 for i in indices:
                     objects[i].delete()
             except:
-                error = "Year code does not exist or error performing deletion"
+                error = "ERROR: Year code does not exist/Error performing deletion"
 
     else:
         formset = myformset(queryset=AcademicYear.objects.none())
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
-    return render_to_response('academic_year.htm', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+    return render_to_response('academic_year.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                                     'database': myformset(), 'username': request.user.username,
                                                     'error': error})
+
+@login_required
+#@user_passes_test(is_dept_admin)
+def faculty(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
+    formset=myformset(queryset=Faculty.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        print(request.POST)
+        if 'add_empty_records' in request.POST: #add rows
+            entries = int(request.POST['add_empty_records'])
+
+            myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
+            formset = myformset(queryset=Faculty.objects.none())
+        elif 'form-0-faculty_code' in request.POST: #add records
+            print(request.POST)
+            formset = myformset(request.POST, queryset=Faculty.objects.none())
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=Faculty.objects.none())
+            else:
+                error = "ERROR: Already exists/Invalid/Empty records"
+        else: #delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+            objects = Faculty.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except:
+                error = "ERROR: Faculty code does not exist/Error performing deletion"
+
+    else:
+        formset = myformset(queryset=Faculty.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+
+    return render_to_response('faculty.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                                                    'database': myformset(), 'username': request.user.username,
+                                                    'error': error})
+
 
 def change_password(request):
     error = ''
