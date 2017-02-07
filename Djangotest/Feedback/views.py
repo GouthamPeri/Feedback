@@ -167,6 +167,52 @@ def change_password(request):
 
     return render_to_response('change_password.html', {'password_form':password_form, 'error': error})
 
+@login_required
+def regulation(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(Regulation, RegulationForm, extra=entries)
+    formset=myformset(queryset=Regulation.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        print(request.POST)
+        if 'add_empty_records' in request.POST: #add rows
+            entries = int(request.POST['add_empty_records'])
+
+            myformset = modelformset_factory(Regulation, RegulationForm, extra=entries)
+
+            formset = myformset(queryset=Regulation.objects.none())
+        elif 'form-0-regulation_code' in request.POST: #add records
+            print(request.POST)
+            formset = myformset(request.POST, queryset=Regulation.objects.none())
+            #academic_year_code_f = request.POST.get('academic_year_code', 0)
+            if formset.is_valid():
+                formset.save()
+                #regulation.effective_from = academic_year_code_f
+                #formset.save()
+                formset = myformset(queryset=Regulation.objects.none())
+            else:
+                error = "ERROR: Already exists/Invalid/Empty records"
+        else: #delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+            objects = Regulation.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except:
+                error = "ERROR: Regulation code does not exist/Error performing deletion"
+    else:
+        formset = myformset(queryset=Regulation.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+    return render_to_response('regulation.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                                               'database': myformset(), 'username': request.user.username,
+                                               'error': error})
+
+
 
 def display(request):
     form = testform()

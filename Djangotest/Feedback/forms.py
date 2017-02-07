@@ -52,7 +52,12 @@ class FacultyForm(forms.ModelForm):
         fields = ['faculty_code', 'faculty_first_name', 'faculty_last_name', 'faculty_tel', 'faculty_email',
                   'home_department', 'joining_date', 'relieved_date']
 
-
+class RegulationForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    effective_from = forms.DateTimeField(widget=forms.DateTimeInput())
+    class Meta:
+        model = Regulation
+        fields = ['regulation_code', 'effective_from', 'total_required_credits']
 
 class testform(forms.Form):
     f = forms.SelectMultiple(choices=('hey', 'hi', 'none'))
