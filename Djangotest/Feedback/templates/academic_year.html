@@ -17,13 +17,14 @@
         </style>
     </head>
     <body>
+    <center>
         <div w3-include-html="admin.html"></div>
         <div style="margin-top:50px" class="w3-container">
             {% block table_display %}
             <div class="w3-responsive">
-                <table class="w3-table-all w3-center">
+                <table class="w3-table-all w3-center" style="width:50%">
                     <tr class="w3-green">
-                        <th>S no</th>
+                        <th>Sr. No.</th>
                         <th>Academic Year Code</th>
                         <th>Academic Year</th>
                     </tr>
@@ -49,27 +50,23 @@
                         </tr>
                         {% endfor %}
                     </form>
-                    <tr>
-                        <td>
-                            <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red">&#x2212;</button>
-                        </td>
-                        <td><button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green">+</button></td>
-                        <td>
-                        </td>
-                    </tr>
-                </table>
-                <table class="w3-table" style="width:50%">
+                    </table>
+                <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red" style="margin-top:35px;margin-right:70px">&#x2212;</button>
+                <button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green" style="margin-top:35px;margin-left:70px">+</button>
+
+                <table class="w3-table" style="width:30%">
                     <tr>
                     <form method="post" name='count' action="">
-                        <td><b>Empty Records</b></td>
-                        <td>{{countform.add_empty_records}}</td>
-                        <td><button class="reset w3-btn-floating w3-green">&#x21bb;</button></td>
+                        <td style="padding-top:50px"><b>Empty Records</b></td>
+                        <td style="padding-top:50px">{{countform.add_empty_records}}</td>
+                        <td><button class="reset w3-btn-floating w3-green" style="margin-top:35px">&#x21bb;</button></td>
                     </form>
                     </tr>
                 </table>
             </div>
             {% endblock %}
         </div>
+    </center>>
     </body>
     <script>
     w3IncludeHTML();
