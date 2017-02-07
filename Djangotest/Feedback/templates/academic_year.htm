@@ -8,11 +8,19 @@
         {% if error %}
         <script>alert("{{ error }}")</script>
         {% endif %}
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+        </style>
     </head>
     <body>
         <div w3-include-html="admin.htm"></div>
         <div style="margin-top:50px" class="w3-container">
-
+            {% block table_display %}
             <div class="w3-responsive">
                 <table class="w3-table-all w3-center">
                     <tr class="w3-green">
@@ -31,7 +39,7 @@
                             </tr>
 
                         {% endfor %}
-                        <tr><td>{{ del_button|safe }}</td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td></tr>
 
                     </form>
                     <form method="post" name="add" action="">
@@ -43,20 +51,28 @@
                             <td>{{ form.academic_year }}</td>
                         </tr>
                         {% endfor %}
-                        <tr><td>{{ add_button|safe }}</td><td></td><td></td></tr>
                     </form>
+                    <tr>
+                        <td>
+                            <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red">-</button>
+                        </td>
+                        <td><button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green">+</button></td>
+                        <td></td>
+                    </tr>
+
+
+                        <form method="post" name='count' action="">
+                        <tr><td>{{ countform }}</td></tr>
+
+
+                        <tr><td>   <button class="reset w3-btn-floating w3-green">&#x21bb;</button></td><td></td></tr>
+                        </form>
+
 
                 </table>
-                <form method="post" name='count' action="">
-                    <table>
-                        <tr>
-                            <td>{{ countform }}</td>
-                            <td><button class="w3-btn w3-green w3-large w3-round">Reload</button></td>
-                        </tr>
-                    </table>
 
-                </form>
             </div>
+            {% endblock %}
 
         </div>
             <!--<<div class="w3-container" style="margin-top:50px">
