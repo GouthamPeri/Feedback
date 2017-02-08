@@ -137,6 +137,7 @@ def faculty(request):
             formset = myformset(queryset=Faculty.objects.none())
         elif 'form-0-faculty_code' in request.POST: #add records
             formset = myformset(request.POST, queryset=Faculty.objects.none())
+            print(formset)
             if formset.is_valid():
                 formset.save()
                 formset = myformset(queryset=Faculty.objects.none())
@@ -233,6 +234,8 @@ def regulation(request):
     return render_to_response('regulation.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                                'database': myformset(), 'username': request.user.username,
                                                'error': error})
+
+
 
 
 

@@ -45,12 +45,14 @@ class DepartmentForm(forms.ModelForm):
 
 class FacultyForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
-    joining_date = forms.DateTimeField(widget=forms.DateTimeInput())
-    relieved_date = forms.DateTimeField(widget=forms.DateTimeInput())
+    joining_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'class':'datepicker'}))
+    relieved_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'class':'datepicker'}), required=False)
     class Meta:
         model = Faculty
         fields = ['faculty_code', 'faculty_first_name', 'faculty_last_name', 'faculty_tel', 'faculty_email',
                   'home_department', 'joining_date', 'relieved_date']
+
+
 
 class RegulationForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))

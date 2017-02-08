@@ -26,7 +26,7 @@ class Faculty(models.Model):
     faculty_last_name = models.CharField(max_length=30)
     faculty_tel = models.CharField(max_length=30)
     faculty_email = models.CharField(max_length=30)
-    home_department = models.CharField(max_length=30)
+    home_department = models.ForeignKey(Department)
     joining_date = models.DateTimeField()
     relieved_date = models.DateTimeField(null=True, blank=True)
 
