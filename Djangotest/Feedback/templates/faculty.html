@@ -5,7 +5,7 @@
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
         {% if error %}
-        <script>alert("{{ error }}")</script>
+        <script>alert("{{ error|safe }}")</script>
         {% endif %}
         <style>
             .reset{

@@ -36,7 +36,7 @@ class Faculty(models.Model):
 
 class Regulation(models.Model):
     regulation_code = models.CharField(primary_key=True, max_length=10)
-    effective_from = models.DateTimeField(null=True, blank=True)
+    effective_from = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
     total_required_credits = models.IntegerField()
 
     def __str__(self):

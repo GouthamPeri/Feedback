@@ -54,7 +54,6 @@ class FacultyForm(forms.ModelForm):
 
 class RegulationForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
-    effective_from = forms.DateTimeField(widget=forms.DateTimeInput())
     class Meta:
         model = Regulation
         fields = ['regulation_code', 'effective_from', 'total_required_credits']

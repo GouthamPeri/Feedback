@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views import View
+from django.db.models import ProtectedError
 
 def is_dept_admin(user):
     return user.groups.filter(name="Dept Admin").exists();
@@ -87,6 +89,10 @@ def academic_year(request):
             try:
                 for i in indices:
                     objects[i].delete()
+            except ProtectedError as p:
+                error = str(p)
+                error = error[error.find('"')+1: error.find('"', 4)]
+                print(error)
             except:
                 error = "ERROR: Year code does not exist/Error performing deletion"
 
@@ -109,14 +115,12 @@ def faculty(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST: #add rows
             entries = int(request.POST['add_empty_records'])
 
             myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
             formset = myformset(queryset=Faculty.objects.none())
         elif 'form-0-faculty_code' in request.POST: #add records
-            print(request.POST)
             formset = myformset(request.POST, queryset=Faculty.objects.none())
             if formset.is_valid():
                 formset.save()
@@ -176,17 +180,13 @@ def regulation(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST: #add rows
             entries = int(request.POST['add_empty_records'])
-
             myformset = modelformset_factory(Regulation, RegulationForm, extra=entries)
-
             formset = myformset(queryset=Regulation.objects.none())
         elif 'form-0-regulation_code' in request.POST: #add records
-            print(request.POST)
             formset = myformset(request.POST, queryset=Regulation.objects.none())
-            #academic_year_code_f = request.POST.get('academic_year_code', 0)
+            print(formset)
             if formset.is_valid():
                 formset.save()
                 #regulation.effective_from = academic_year_code_f

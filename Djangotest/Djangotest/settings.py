@@ -24,7 +24,7 @@ SECRET_KEY = 't#*u7jrom)x$r3rr7y1y58rjzb@hd*0vxo4nz_u8$uj70x@fvr'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-#SESSION_COOKIE_AGE = 300 #expires after 5 mins
+SESSION_COOKIE_AGE = 300 #expires after 5 mins
 
 SESSION_SAVE_EVERY_REQUEST = True
 # SECURITY WARNING: don't run with debug turned on in production!
