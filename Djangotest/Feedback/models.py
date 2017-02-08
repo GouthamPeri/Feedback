@@ -14,7 +14,7 @@ class AcademicYear(models.Model):
 class Department(models.Model):
     department_code = models.CharField(primary_key=True, max_length=10)
     department_name = models.CharField(max_length=30)
-    inception_year = models.ForeignKey(AcademicYear)
+    inception_year = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.department_code
@@ -26,7 +26,7 @@ class Faculty(models.Model):
     faculty_last_name = models.CharField(max_length=30)
     faculty_tel = models.CharField(max_length=30)
     faculty_email = models.CharField(max_length=30)
-    home_department = models.ForeignKey(Department)
+    home_department = models.ForeignKey(Department, on_delete=models.PROTECT)
     joining_date = models.DateTimeField()
     relieved_date = models.DateTimeField(null=True, blank=True)
 
@@ -46,8 +46,8 @@ class Regulation(models.Model):
 class Program(models.Model):
     program_code = models.IntegerField(primary_key=True)
     program_name = models.CharField(max_length=30)
-    inception_year = models.ForeignKey(AcademicYear)
-    owner_department = models.ForeignKey(Department)
+    inception_year = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
+    owner_department = models.ForeignKey(Department, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.program_name
@@ -72,13 +72,13 @@ class SubjectDeliveryType(models.Model):
 class ProgramStructure(models.Model):
     class Meta:
         unique_together = (('regulation_code', 'program_code', 'subject_code'),)
-    regulation_code = models.ForeignKey(Regulation)
-    program_code = models.ForeignKey(Program)
+    regulation_code = models.ForeignKey(Regulation, on_delete=models.PROTECT)
+    program_code = models.ForeignKey(Program, on_delete=models.PROTECT)
     semester = models.IntegerField()
     subject_code = models.CharField(primary_key=True, max_length=30)
     subject_name = models.CharField(max_length=30)
-    subject_type = models.ForeignKey(SubjectType)
-    subject_delivery_type = models.ForeignKey(SubjectDeliveryType)
+    subject_type = models.ForeignKey(SubjectType, on_delete=models.PROTECT)
+    subject_delivery_type = models.ForeignKey(SubjectDeliveryType, on_delete=models.PROTECT)
     number_hpw = models.IntegerField()
     number_credits = models.IntegerField()
 
@@ -89,12 +89,12 @@ class ProgramStructure(models.Model):
 class SubjectOption(models.Model):
     class Meta:
         unique_together = (('regulation_code', 'program_code', 'subject_code', 'subject_option_code'),)
-    regulation_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_regulation_code')
-    program_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_program_code')
-    subject_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_subject_code')
+    regulation_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_regulation_code', on_delete=models.PROTECT)
+    program_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_program_code', on_delete=models.PROTECT)
+    subject_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_subject_code', on_delete=models.PROTECT)
     subject_option_code = models.CharField(primary_key=True, max_length=30)
     subject_option_name = models.CharField(max_length=30)
-    offered_by = models.ForeignKey(Department)
+    offered_by = models.ForeignKey(Department, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.subject_option_code
@@ -112,7 +112,7 @@ class FeedbackQuestion(models.Model):
     class Meta:
         unique_together = (('effective_from', 'cycle_no', 'question_no'),)
     effective_from = models.DateField()
-    cycle_no = models.ForeignKey(FeedbackType)
+    cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     question_no = models.IntegerField(primary_key=True)
     question_text = models.CharField(max_length=100)
 
@@ -122,13 +122,13 @@ class FeedbackQuestion(models.Model):
 
 class CourseOffered(models.Model):
     course_code = models.IntegerField(primary_key=True)
-    regulation_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_regulation_code')
-    program_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_program_code')
-    subject_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_subject_code')
-    academic_year = models.ForeignKey(AcademicYear)
+    regulation_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_regulation_code', on_delete=models.PROTECT)
+    program_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_program_code', on_delete=models.PROTECT)
+    subject_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_subject_code', on_delete=models.PROTECT)
+    academic_year = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
     semester = models.CharField(max_length=7)
     course_name = models.CharField(max_length=30)
-    faculty_name = models.ForeignKey(Faculty)
+    faculty_name = models.ForeignKey(Faculty, on_delete=models.PROTECT)
 
     def __str__(self):
         return str(self.course_code)
@@ -146,9 +146,9 @@ class Student(models.Model):
     student_reg_no = models.CharField(primary_key=True, max_length=15)
     student_first_name = models.CharField(max_length=30)
     student_last_name = models.CharField(max_length=30)
-    student_type = models.ForeignKey(StudentType)
-    academic_year_code = models.ForeignKey(AcademicYear)
-    regulation_code = models.ForeignKey(Regulation)
+    student_type = models.ForeignKey(StudentType, on_delete=models.PROTECT)
+    academic_year_code = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
+    regulation_code = models.ForeignKey(Regulation, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.student_reg_no
@@ -159,8 +159,8 @@ class Student(models.Model):
 class CourseRegistration(models.Model):
     class Meta:
         unique_together = (('course_code','student_reg_no'),)
-    course_code = models.ForeignKey(CourseOffered)
-    student_reg_no = models.OneToOneField(Student, primary_key=True)
+    course_code = models.ForeignKey(CourseOffered, on_delete=models.PROTECT)
+    student_reg_no = models.OneToOneField(Student, primary_key=True, on_delete=models.PROTECT)
 
     def __str__(self):
         self.student_reg_no
@@ -169,9 +169,9 @@ class CourseRegistration(models.Model):
 class CourseFeedbackAssignment(models.Model):
     class Meta:
         unique_together = (('course_code', 'student_reg_no', 'cycle_no'),)
-    course_code = models.ForeignKey(CourseRegistration, related_name='CourseRegistration_course_code')
-    student_reg_no = models.OneToOneField(CourseRegistration, primary_key=True, related_name='CourseRegistration_student_reg_no')
-    cycle_no = models.ForeignKey(FeedbackType)
+    course_code = models.ForeignKey(CourseRegistration, related_name='CourseRegistration_course_code', on_delete=models.PROTECT)
+    student_reg_no = models.OneToOneField(CourseRegistration, primary_key=True, related_name='CourseRegistration_student_reg_no', on_delete=models.PROTECT)
+    cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     feedback_weighting = models.IntegerField()
@@ -185,8 +185,8 @@ class FeedbackCommentLog(models.Model):
     class Meta:
         unique_together=(('feedback_no', 'course_code', 'cycle_no'),)
     feedback_no = models.IntegerField(primary_key=True)
-    course_code = models.ForeignKey(CourseOffered)
-    cycle_no = models.ForeignKey(FeedbackType)
+    course_code = models.ForeignKey(CourseOffered, on_delete=models.PROTECT)
+    cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     feedback_weightING = models.IntegerField()
     feedback_comments = models.CharField(max_length=100, null=True)
 
@@ -198,9 +198,9 @@ class FeedbackRatingLog(models.Model):
     class Meta:
         unique_together = (('feedback_no', 'course_code', 'cycle_no', 'question_no'),)
 
-    feedback_no = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_feedback_no')
-    course_code = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_course_code')
-    cycle_no = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_cycle_no')
+    feedback_no = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_feedback_no', on_delete=models.PROTECT)
+    course_code = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_course_code', on_delete=models.PROTECT)
+    cycle_no = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_cycle_no', on_delete=models.PROTECT)
     question_no = models.IntegerField(primary_key=True)
     feedback_weighting = models.IntegerField()
     rating_answer = models.IntegerField()
@@ -212,8 +212,8 @@ class FeedbackRatingLog(models.Model):
 class FeedbackRatingAggregate(models.Model):
     class Meta:
         unique_together = (('course_code', 'cycle_no'),)
-    course_code = models.OneToOneField(CourseOffered, primary_key=True)
-    cycle_no = models.ForeignKey(FeedbackType)
+    course_code = models.OneToOneField(CourseOffered, primary_key=True, on_delete=models.PROTECT)
+    cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     Rating_5_count_1 = models.IntegerField()
     Rating_5_count_2 = models.IntegerField()
     Rating_4_count_1 = models.IntegerField()
@@ -238,7 +238,7 @@ class UserType(models.Model):
 
 
 class Users(models.Model):
-    user_type = models.ForeignKey(UserType)
+    user_type = models.ForeignKey(UserType, on_delete=models.PROTECT)
     id_no = models.CharField(max_length=30, primary_key=True)
     crypt_password = models.CharField(max_length=30)
     last_login_time = models.DateTimeField()

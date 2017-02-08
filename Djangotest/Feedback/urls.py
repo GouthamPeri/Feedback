@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^academic_year', views.academic_year),
     url(r'^faculty', views.faculty),
     url(r'^change_password', views.change_password),
-    url(r'^regulation', views.regulation)
+    url(r'^regulation', views.regulation),
+    url(r'^department', views.department)
 ]
