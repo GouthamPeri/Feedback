@@ -164,6 +164,11 @@ def faculty(request):
 
 @login_required
 def change_password(request):
+    admin_page = ''
+    if is_colg_admin(request.user):
+        admin_page = 'admin.html'
+    elif is_dept_admin(request.user):
+        admin_page = 'dept_admin.html'
     error = ''
     password_form = ChangePasswordForm()
     if request.method == 'POST':
@@ -184,7 +189,8 @@ def change_password(request):
     else:
         password_form = ChangePasswordForm()
 
-    return render_to_response('change_password.html', {'password_form':password_form, 'error': error})
+    return render_to_response('change_password.html', {'password_form':password_form, 'error': error,
+                                                       'username':request.user.username, 'admin_page': admin_page})
 
 @login_required
 @user_passes_test(is_colg_admin)

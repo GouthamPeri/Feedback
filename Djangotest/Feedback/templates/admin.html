@@ -17,7 +17,7 @@
     <a href="regulation"><button class="w3-btn w3-green">Regulation</button></a>
 
         <div class="w3-dropdown-hover">
-    <button class="w3-btn w3-green" onclick="dropFunction()">Program</button>
+    <button class="w3-btn w3-green">Program</button>
     <div class="w3-dropdown-content w3-card-2 w3-light-grey">
       <a style="border-bottom:1px solid lightgrey" href="#about">Add Program</a>
       <a style="border-bottom:1px solid lightgrey" href="#base">Program Structure</a>
@@ -25,25 +25,14 @@
   </div>
 
             <div class="w3-dropdown-hover w3-right">
-    <button class="w3-btn w3-green w3-margin-right" onclick="dropFunction()">Hey, {{ username }}</button>
+    <button class="w3-btn w3-green w3-margin-right">Hey, {{ username }}</button>
     <div class="w3-dropdown-content w3-card-2 w3-light-grey w3-margin-right" style="position:absolute; right:0">
       <a style="border-bottom:1px solid lightgrey" href="change_password">Change Password</a>
       <a style="border-bottom:1px solid lightgrey" href="logout">Logout</a>
     </div>
   </div>
     </div>
-<script>
 
-function dropFunction() {
-    var x = document.getElementById("myDIV");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else {
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
-
-</script>
 
 
     </body>
