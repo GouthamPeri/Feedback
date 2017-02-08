@@ -14,6 +14,9 @@ from django.db.models import ProtectedError
 def is_dept_admin(user):
     return user.groups.filter(name="Dept Admin").exists();
 
+def is_colg_admin(user):
+    return user.groups.filter(name="Colg Admin").exists();
+
 def login_view(request):
     if request.POST:
         if 'crypt_password' in request.POST:
@@ -23,7 +26,12 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if not user is None:
                 login(request, user)
-                return HttpResponseRedirect('/feedback/admin')
+                if is_dept_admin(user):
+                    return HttpResponseRedirect('/feedback/dept_admin')
+                elif is_colg_admin(user):
+                    return HttpResponseRedirect('/feedback/admin')
+                else:
+                    return HttpResponseRedirect('/feedback')
             else:
                 return HttpResponse("Invalid Authentication")
         else:
@@ -54,12 +62,19 @@ def index(request):
 
 
 @login_required
+@user_passes_test(is_colg_admin)
 def admin(request):
     return render_to_response("admin.html", {'username': request.user.username})
 
 
 @login_required
 @user_passes_test(is_dept_admin)
+def dept_admin(request):
+    return render_to_response("dept_admin.html", {'username': request.user.username})
+
+
+@login_required
+@user_passes_test(is_colg_admin)
 def academic_year(request):
     error = ''
     entries = 1
@@ -106,7 +121,7 @@ def academic_year(request):
                                                     'error': error})
 
 @login_required
-#@user_passes_test(is_dept_admin)
+@user_passes_test(is_dept_admin)
 def faculty(request):
     error = ''
     entries = 1
@@ -147,7 +162,7 @@ def faculty(request):
                                                     'database': myformset(), 'username': request.user.username,
                                                     'error': error})
 
-
+@login_required
 def change_password(request):
     error = ''
     password_form = ChangePasswordForm()
@@ -172,6 +187,7 @@ def change_password(request):
     return render_to_response('change_password.html', {'password_form':password_form, 'error': error})
 
 @login_required
+@user_passes_test(is_colg_admin)
 def regulation(request):
     error = ''
     entries = 1
