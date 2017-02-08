@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formset_factory
 from .models import *
-
+from django.contrib.admin.widgets import AdminDateWidget
 
 class LoginForm(forms.Form):
     id_no = forms.CharField(initial="14331A0500", max_length=10)
@@ -45,8 +45,8 @@ class DepartmentForm(forms.ModelForm):
 
 class FacultyForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
-    joining_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'class':'datepicker'}))
-    relieved_date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'class':'datepicker'}), required=False)
+    joining_date = forms.DateTimeField(widget=forms.DateTimeInput)
+    relieved_date = forms.DateTimeField(required=False)
     class Meta:
         model = Faculty
         fields = ['faculty_code', 'faculty_first_name', 'faculty_last_name', 'faculty_tel', 'faculty_email',

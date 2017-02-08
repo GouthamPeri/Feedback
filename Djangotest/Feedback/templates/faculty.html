@@ -1,9 +1,10 @@
 {% load static %}
 <html>
     <head>
-        <script src="{% static 'include.js' %}">
-        </script>
+        <script src="{% static 'include.js' %}"></script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />-->
+
         {% if error %}
         <script>alert("{{ error|safe }}")</script>
         {% endif %}
