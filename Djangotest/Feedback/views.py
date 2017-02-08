@@ -237,8 +237,6 @@ def regulation(request):
 
 
 
-
-
 def display(request):
     form = testform()
     return render_to_response('display.html', {'display': form})
