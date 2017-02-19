@@ -75,3 +75,11 @@ class RegulationForm(forms.ModelForm):
 
 class testform(forms.Form):
     f = forms.SelectMultiple(choices=('hey', 'hi', 'none'))
+
+
+class CourseOfferedForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = CourseOffered
+        fields = ['course_code', 'regulation_code', 'program_code',
+                  'subject_code', 'academic_year', 'semester', 'course_name', 'faculty_name']
