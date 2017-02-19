@@ -31,7 +31,7 @@ class Faculty(models.Model):
     relieved_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.faculty_last_name
+        return self.faculty_code
 
 
 class Regulation(models.Model):

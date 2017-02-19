@@ -286,7 +286,44 @@ def department(request):
                                                'database': myformset(), 'username': request.user.username,
                                                'error': error})
 
-
 def display(request):
     form = testform()
     return render_to_response('display.html', {'display': form})
+
+def add_program(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(Program, ProgramForm, extra=entries)
+    formset = myformset(queryset=Program.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        if 'add_empty_records' in request.POST:  # add rows
+            entries = int(request.POST['add_empty_records'])
+            myformset = modelformset_factory(Program, ProgramForm, extra=entries)
+            formset = myformset(queryset=Program.objects.none())
+        elif 'form-0-program_code' in request.POST:  # add records
+            formset = myformset(request.POST, queryset=Program.objects.none())
+            print(formset)
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=Program.objects.none())
+            else:
+                error = "ERROR: Already exists / Invalid / Empty records"
+        else:  # delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+            objects = Program.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except:
+                error = "ERROR:Program code does not exist / Error performing deletion"
+    else:
+        formset = myformset(queryset=Program.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+    return render_to_response('add_program.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                                                  'database': myformset(), 'username': request.user.username,
+                                                  'error': error})

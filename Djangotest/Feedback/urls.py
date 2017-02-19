@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^faculty', views.faculty),
     url(r'^change_password', views.change_password),
     url(r'^regulation', views.regulation),
-    url(r'^department', views.department)
+    url(r'^department', views.department),
+    url(r'^add_program', views.add_program),
 ]

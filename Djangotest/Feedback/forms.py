@@ -61,7 +61,11 @@ def create_faculty_form(dept_code):
                     department_code=dept_code)
     return FacultyForm
 
-
+class ProgramForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model=Program
+        fields = ['program_code','program_name','inception_year','owner_department']
 
 class RegulationForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))

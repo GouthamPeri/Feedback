@@ -2,59 +2,82 @@
 <html>
     <head>
         <script src="{% static 'include.js' %}">
-            w3IncludeHTML();
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+        </style>
     </head>
     <body>
+    <center>
         <div w3-include-html="admin.html"></div>
-        <div class="w3-row">
-            <div class="w3-half w3-container w3-blue">
-                <h2>w3-half</h2>
+        {% if error %}
+            <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">
+                <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                <h3>{{ error|safe }}</h3>
             </div>
-            <div class="w3-half w3-container">
-                <center><label class="w3-label" style="font-size:x-large">Add Records</label></center><hr>
-                <form method="post" action="">
-                    <table style="width:55%">
-                        <tr>
-                            <td>{{ countform }}</td>
-                        </tr>
-                    </table><br>
-                    <button style="margin-left:360px" class="w3-btn w3-green w3-large w3-round">Reload</button>
-                </form>
+        {% endif %}
+        <div style="margin-top:50px" class="w3-container">
+            {% block table_display %}
+            <div class="w3-responsive">
+                <table class="w3-table-all w3-center" style="width:50%">
+                    <tr class="w3-green">
+                        <th>Select</th>
+                        <th>Program Code</th>
+                        <th>Program Name</th>
+                        <th>Inception Year</th>
+                        <th>Owner Department</th>
+                    </tr>
+                    <form method="post" name="table" action="">
+                        {% for form in database %}
+                            <tr>
+                                {% if not form.program_code.value is None %}
+                                    <td>{{ form.check }}</td>
+                                    <td>{{ form.program_code.value }}</td>
+                                    <td>{{ form.program_name.value }}</td>
+                                    <td>{{ form.inception_year.value }}</td>
+                                    <td>{{ form.owner_department.value }}</td>
+                                {% endif %}
+                            </tr>
 
-                <div id="add" class="">
-                    <div class="">
-                        <form method="post" action="">
-                            <table class="w3-table" style="width:55%">
-                                {% for form in formset %}
-                                    <tr>
-                                        <td>{{ form }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </table><br>
-                            <button style="margin-left:365px" class="w3-btn w3-green w3-large w3-round">Add</button>
-                        </form>
-                    </div>
-                </div>
-                <hr/>
-                <center><label class="w3-label" style="font-size:x-large">Delete Records</label></center><hr>
+                        {% endfor %}
+                    </form>
+                    <form method="post" name="add" action="">
+                        {{ formset.management_form }}
+                        {% for form in formset %}
+                            <tr>
+                                <td></td>
+                                <td>{{ form.program_code }}</td>
+                                <td>{{ form.program_name}}</td>
+                                <td>{{ form.inception_year}}</td>
+                                <td>{{ form.owner_department}}</td>
+                            </tr>
+                        {% endfor %}
+                    </form>
+                    </table>
+                <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red" style="margin-top:35px;margin-right:70px">&#x2212;</button>
+                <button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green" style="margin-top:35px;margin-left:70px">+</button>
 
-                <div id="delete">
-                    <div class="">
-                        <form method="post" action="">
-                            <label>Enter key to delete</label><br/><br>
-                            <table style="width:55%">
-                                <tr>
-                                    <td>{{ deleteform }}</td>
-                                </tr>
-                            </table><br>
-                            <button style="margin-left:360px" class="w3-btn w3-green w3-large w3-round">Delete</button>
-                        </form>
-                    </div>
-                </div>
+                <table class="w3-table" style="width:30%">
+                    <tr>
+                    <form method="post" name='count' action="">
+                        <td style="padding-top:50px"><b>Empty Records</b></td>
+                        <td style="padding-top:50px">{{countform.add_empty_records}}</td>
+                        <td><button class="reset w3-btn-floating w3-green" style="margin-top:35px">&#x21bb;</button></td>
+                    </form>
+                    </tr>
+                </table>
             </div>
+            {% endblock %}
         </div>
+    </center>>
     </body>
+    <script>
+    w3IncludeHTML();
+</script>
 </html>
