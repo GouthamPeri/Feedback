@@ -27,7 +27,6 @@ def login_view(request):
     if request.method == 'POST':
         if 'crypt_password' in request.POST:
             form = LoginForm(request.POST)
-            print(request.POST)
             username = request.POST['id_no']
             password = request.POST['crypt_password']
             user = authenticate(username=username, password=password)
@@ -54,8 +53,6 @@ def login_view(request):
             return HttpResponse("<h1>Successfully Registered</h1>")'''
     else:
         form = LoginForm()
-        #print(request.GET)
-        #form2 = RegistrationForm()
     return render_to_response("login.html", {'form': form, 'error': error})
 
 
@@ -91,7 +88,6 @@ def academic_year(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST: #add rows
             entries = int(request.POST['add_empty_records'])
             myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
@@ -114,7 +110,6 @@ def academic_year(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"')+1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Year code does not exist/Error performing deletion"
 
@@ -222,7 +217,6 @@ def regulation(request):
             formset = myformset(queryset=Regulation.objects.none())
         elif 'form-0-regulation_code' in request.POST: #add records
             formset = myformset(request.POST, queryset=Regulation.objects.none())
-            print(formset)
             if formset.is_valid():
                 formset.save()
                 formset = myformset(queryset=Regulation.objects.none())
@@ -263,7 +257,6 @@ def department(request):
             formset = myformset(queryset=Department.objects.none())
         elif 'form-0-department_code' in request.POST: #add records
             formset = myformset(request.POST, queryset=Department.objects.none())
-            print(formset)
             if formset.is_valid():
                 formset.save()
                 formset = myformset(queryset=Department.objects.none())
@@ -280,7 +273,6 @@ def department(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Year code does not exist/Error performing deletion"
     else:
@@ -307,7 +299,6 @@ def add_program(request):
             formset = myformset(queryset=Program.objects.none())
         elif 'form-0-program_code' in request.POST:  # add records
             formset = myformset(request.POST, queryset=Program.objects.none())
-            print(formset)
             if formset.is_valid():
                 formset.save()
                 formset = myformset(queryset=Program.objects.none())
@@ -344,7 +335,6 @@ def course_offered(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
             myformset = modelformset_factory(CourseOffered, CourseOfferedForm, extra=entries)
@@ -367,7 +357,6 @@ def course_offered(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Course code does not exist/Error performing deletion"
 
@@ -393,7 +382,6 @@ def course_reg(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
 
@@ -417,7 +405,6 @@ def course_reg(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Year code does not exist/Error performing deletion"
 
@@ -444,7 +431,6 @@ def course_feedback_assgn(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
 
@@ -468,7 +454,6 @@ def course_feedback_assgn(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Year code does not exist/Error performing deletion"
 
@@ -493,7 +478,6 @@ def student(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
 
@@ -517,7 +501,6 @@ def student(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Student Reg code does not exist/Error performing deletion"
 
@@ -541,7 +524,6 @@ def student_type(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
 
@@ -565,7 +547,6 @@ def student_type(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Student type does not exist/Error performing deletion"
 
@@ -590,7 +571,6 @@ def subject_type(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
 
@@ -614,7 +594,6 @@ def subject_type(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
                 error = "ERROR: Year code does not exist/Error performing deletion"
 
@@ -628,6 +607,100 @@ def subject_type(request):
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
 
+
+@login_required
+@user_passes_test(is_dept_admin)
+def subject_delivery_type(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(SubjectDeliveryType, SubjectDeliveryTypeForm, extra=entries)
+    formset = myformset(queryset=SubjectDeliveryType.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        if 'add_empty_records' in request.POST:  # add rows
+            entries = int(request.POST['add_empty_records'])
+
+            myformset = modelformset_factory(SubjectDeliveryType, SubjectDeliveryTypeForm, extra=entries)
+            formset = myformset(queryset=SubjectDeliveryType.objects.none())
+        elif 'form-0-subject_delivery_type' in request.POST:  # add records
+            formset = myformset(request.POST, queryset=SubjectDeliveryType.objects.none())
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=SubjectDeliveryType.objects.none())
+            else:
+                error = "ERROR: Already exists/Invalid/Empty records"
+        else:  # delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+            objects = SubjectDeliveryType.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except ProtectedError as p:
+                error = str(p)
+                error = error[error.find('"') + 1: error.find('"', 4)]
+            except:
+                error = "ERROR: Year code does not exist/Error performing deletion"
+
+    else:
+        formset = myformset(queryset=SubjectDeliveryType.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+
+    return render_to_response('subject_delivery_type.html',
+                              {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                               'database': myformset(), 'username': request.user.username,
+                               'error': error})
+
+
+@login_required
+@user_passes_test(is_dept_admin)
+def subject_option(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(SubjectOption, SubjectOptionForm, extra=entries)
+    formset = myformset(queryset=SubjectOption.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        if 'add_empty_records' in request.POST:  # add rows
+            entries = int(request.POST['add_empty_records'])
+            myformset = modelformset_factory(SubjectOption, SubjectOptionForm, extra=entries)
+            formset = myformset(queryset=SubjectOption.objects.none())
+        elif 'form-0-regulation_code' in request.POST:  # add records
+            formset = myformset(request.POST, queryset=SubjectOption.objects.none())
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=SubjectOption.objects.none())
+            else:
+                error = "ERROR: Already exists/Invalid/Empty records"
+        else:  # delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+            objects = SubjectOption.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except ProtectedError as p:
+                error = str(p)
+                error = error[error.find('"') + 1: error.find('"', 4)]
+            except:
+                error = "ERROR: Subject type does not exist/Error performing deletion"
+
+    else:
+        formset = myformset(queryset=SubjectOption.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+
+    return render_to_response('subject_option.html',
+                              {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                               'database': myformset(), 'username': request.user.username,
+                               'error': error})
+
+
 @login_required
 @user_passes_test(is_colg_admin)
 def program_structure(request):
@@ -638,7 +711,6 @@ def program_structure(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
 
@@ -662,9 +734,8 @@ def program_structure(request):
             except ProtectedError as p:
                 error = str(p)
                 error = error[error.find('"') + 1: error.find('"', 4)]
-                print(error)
             except:
-                error = "ERROR: Regualtion Code does not exist/Error performing deletion"
+                error = "ERROR: Regalation Code does not exist/Error performing deletion"
 
     else:
         formset = myformset(queryset=ProgramStructure.objects.none())
@@ -675,3 +746,4 @@ def program_structure(request):
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
+

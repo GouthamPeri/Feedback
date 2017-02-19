@@ -118,15 +118,29 @@ class CourseRegistrationForm(forms.ModelForm):
                   'subject_code', 'academic_year', 'semester', 'course_name', 'faculty_name']
 
 
-class ProgramStructureForm(forms.ModelForm):
-    class Meta:
-        model = ProgramStructure
-        fields = ['regulation_code','program_code','semester','subject_code','subject_name','subject_type','subject_delivery_type',
-                   'number_hpw','number_credits']
-
 class StudentForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
     class Meta:
         model = Student
         fields = ['student_reg_no', 'student_first_name', 'student_last_name', 'student_type', 'academic_year_code', 'regulation_code']
 
 
+class SubjectDeliveryTypeForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = SubjectDeliveryType
+        fields = ['subject_delivery_type', 'delivery_type_desc']
+
+
+class SubjectOptionForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = SubjectOption
+        fields = ['regulation_code', 'program_code', 'subject_code', 'subject_option_code', 'subject_option_name', 'offered_by']
+
+
+class ProgramStructureForm(forms.ModelForm):
+    class Meta:
+        model = ProgramStructure
+        fields = ['regulation_code','program_code','semester','subject_code','subject_name','subject_type','subject_delivery_type',
+                   'number_hpw','number_credits']

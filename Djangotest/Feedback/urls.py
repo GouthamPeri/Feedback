@@ -19,4 +19,6 @@ urlpatterns = [
     url(r'^student_type$', views.student_type),
     url(r'^subject_type', views.subject_type),
     url(r'^program_structure', views.program_structure),
+    url(r'^subject_delivery_type', views.subject_delivery_type),
+    url(r'^subject_option', views.subject_option)
 ]
