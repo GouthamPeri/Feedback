@@ -692,6 +692,7 @@ def subject_option(request):
 
     else:
         formset = myformset(queryset=SubjectOption.objects.none())
+        print(myformset().__dict__)
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
@@ -716,7 +717,7 @@ def program_structure(request):
 
             myformset = modelformset_factory(ProgramStructure, ProgramStructureForm, extra=entries)
             formset = myformset(queryset=ProgramStructure.objects.none())
-        elif 'form-0-regulation-code' in request.POST:  # add records
+        elif 'form-0-regulation_code' in request.POST:  # add records
             formset = myformset(request.POST, queryset=ProgramStructure.objects.none())
             if formset.is_valid():
                 formset.save()

@@ -91,6 +91,9 @@ def create_course_offered_form(dept_code):
             if dept_code:
                 self.fields['faculty_name'].queryset = Faculty.objects.filter(
                     home_department=dept_code)
+            self.fields['regulation_code'].label_from_instance = lambda obj: str(obj.regulation_code)
+            self.fields['program_code'].label_from_instance = lambda obj: str(obj.program_code)
+            self.fields['subject_code'].label_from_instance = lambda obj: str(obj.subject_code)
 
     return CourseOfferedForm
 
@@ -137,6 +140,11 @@ class SubjectOptionForm(forms.ModelForm):
     class Meta:
         model = SubjectOption
         fields = ['regulation_code', 'program_code', 'subject_code', 'subject_option_code', 'subject_option_name', 'offered_by']
+    def __init__(self, *args, **kwargs):
+        super(SubjectOptionForm, self).__init__(*args, **kwargs)
+        self.fields['regulation_code'].label_from_instance = lambda obj: str(obj.regulation_code)
+        self.fields['program_code'].label_from_instance = lambda obj: str(obj.program_code)
+        self.fields['subject_code'].label_from_instance = lambda obj: str(obj.subject_code)
 
 
 class ProgramStructureForm(forms.ModelForm):
@@ -144,3 +152,5 @@ class ProgramStructureForm(forms.ModelForm):
         model = ProgramStructure
         fields = ['regulation_code','program_code','semester','subject_code','subject_name','subject_type','subject_delivery_type',
                    'number_hpw','number_credits']
+
+

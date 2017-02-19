@@ -89,9 +89,9 @@ class ProgramStructure(models.Model):
 class SubjectOption(models.Model):
     class Meta:
         unique_together = (('regulation_code', 'program_code', 'subject_code', 'subject_option_code'),)
-    regulation_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_regulation_code', on_delete=models.PROTECT)
-    program_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_program_code', on_delete=models.PROTECT)
-    subject_code = models.ForeignKey(ProgramStructure, related_name='SO_PS_subject_code', on_delete=models.PROTECT)
+    regulation_code = models.ForeignKey(ProgramStructure, related_name='Feedback_regulation_code', on_delete=models.PROTECT)
+    program_code = models.ForeignKey(ProgramStructure, related_name='Feedback_program_code', on_delete=models.PROTECT)
+    subject_code = models.ForeignKey(ProgramStructure, related_name='Feedback_subject_code', on_delete=models.PROTECT)
     subject_option_code = models.CharField(primary_key=True, max_length=30)
     subject_option_name = models.CharField(max_length=30)
     offered_by = models.ForeignKey(Department, on_delete=models.PROTECT)
@@ -122,9 +122,9 @@ class FeedbackQuestion(models.Model):
 
 class CourseOffered(models.Model):
     course_code = models.IntegerField(primary_key=True)
-    regulation_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_regulation_code', on_delete=models.PROTECT)
-    program_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_program_code', on_delete=models.PROTECT)
-    subject_code = models.ForeignKey(ProgramStructure, related_name='CO_PS_subject_code', on_delete=models.PROTECT)
+    regulation_code = models.ForeignKey(ProgramStructure, related_name='Feedback_regulation_code2', on_delete=models.PROTECT)
+    program_code = models.ForeignKey(ProgramStructure, related_name='Feedback_program_code2', on_delete=models.PROTECT)
+    subject_code = models.ForeignKey(ProgramStructure, related_name='Feedback_subject_code2', on_delete=models.PROTECT)
     academic_year = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
     semester = models.CharField(max_length=7)
     course_name = models.CharField(max_length=30)
