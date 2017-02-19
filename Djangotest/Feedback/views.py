@@ -135,12 +135,10 @@ def faculty(request):
     if request.method == 'POST':
         if 'add_empty_records' in request.POST: #add rows
             entries = int(request.POST['add_empty_records'])
-
             myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
             formset = myformset(queryset=Faculty.objects.none())
         elif 'form-0-faculty_code' in request.POST: #add records
             formset = myformset(request.POST, queryset=Faculty.objects.none())
-            print(formset)
             if formset.is_valid():
                 formset.save()
                 formset = myformset(queryset=Faculty.objects.none())

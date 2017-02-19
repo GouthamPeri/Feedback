@@ -4,11 +4,6 @@
         <script src="{% static 'include.js' %}">
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
-        {% if error %}
-
-        <script>alert("{{ error|safe }}")</script>
-
-        {% endif %}
         <style>
             .reset{
                 all: initial;
@@ -20,7 +15,14 @@
     </head>
     <body>
     <center>
-        <div w3-include-html="admin.html"></div>
+        <div w3-include-html="admin.html">
+        </div>
+        {% if error %}
+            <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">
+                <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                <h3>{{ error|safe }}</h3>
+            </div>
+        {% endif %}
         <div style="margin-top:50px" class="w3-container">
             {% block table_display %}
             <div class="w3-responsive">
