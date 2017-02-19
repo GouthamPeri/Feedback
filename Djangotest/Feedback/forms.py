@@ -148,9 +148,18 @@ class SubjectOptionForm(forms.ModelForm):
 
 
 class ProgramStructureForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
     class Meta:
         model = ProgramStructure
         fields = ['regulation_code','program_code','semester','subject_code','subject_name','subject_type','subject_delivery_type',
                    'number_hpw','number_credits']
+
+
+class CourseFeedbackAssignmentForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = CourseFeedbackAssignment
+        fields = ['course_code', 'student_reg_no', 'cycle_no', 'start_date', 'end_date', 'feedback_weighting(age)', 'is_given']
+
 
 
