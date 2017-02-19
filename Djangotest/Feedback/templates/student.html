@@ -29,28 +29,24 @@
                 <table class="w3-table-all w3-center">
                     <tr class="w3-blackboard">
                         <th>Select</th>
-                        <th>Course Code</th>
-                        <th>Regulation Code</th>
-                        <th>Program Code</th>
-                        <th>Subject Code</th>
-                        <th>Academic Year</th>
-                        <th>Semester</th>
-                        <th>Course Name</th>
-                        <th>Faculty Name</th>
+                        <th>Reg No</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Type</th>
+                        <th>Year code</th>
+                        <th>Regulation code</th>
                     </tr>
                     <form method="post" name="table" action="">
                         {% for form in database %}
                             <tr>
-                                {% if not form.course_code.value is None %}
+                                {% if not form.student_reg_no.value is None %}
                                     <td>{{ form.check }}</td>
-                                    <td>{{ form.course_code.value }}</td>
+                                    <td>{{ form.student_reg_no.value }}</td>
+                                    <td>{{ form.student_first_name.value }}</td>
+                                    <td>{{ form.student_last_name.value }}</td>
+                                    <td>{{ form.student_type.value }}</td>
+                                    <td>{{ form.academic_year_code.value }}</td>
                                     <td>{{ form.regulation_code.value }}</td>
-                                    <td>{{ form.program_code.value }}</td>
-                                    <td>{{ form.subject_code.value }}</td>
-                                    <td>{{ form.academic_year.value }}</td>
-                                    <td>{{ form.semester.value }}</td>
-                                    <td>{{ form.course_name.value }}</td>
-                                    <td>{{ form.faculty_name.value }}</td>
                                 {% endif %}
                             </tr>
 
@@ -61,14 +57,12 @@
                         {% for form in formset %}
                         <tr>
                             <td></td>
-                            <td>{{ form.course_code }}</td>
+                            <td>{{ form.student_reg_no }}</td>
+                            <td>{{ form.student_first_name }}</td>
+                            <td>{{ form.student_last_name }}</td>
+                            <td>{{ form.student_type }}</td>
+                            <td>{{ form.academic_year_code }}</td>
                             <td>{{ form.regulation_code }}</td>
-                            <td>{{ form.program_code }}</td>
-                            <td>{{ form.subject_code }}</td>
-                            <td>{{ form.academic_year }}</td>
-                            <td>{{ form.semester }}</td>
-                            <td>{{ form.course_name }}</td>
-                            <td>{{ form.faculty_name }}</td>
                         </tr>
                         {% endfor %}
                     </form>

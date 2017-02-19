@@ -61,11 +61,13 @@ def create_faculty_form(dept_code):
                     department_code=dept_code)
     return FacultyForm
 
+
 class ProgramForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
     class Meta:
         model=Program
         fields = ['program_code','program_name','inception_year','owner_department']
+
 
 class RegulationForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
@@ -73,8 +75,10 @@ class RegulationForm(forms.ModelForm):
         model = Regulation
         fields = ['regulation_code', 'effective_from', 'total_required_credits']
 
+
 class testform(forms.Form):
     f = forms.SelectMultiple(choices=('hey', 'hi', 'none'))
+
 
 def create_course_offered_form(dept_code):
     class CourseOfferedForm(forms.ModelForm):
@@ -98,8 +102,17 @@ class StudentTypeForm(forms.ModelForm):
         model = StudentType
         fields = ['student_type', 'student_type_desc']
 
-class SubjectTypeForm(forms.ModelForm):
+
+class CourseRegistrationForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+
     class Meta:
-        model = SubjectType
-        fields = ['subject_type', 'subject_type_desc']
+        model = CourseOffered
+        fields = ['course_code', 'regulation_code', 'program_code',
+                  'subject_code', 'academic_year', 'semester', 'course_name', 'faculty_name']
+
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['student_reg_no', 'student_first_name', 'student_last_name', 'student_type', 'academic_year_code', 'regulation_code']
