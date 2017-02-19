@@ -103,7 +103,7 @@ def academic_year(request):
                 error = "ERROR: Already exists/Invalid/Empty records"
         else: #delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = AcademicYear.objects.all()
             try:
@@ -150,7 +150,7 @@ def faculty(request):
                 error = "ERROR: Already exists/Invalid/Empty records"
         else: #delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = Faculty.objects.all()
             try:
@@ -225,7 +225,7 @@ def regulation(request):
                 error = "ERROR: Already exists / Invalid / Empty records"
         else: #delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = Regulation.objects.all()
             try:
@@ -266,7 +266,7 @@ def department(request):
                 error = "ERROR: Already exists/Invalid/Empty records"
         else: #delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = Department.objects.all()
             try:
@@ -312,7 +312,7 @@ def add_program(request):
                 error = "ERROR: Already exists / Invalid / Empty records"
         else:  # delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = Program.objects.all()
             try:
@@ -357,7 +357,7 @@ def course_offered(request):
                 error = "ERROR: Already exists/Invalid/Empty records"
         else:  # delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = CourseOffered.objects.all()
             try:
@@ -406,7 +406,7 @@ def course_reg(request):
                 error = "ERROR: Already exists/Invalid/Empty records"
         else:  # delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = AcademicYear.objects.all()
             try:
@@ -456,7 +456,7 @@ def course_feedback_assgn(request):
                 error = "ERROR: Already exists/Invalid/Empty records"
         else:  # delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
+            indices = list(map(int, indices))
             indices.sort(reverse=True)
             objects = AcademicYear.objects.all()
             try:
@@ -480,3 +480,50 @@ def course_feedback_assgn(request):
                                'error': error})
 
 
+@login_required
+@user_passes_test(is_dept_admin)
+def student_type(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(StudentType, StudentTypeForm, extra=entries)
+    formset = myformset(queryset=StudentType.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        print(request.POST)
+        if 'add_empty_records' in request.POST:  # add rows
+            entries = int(request.POST['add_empty_records'])
+
+            myformset = modelformset_factory(StudentType, StudentTypeForm, extra=entries)
+            formset = myformset(queryset=StudentType.objects.none())
+        elif 'form-0-student_type' in request.POST:  # add records
+            formset = myformset(request.POST, queryset=StudentType.objects.none())
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=StudentType.objects.none())
+            else:
+                error = "ERROR: Already exists/Invalid/Empty records"
+        else:  # delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = list(list(map(int, indices)))
+            indices.sort(reverse=True)
+            objects = StudentType.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except ProtectedError as p:
+                error = str(p)
+                error = error[error.find('"') + 1: error.find('"', 4)]
+                print(error)
+            except:
+                error = "ERROR: Student type does not exist/Error performing deletion"
+
+    else:
+        formset = myformset(queryset=StudentType.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+
+    return render_to_response('student_type.html',
+                              {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                               'database': myformset(), 'username': request.user.username,
+                               'error': error})

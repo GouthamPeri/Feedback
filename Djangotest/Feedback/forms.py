@@ -91,3 +91,10 @@ def create_course_offered_form(dept_code):
                     home_department=dept_code)
 
     return CourseOfferedForm
+
+class StudentTypeForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = StudentType
+        fields = ['student_type', 'student_type_desc']
+
