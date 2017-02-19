@@ -333,6 +333,8 @@ def add_program(request):
 @login_required
 @user_passes_test(is_dept_admin)
 def course_offered(request):
+    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
+    CourseOfferedForm = create_course_offered_form(dept)
     error = ''
     entries = 1
     myformset = modelformset_factory(CourseOffered, CourseOfferedForm, extra=entries)
@@ -381,6 +383,7 @@ def course_offered(request):
 @login_required
 @user_passes_test(is_dept_admin)
 def course_reg(request):
+    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
     error = ''
     entries = 1
     myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
@@ -420,6 +423,8 @@ def course_reg(request):
         formset = myformset(queryset=AcademicYear.objects.none())
         countform = FieldCountForm()
         deleteform = DeleteForm()
+
+
 
     return render_to_response('academic_year.html',
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,

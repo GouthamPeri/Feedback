@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^regulation', views.regulation),
     url(r'^department', views.department),
     url(r'^add_program', views.add_program),
+    url(r'^course_offered', views.course_offered)
 ]
