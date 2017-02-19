@@ -98,3 +98,8 @@ class StudentTypeForm(forms.ModelForm):
         model = StudentType
         fields = ['student_type', 'student_type_desc']
 
+class SubjectTypeForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = SubjectType
+        fields = ['subject_type', 'subject_type_desc']
