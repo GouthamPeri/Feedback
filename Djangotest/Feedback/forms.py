@@ -3,6 +3,7 @@ from django.forms import formset_factory
 from .models import *
 from django.contrib.admin.widgets import AdminDateWidget
 
+
 class LoginForm(forms.Form):
     id_no = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'placeholder': '14331A0560'}))
     #id_no.clean('14331A05D9')
@@ -42,6 +43,7 @@ class DepartmentForm(forms.ModelForm):
         model = Department
         fields = ['department_code', 'department_name', 'inception_year']
 
+
 def create_faculty_form(dept_code):
 
     class FacultyForm(forms.ModelForm):
@@ -76,10 +78,6 @@ class RegulationForm(forms.ModelForm):
         fields = ['regulation_code', 'effective_from', 'total_required_credits']
 
 
-class testform(forms.Form):
-    f = forms.SelectMultiple(choices=('hey', 'hi', 'none'))
-
-
 def create_course_offered_form(dept_code):
     class CourseOfferedForm(forms.ModelForm):
         check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
@@ -96,11 +94,13 @@ def create_course_offered_form(dept_code):
 
     return CourseOfferedForm
 
+
 class StudentTypeForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
     class Meta:
         model = StudentType
         fields = ['student_type', 'student_type_desc']
+
 
 class SubjectTypeForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
@@ -122,3 +122,5 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['student_reg_no', 'student_first_name', 'student_last_name', 'student_type', 'academic_year_code', 'regulation_code']
+
+

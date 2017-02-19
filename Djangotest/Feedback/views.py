@@ -13,11 +13,14 @@ from django.db.models import ProtectedError
 from django.utils.functional import curry
 from functools import partial, wraps
 
+
 def is_dept_admin(user):
     return user.groups.filter(name="Dept Admin").exists();
 
+
 def is_colg_admin(user):
     return user.groups.filter(name="Colg Admin").exists();
+
 
 def login_view(request):
     error=''
@@ -91,7 +94,6 @@ def academic_year(request):
         print(request.POST)
         if 'add_empty_records' in request.POST: #add rows
             entries = int(request.POST['add_empty_records'])
-
             myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
             formset = myformset(queryset=AcademicYear.objects.none())
         elif 'form-0-academic_year_code' in request.POST: #add records
@@ -124,6 +126,7 @@ def academic_year(request):
     return render_to_response('academic_year.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                                     'database': myformset(), 'username': request.user.username,
                                                     'error': error})
+
 
 @login_required
 @user_passes_test(is_dept_admin)
@@ -171,6 +174,7 @@ def faculty(request):
                                                     'database': myformset(queryset=queryset), 'username': request.user.username,
                                                     'error': error})
 
+
 @login_required
 def change_password(request):
     admin_page = ''
@@ -200,6 +204,7 @@ def change_password(request):
 
     return render_to_response('change_password.html', {'password_form':password_form, 'error': error,
                                                        'username':request.user.username, 'admin_page': admin_page})
+
 
 @login_required
 @user_passes_test(is_colg_admin)
@@ -286,9 +291,6 @@ def department(request):
                                                'database': myformset(), 'username': request.user.username,
                                                'error': error})
 
-def display(request):
-    form = testform()
-    return render_to_response('display.html', {'display': form})
 
 def add_program(request):
     error = ''
@@ -329,7 +331,6 @@ def add_program(request):
                                                   'error': error})
 
 
-
 @login_required
 @user_passes_test(is_dept_admin)
 def course_offered(request):
@@ -345,7 +346,6 @@ def course_offered(request):
         print(request.POST)
         if 'add_empty_records' in request.POST:  # add rows
             entries = int(request.POST['add_empty_records'])
-
             myformset = modelformset_factory(CourseOffered, CourseOfferedForm, extra=entries)
             formset = myformset(queryset=CourseOffered.objects.none())
         elif 'form-0-course_code' in request.POST:  # add records
@@ -379,6 +379,7 @@ def course_offered(request):
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
+
 
 @login_required
 @user_passes_test(is_dept_admin)
@@ -430,6 +431,7 @@ def course_reg(request):
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
+
 
 @login_required
 @user_passes_test(is_dept_admin)
@@ -575,6 +577,7 @@ def student_type(request):
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
+
 
 @login_required
 @user_passes_test(is_dept_admin)
