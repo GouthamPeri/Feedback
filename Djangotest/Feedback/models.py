@@ -163,7 +163,8 @@ class CourseRegistration(models.Model):
     student_reg_no = models.OneToOneField(Student, primary_key=True, on_delete=models.PROTECT)
 
     def __str__(self):
-        self.student_reg_no
+        return str(self.student_reg_no)
+
 
 
 class CourseFeedbackAssignment(models.Model):
@@ -226,7 +227,7 @@ class FeedbackRatingAggregate(models.Model):
     Rating_1_count_2 = models.IntegerField()
 
     def __str__(self):
-        return self.course_code
+        return str(self.course_code)
 
 
 class UserType(models.Model):

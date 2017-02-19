@@ -794,3 +794,24 @@ def course_feedback_assignment(request):
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
+
+
+
+def course_registration(request):
+    #queryset = Student.objects.all()
+    if request.method == 'POST':
+        pass
+    else:
+        selected = CourseRegistration.objects.all().values('student_reg_no')
+        if selected:
+            queryset = Student.objects.exclude(student_reg_no=selected)
+        else:
+            queryset = Student.objects.all()
+        choices = []
+        selected_choices = []
+        for q in queryset:
+            choices.append(tuple((str(q),str(q))))
+        for s in selected:
+            selected_choices.append(tuple((str(s), str(s))))
+        form = create_course_reg_form(tuple(choices), tuple(selected_choices))()
+    return render_to_response('course_registration.html', {'form':form, 'error':''})

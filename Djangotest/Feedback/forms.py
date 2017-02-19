@@ -112,15 +112,6 @@ class SubjectTypeForm(forms.ModelForm):
         fields = ['subject_type', 'subject_type_desc']
 
 
-class CourseRegistrationForm(forms.ModelForm):
-    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
-
-    class Meta:
-        model = CourseOffered
-        fields = ['course_code', 'regulation_code', 'program_code',
-                  'subject_code', 'academic_year', 'semester', 'course_name', 'faculty_name']
-
-
 class StudentForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
     class Meta:
@@ -159,7 +150,10 @@ class CourseFeedbackAssignmentForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
     class Meta:
         model = CourseFeedbackAssignment
-        fields = ['course_code', 'student_reg_no', 'cycle_no', 'start_date', 'end_date', 'feedback_weighting(age)', 'is_given']
+        fields = ['course_code', 'student_reg_no', 'cycle_no', 'start_date', 'end_date', 'feedback_weighting', 'is_given']
 
-
-
+def create_course_reg_form(first, second):
+    class CourseRegistrationForm(forms.Form):
+        deselected = forms.ChoiceField(choices=first, widget=forms.Select(attrs={'multiple':'multiple', 'size':'10', 'class':'form'}))
+        selected = forms.ChoiceField(choices=second, widget=forms.Select(attrs={'multiple':'multiple', 'size':'10', 'class':'form'}))
+    return CourseRegistrationForm

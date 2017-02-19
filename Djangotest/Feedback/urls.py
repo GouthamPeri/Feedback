@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^subject_type', views.subject_type),
     url(r'^program_structure', views.program_structure),
     url(r'^subject_delivery_type', views.subject_delivery_type),
-    url(r'^subject_option', views.subject_option)
+    url(r'^subject_option', views.subject_option),
+    url(r'^course_registration', views.course_registration)
 ]
