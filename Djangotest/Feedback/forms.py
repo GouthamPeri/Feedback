@@ -42,15 +42,24 @@ class DepartmentForm(forms.ModelForm):
         model = Department
         fields = ['department_code', 'department_name', 'inception_year']
 
+def create_faculty_form(dept_code):
 
-class FacultyForm(forms.ModelForm):
-    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
-    joining_date = forms.DateTimeField(widget=forms.DateTimeInput)
-    relieved_date = forms.DateTimeField(required=False)
-    class Meta:
-        model = Faculty
-        fields = ['faculty_code', 'faculty_first_name', 'faculty_last_name', 'faculty_tel', 'faculty_email',
-                  'home_department', 'joining_date', 'relieved_date']
+    class FacultyForm(forms.ModelForm):
+        check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+        joining_date = forms.DateTimeField(widget=forms.DateTimeInput)
+        relieved_date = forms.DateTimeField(required=False)
+
+        class Meta:
+            model = Faculty
+            fields = ['faculty_code', 'faculty_first_name', 'faculty_last_name', 'faculty_tel', 'faculty_email',
+                      'home_department', 'joining_date', 'relieved_date']
+
+        def __init__(self, *args, **kwargs):
+            super(FacultyForm, self).__init__(*args, **kwargs)
+            if dept_code:
+                self.fields['home_department'].queryset = Department.objects.filter(
+                    department_code=dept_code)
+    return FacultyForm
 
 
 

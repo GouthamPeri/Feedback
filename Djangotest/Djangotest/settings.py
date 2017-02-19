@@ -30,7 +30,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.7', '192.168.0.8', 'localhost', '192.168.43.82']
+ALLOWED_HOSTS = ['192.168.0.7', '192.168.1.5', 'localhost', '192.168.43.82']
 STATIC_URL="/static/"
 # Application definition
 

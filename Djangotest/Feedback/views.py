@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views import View
 from django.db.models import ProtectedError
+from django.utils.functional import curry
+from functools import partial, wraps
 
 def is_dept_admin(user):
     return user.groups.filter(name="Dept Admin").exists();
@@ -126,6 +128,8 @@ def academic_year(request):
 @login_required
 @user_passes_test(is_dept_admin)
 def faculty(request):
+    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
+    FacultyForm = create_faculty_form(dept)
     error = ''
     entries = 1
     myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
@@ -156,12 +160,15 @@ def faculty(request):
                 error = "ERROR: Faculty code does not exist/Error performing deletion"
 
     else:
+        myformset = modelformset_factory(Faculty, form=FacultyForm, extra=entries)
         formset = myformset(queryset=Faculty.objects.none())
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
+    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
+    queryset = Faculty.objects.filter(home_department = dept)
     return render_to_response('faculty.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
-                                                    'database': myformset(), 'username': request.user.username,
+                                                    'database': myformset(queryset=queryset), 'username': request.user.username,
                                                     'error': error})
 
 @login_required
