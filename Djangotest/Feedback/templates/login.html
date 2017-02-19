@@ -4,6 +4,9 @@
     <title>W3.CSS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "w3.css"%}"/>
+    {% if error %}
+        <script>alert("{{ error|safe }}")</script>
+        {% endif %}
     <body>
         <img src="{%static "jntuk.png"%}" style="width:8%;padding-top:10px;float:left"></img>
         <img src="{%static "preloader.png"%}" style="width:8%;padding-top:10px;float:right"></img>
@@ -27,12 +30,12 @@
                     </div>
 
 
-                    <form class="w3-container" action="/feedback/login" method="POST">
+                    <form class="w3-container" method="POST">
                         <div class="w3-section w3-center">
                             <label><b>Username</b><br></label>
-                        <div class=" w3-margin-bottom">{{form.id_no}}<br><br></div>
-                        <label><b>Password</b><br></label>
-                        <div> {{form.crypt_password }}<br><br></div>
+                            <div class=" w3-margin-bottom">{{form.id_no}}<br><br></div>
+                            <label><b>Password</b><br></label>
+                            <div> {{form.crypt_password }}<br><br></div>
                             <button class="w3-btn-block w3-green w3-section w3-padding w3-round" style="width:20%" type="submit">Login</button>
                         </div>
                     </form>
@@ -43,7 +46,7 @@
 
                 </div>
             </div>
-                <div id="id02" class="w3-modal">
+                <!--<div id="id02" class="w3-modal">
                 <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-round-xlarge" style="width:450px">
 
                     <div class="w3-center"><br>
@@ -67,7 +70,7 @@
                         <button onclick="document.getElementById('id02').style.display='none'" type="button" class="w3-btn w3-red w3-round">Cancel</button>
                     </div>
 
-                </div>
+                </div>-->
             </div>
             </div>
         </div>

@@ -18,9 +18,11 @@ def is_colg_admin(user):
     return user.groups.filter(name="Colg Admin").exists();
 
 def login_view(request):
-    if request.POST:
+    error=''
+    if request.method == 'POST':
         if 'crypt_password' in request.POST:
-            form = LoginForm(request)
+            form = LoginForm(request.POST)
+            print(request.POST)
             username = request.POST['id_no']
             password = request.POST['crypt_password']
             user = authenticate(username=username, password=password)
@@ -33,8 +35,8 @@ def login_view(request):
                 else:
                     return HttpResponseRedirect('/feedback')
             else:
-                return HttpResponse("Invalid Authentication")
-        else:
+                error = "Invalid Authentication"
+        '''else:
             form2 = RegistrationForm(request)
             username = request.POST['id_no']
             password1 = request.POST['password1']
@@ -44,11 +46,12 @@ def login_view(request):
             if len(username) != 10:
                 return HttpResponse("Invalid Username")
             User.objects.create_user(username.upper(),'example@gmail.com',password1).save()
-            return HttpResponse("<h1>Successfully Registered</h1>")
+            return HttpResponse("<h1>Successfully Registered</h1>")'''
     else:
         form = LoginForm()
-        form2 = RegistrationForm()
-    return render_to_response("login.html", {'form': form,'form2':  form2 })
+        #print(request.GET)
+        #form2 = RegistrationForm()
+    return render_to_response("login.html", {'form': form, 'error': error})
 
 
 def logout_view(request):
