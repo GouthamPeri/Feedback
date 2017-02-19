@@ -291,7 +291,8 @@ def department(request):
                                                'database': myformset(), 'username': request.user.username,
                                                'error': error})
 
-
+@login_required
+@user_passes_test(is_colg_admin)
 def add_program(request):
     error = ''
     entries = 1
@@ -326,7 +327,7 @@ def add_program(request):
         formset = myformset(queryset=Program.objects.none())
         countform = FieldCountForm()
         deleteform = DeleteForm()
-    return render_to_response('add_program.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+    return render_to_response('program.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                                   'database': myformset(), 'username': request.user.username,
                                                   'error': error})
 
@@ -622,8 +623,55 @@ def subject_type(request):
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
-    return render_to_response('add_subject_type.html',
+    return render_to_response('subject_type.html',
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
 
+@login_required
+@user_passes_test(is_colg_admin)
+def program_structure(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(ProgramStructure, ProgramStructureForm, extra=entries)
+    formset = myformset(queryset=ProgramStructure.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        print(request.POST)
+        if 'add_empty_records' in request.POST:  # add rows
+            entries = int(request.POST['add_empty_records'])
+
+            myformset = modelformset_factory(ProgramStructure, ProgramStructureForm, extra=entries)
+            formset = myformset(queryset=ProgramStructure.objects.none())
+        elif 'form-0-regulation-code' in request.POST:  # add records
+            formset = myformset(request.POST, queryset=ProgramStructure.objects.none())
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=ProgramStructure.objects.none())
+            else:
+                error = "ERROR: Already exists/Invalid/Empty records"
+        else:  # delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+            objects = ProgramStructure.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except ProtectedError as p:
+                error = str(p)
+                error = error[error.find('"') + 1: error.find('"', 4)]
+                print(error)
+            except:
+                error = "ERROR: Regualtion Code does not exist/Error performing deletion"
+
+    else:
+        formset = myformset(queryset=ProgramStructure.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+
+    return render_to_response('program_structure.html',
+                              {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                               'database': myformset(), 'username': request.user.username,
+                               'error': error})

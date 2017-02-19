@@ -118,6 +118,12 @@ class CourseRegistrationForm(forms.ModelForm):
                   'subject_code', 'academic_year', 'semester', 'course_name', 'faculty_name']
 
 
+class ProgramStructureForm(forms.ModelForm):
+    class Meta:
+        model = ProgramStructure
+        fields = ['regulation_code','program_code','semester','subject_code','subject_name','subject_type','subject_delivery_type',
+                   'number_hpw','number_credits']
+
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
