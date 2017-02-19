@@ -11,9 +11,11 @@
                    all: unset;
                 }
             }
+            .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
+            .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
         </style>
     </head>
-    <body>
+    <body style="background-color:#e9e9e9">
     <center>
         <div w3-include-html="admin.html"></div>
         {% if error %}
@@ -26,7 +28,7 @@
             {% block table_display %}
             <div class="w3-responsive">
                 <table class="w3-table-all w3-center" style="width:50%">
-                    <tr class="w3-green">
+                    <tr class="w3-blackboard">
                         <th>Select</th>
                         <th>Regulation Code</th>
                         <th>Effective From</th>
