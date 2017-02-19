@@ -4,6 +4,10 @@
     <title>W3.CSS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "w3.css"%}"/>
+    <style>
+        .w3-oxblood,.w3-hover-oxblood:hover{color:#fff!important;background-color:#76323f!important}
+        .w3-coral,.w3-hover-coral:hover{color:#fff!important;background-color:#e52a6f!important}
+    </style>
     <body>
         <img src="{%static "jntuk.png"%}" style="width:8%;padding-top:10px;float:left"></img>
         <img src="{%static "preloader.png"%}" style="width:8%;padding-top:10px;float:right"></img>
@@ -22,8 +26,8 @@
                 <img src="{% static "mvgr.jpg"%}" style="width:50%;margin-bottom:25px"  class="w3-round w3-card-8"></img>
             </div>
             <center>
-                <button style="margin:20px" onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-green w3-xlarge">Login</button>
-                <!--<button style="margin:20px" onclick="document.getElementById('id02').style.display='block'" class="w3-btn w3-green w3-xlarge">Register</button>-->
+                <button style="margin:20px" onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-round w3-coral w3-xlarge">Login</button>
+                <!--<button style="margin:20px" onclick="document.getElementById('id02').style.display='block'" class="w3-btn w3-oxblood w3-xlarge">Register</button>-->
             </center>
             <div>
                 <div id="id01" class="w3-modal">
@@ -64,7 +68,7 @@
                             <div class="w3-margin-bottom"> {{form2.password1 }}<br><br></div>
                             <label><b>Confirm Password</b><br></label>
                             <div class="w3-margin-bottom"> {{form2.password2}}<br><br></div>
-                            <button class="w3-btn-block w3-green w3-section w3-padding w3-round" style="width:30%" type="submit">Register</button>
+                            <button class="w3-btn-block w3-oxblood w3-section w3-padding w3-round" style="width:30%" type="submit">Register</button>
                         </div>
                     </form>
 
@@ -76,7 +80,7 @@
             </div>
             </div>
         </div>
-        <button style="margin:20px;float:right;" onclick="document.getElementById('id03').style.display='block'" class="w3-btn w3-green w3-small" >About Us</button>
+        <button style="margin:20px;float:right;" onclick="document.getElementById('id03').style.display='block'" class="w3-btn w3-coral w3-round w3-small" >About Us</button>
         <div id="id03" class="w3-modal">
                 <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-round-xlarge" style="width:450px">
 
