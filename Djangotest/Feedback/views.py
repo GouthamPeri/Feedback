@@ -796,13 +796,12 @@ def course_feedback_assignment(request):
                                'error': error})
 
 
-
 def course_registration(request):
-    #queryset = Student.objects.all()
     if request.method == 'POST':
-        pass
+        print(request.POST.getlist('selected'))
+
     else:
-        selected = CourseRegistration.objects.all().values('student_reg_no')
+        '''selected = CourseRegistration.objects.all().values('student_reg_no')
         if selected:
             queryset = Student.objects.exclude(student_reg_no=selected)
         else:
@@ -813,5 +812,5 @@ def course_registration(request):
             choices.append(tuple((str(q),str(q))))
         for s in selected:
             selected_choices.append(tuple((str(s), str(s))))
-        form = create_course_reg_form(tuple(choices), tuple(selected_choices))()
-    return render_to_response('course_registration.html', {'form':form, 'error':''})
+        form = create_course_reg_form(tuple(choices), tuple(selected_choices))()'''
+    return render_to_response('course_registration.html', {'form': CourseRegistrationForm(), 'error': ''})

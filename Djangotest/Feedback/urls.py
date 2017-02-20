@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.i18n import javascript_catalog
 
 from . import views
 #from .views import (reporter_create)
@@ -21,5 +22,6 @@ urlpatterns = [
     url(r'^program_structure', views.program_structure),
     url(r'^subject_delivery_type', views.subject_delivery_type),
     url(r'^subject_option', views.subject_option),
-    url(r'^course_registration', views.course_registration)
+    url(r'^course_registration', views.course_registration),
+    url(r'^admin/js/jsi18n.js/$', javascript_catalog),
 ]

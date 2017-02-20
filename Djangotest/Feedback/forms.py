@@ -2,6 +2,7 @@ from django import forms
 from django.forms import formset_factory
 from .models import *
 from django.contrib.admin.widgets import AdminDateWidget
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
 class LoginForm(forms.Form):
@@ -152,8 +153,9 @@ class CourseFeedbackAssignmentForm(forms.ModelForm):
         model = CourseFeedbackAssignment
         fields = ['course_code', 'student_reg_no', 'cycle_no', 'start_date', 'end_date', 'feedback_weighting', 'is_given']
 
-def create_course_reg_form(first, second):
-    class CourseRegistrationForm(forms.Form):
-        deselected = forms.ChoiceField(choices=first, widget=forms.Select(attrs={'multiple':'multiple', 'size':'10', 'class':'form'}))
-        selected = forms.ChoiceField(choices=second, widget=forms.Select(attrs={'multiple':'multiple', 'size':'10', 'class':'form'}))
-    return CourseRegistrationForm
+class CourseRegistrationForm(forms.Form):
+    selected = forms.ModelMultipleChoiceField(queryset=Student.objects.all(), widget=FilteredSelectMultiple("deselected", is_stacked=False))
+    class Media:
+        css = {'all': ('/static/admin/css/widgets.css',),}
+        js = ('admin/js/jsi18n.js',)
+

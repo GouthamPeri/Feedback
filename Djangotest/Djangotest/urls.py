@@ -22,4 +22,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^feedback/', include('Feedback.urls')),
+    # url(r'^admin/jsi18n/$', 'django.views.i18n.javascript_catalog'),
 ]
