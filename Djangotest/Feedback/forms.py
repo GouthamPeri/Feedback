@@ -159,3 +159,8 @@ class CourseRegistrationForm(forms.Form):
         css = {'all': ('/static/admin/css/widgets.css',),}
         js = ('admin/js/jsi18n.js',)
 
+class FeedbackTypeForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = FeedbackType
+        fields = ['cycle_no','feedback_type_desc']

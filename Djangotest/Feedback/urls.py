@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^subject_option', views.subject_option),
     url(r'^course_registration', views.course_registration),
     url(r'^admin/js/jsi18n.js/$', javascript_catalog),
+    url(r'^feedback_type', views.feedback_type),
 ]

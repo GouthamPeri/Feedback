@@ -1,17 +1,8 @@
 {% load static %}
-{% load admin_static %}
-{% load admin_urls %}
 <html>
     <head>
         <script src="{% static 'include.js' %}"></script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
-        <script type="text/javascript" src="{% static '/my_admin/jsi18n/' %}"></script>
-        <script type="text/javascript" src="{% static '/media/admin/js/core.js' %}"></script>
-        <link rel="stylesheet" type="text/css" href="/media/admin/css/forms.css"/>
-<link rel="stylesheet" type="text/css" href="/media/admin/css/base.css"/>
-<link rel="stylesheet" type="text/css" href="/media/admin/css/global.css"/>
-<link rel="stylesheet" type="text/css" href="/media/admin/css/widgets.css"/>
-        {{ form.media }}
         <!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />-->
         <style>
             .reset{
@@ -38,28 +29,16 @@
                 <table class="w3-table-all w3-center">
                     <tr class="w3-blackboard">
                         <th>Select</th>
-                        <th>Faculty Code</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Contact</th>
-                        <th>Email ID</th>
-                        <th>Dept</th>
-                        <th>Join</th>
-                        <th>Relieve</th>
+                        <th>Cycle No</th>
+                        <th>Feedback Type Description</th>
                     </tr>
                     <form method="post" name="table" action="">
                         {% for form in database %}
                             <tr>
-                                {% if not form.faculty_code.value is None %}
+                                {% if not form.cycle_no.value is None %}
                                     <td>{{ form.check }}</td>
-                                    <td>{{ form.faculty_code.value }}</td>
-                                    <td>{{ form.faculty_first_name.value }}</td>
-                                    <td>{{ form.faculty_last_name.value }}</td>
-                                    <td>{{ form.faculty_tel.value }}</td>
-                                    <td>{{ form.faculty_email.value }}</td>
-                                    <td>{{ form.home_department.value }}</td>
-                                    <td>{{ form.joining_date.value }}</td>
-                                    <td>{{ form.relieved_date.value }}</td>
+                                    <td>{{ form.cycle_no.value }}</td>
+                                    <td>{{ form.feedback_type_desc.value }}</td>
                                 {% endif %}
                             </tr>
 
@@ -70,14 +49,8 @@
                         {% for form in formset %}
                         <tr>
                             <td></td>
-                            <td>{{ form.faculty_code }}</td>
-                            <td>{{ form.faculty_first_name }}</td>
-                            <td>{{ form.faculty_last_name }}</td>
-                            <td>{{ form.faculty_tel }}</td>
-                            <td>{{ form.faculty_email }}</td>
-                            <td>{{ form.home_department }}</td>
-                            <td>{{ form.joining_date }}</td>
-                            <td>{{ form.relieved_date }}</td>
+                            <td>{{ form.cycle_no }}</td>
+                            <td>{{ form.feedback_type_desc }}</td>
                         </tr>
                         {% endfor %}
                     </form>
