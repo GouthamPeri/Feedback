@@ -27,8 +27,8 @@ class Faculty(models.Model):
     faculty_tel = models.CharField(max_length=30)
     faculty_email = models.CharField(max_length=30)
     home_department = models.ForeignKey(Department, on_delete=models.PROTECT)
-    joining_date = models.DateTimeField()
-    relieved_date = models.DateTimeField(null=True, blank=True)
+    joining_date = models.DateField()
+    relieved_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.faculty_code

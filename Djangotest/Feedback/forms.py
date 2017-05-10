@@ -49,8 +49,7 @@ def create_faculty_form(dept_code):
 
     class FacultyForm(forms.ModelForm):
         check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
-        #joining_date = forms.DateTimeField(widget=forms.DateTimeInput)
-        relieved_date = forms.DateTimeField(required=False)
+        #relieved_date = forms.DateTimeField(required=False)
 
         class Meta:
             model = Faculty
@@ -58,13 +57,13 @@ def create_faculty_form(dept_code):
                       'home_department', 'joining_date', 'relieved_date']
             widgets = {
                 'joining_date': forms.DateInput(attrs={'class': 'datepicker'}),
+                'relieved_date': forms.DateInput(attrs={'class': 'datepicker','required' : "False"})
             }
         def __init__(self, *args, **kwargs):
             super(FacultyForm, self).__init__(*args, **kwargs)
             if dept_code:
                 self.fields['home_department'].queryset = Department.objects.filter(
                     department_code=dept_code)
-            #self.fields['joining_date'].widget.attrs['class'] = 'datepicker'
     return FacultyForm
 
 
