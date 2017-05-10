@@ -64,6 +64,14 @@ def create_faculty_form(dept_code):
             if dept_code:
                 self.fields['home_department'].queryset = Department.objects.filter(
                     department_code=dept_code)
+
+        def clean(self):
+            cleaned_data = super(FacultyForm, self).clean()
+            joining_date = cleaned_data.get("joining_date")
+            relieved_date = cleaned_data.get("relieved_date")
+            if relieved_date < joining_date:
+                raise forms.ValidationError("WRONG DATES!!!!!")
+
     return FacultyForm
 
 

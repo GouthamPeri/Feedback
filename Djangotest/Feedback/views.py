@@ -126,7 +126,8 @@ def academic_year(request):
 @login_required
 @user_passes_test(is_dept_admin)
 def faculty(request):
-    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
+    current_faculty = Faculty.objects.get(faculty_code=request.user.username)
+    dept = current_faculty.home_department
     FacultyForm = create_faculty_form(dept)
     error = ''
     entries = 1
@@ -135,25 +136,38 @@ def faculty(request):
     countform = FieldCountForm()
     deleteform = DeleteForm()
     if request.method == 'POST':
-        if 'add_empty_records' in request.POST: #add rows
+        if 'add_empty_records' in request.POST: # add rows
             entries = int(request.POST['add_empty_records'])
             myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
             formset = myformset(queryset=Faculty.objects.none())
-        elif 'form-0-faculty_code' in request.POST: #add records
+        elif 'form-0-faculty_code' in request.POST: # add records
             formset = myformset(request.POST, queryset=Faculty.objects.none())
             if formset.is_valid():
                 formset.save()
                 formset = myformset(queryset=Faculty.objects.none())
             else:
-                error = "ERROR: Already exists/Invalid/Empty records"
-        else: #delete selected records
+                error = "ERROR: Already exists/Empty records/Invalid Data or Dates"
+        else: # delete selected records
+            print request.POST
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = list(map(int, indices))
             indices.sort(reverse=True)
-            objects = Faculty.objects.all()
+            objects = Faculty.objects.filter(home_department=dept)
+            print objects
+            print indices
             try:
                 for i in indices:
-                    objects[i].delete()
+                    faculty = objects[i]
+                    print faculty
+                    print faculty.faculty_code
+                    if faculty.faculty_code == current_faculty.faculty_code:
+                        error = "ERROR: You cannot delete your own record"
+                    else:
+                        print "h"
+                        faculty.delete()
+                        print "h"
+            except ProtectedError as e:
+                error = e
             except:
                 error = "ERROR: Faculty code does not exist/Error performing deletion"
 
