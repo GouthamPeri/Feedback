@@ -62,6 +62,7 @@ def create_faculty_form(dept_code):
             if dept_code:
                 self.fields['home_department'].queryset = Department.objects.filter(
                     department_code=dept_code)
+            self.fields['joining_date'].widget.attrs['class'] = 'datepicker'
     return FacultyForm
 
 
