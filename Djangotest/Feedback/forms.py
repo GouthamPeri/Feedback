@@ -163,11 +163,14 @@ class CourseFeedbackAssignmentForm(forms.ModelForm):
         model = CourseFeedbackAssignment
         fields = ['course_code', 'student_reg_no', 'cycle_no', 'start_date', 'end_date', 'feedback_weighting', 'is_given']
 
-class CourseRegistrationForm(forms.Form):
-    selected = forms.ModelMultipleChoiceField(queryset=Student.objects.all(), widget=FilteredSelectMultiple("deselected", is_stacked=False))
-    class Media:
-        css = {'all': ('/static/admin/css/widgets.css',),}
-        js = ('admin/js/jsi18n.js',)
+
+class CourseRegistrationForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    course_code = forms.ChoiceField()
+    class Meta:
+        model = Student
+        fields = ['student_reg_no']
+
 
 class FeedbackTypeForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))

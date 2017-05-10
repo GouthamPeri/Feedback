@@ -429,7 +429,7 @@ def course_reg(request):
 
 
 
-    return render_to_response('academic_year.html',
+    return render_to_response('course_registration.html',
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
@@ -809,25 +809,59 @@ def course_feedback_assignment(request):
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
 
-
+@login_required
+@user_passes_test(is_dept_admin)
 def course_registration(request):
-    if request.method == 'POST':
-        print(request.POST.getlist('selected'))
-
+    entries = 1
+    myformset = modelformset_factory(Student, StudentForm, extra=entries)
+    course_reg_objects = CourseRegistration.objects.all()
+    registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
+    if registered_candidates:
+        unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
     else:
-        '''selected = CourseRegistration.objects.all().values('student_reg_no')
-        if selected:
-            queryset = Student.objects.exclude(student_reg_no=selected)
-        else:
-            queryset = Student.objects.all()
-        choices = []
-        selected_choices = []
-        for q in queryset:
-            choices.append(tuple((str(q),str(q))))
-        for s in selected:
-            selected_choices.append(tuple((str(s), str(s))))
-        form = create_course_reg_form(tuple(choices), tuple(selected_choices))()'''
-    return render_to_response('course_registration.html', {'form': CourseRegistrationForm(), 'error': ''})
+        unregistered_candidates = Student.objects.all()
+
+    unreg_form = None
+    reg_form = None
+    if request.method == 'POST':
+        keys = request.POST.keys()
+        if keys:
+            submitted_form = keys[0][4]
+            indices = [key.split('-')[1] for key in keys]
+            unreg_indices = filter(lambda x: "form1" in x, indices)
+            reg_indices = filter(lambda x: "form2" in x, indices)
+            unreg_indices = map(int, indices)
+            reg_indices = map(int, indices)
+            unreg_indices.sort(reverse=True)
+            reg_indices.sort(reverse=True)
+            if submitted_form == "1":
+                for i in unreg_indices:
+                    candidate = unregistered_candidates[i]
+                    print candidate
+                    CourseRegistration.objects.create(student_reg_no=candidate, course_code=CourseOffered.objects.all()[0])
+            else:
+                for i in reg_indices:
+                    candidate = registered_candidates[i]
+                    CourseRegistration.objects.get(student_reg_no=candidate).delete()
+
+            registered_candidates = map(lambda x: x.student_reg_no, CourseRegistration.objects.all())
+            if registered_candidates:
+                unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
+            else:
+                unregistered_candidates = Student.objects.all()
+
+    if not unregistered_candidates:
+        unreg_form = myformset(queryset=Student.objects.none(), prefix='form1')
+    else:
+        unreg_form = myformset(queryset=unregistered_candidates, prefix='form1')
+    if not registered_candidates:
+        reg_form = myformset(queryset=Student.objects.none(), prefix='form2')
+    else:
+        reg_form = myformset(queryset=Student.objects.filter(student_reg_no__in=registered_candidates), prefix='form2')
+
+
+    return render_to_response('course_registration.html', {'unreg_formset': unreg_form,
+                                                           'reg_formset': reg_form, 'error': ''})
 
 @login_required
 @user_passes_test(is_dept_admin)

@@ -1,11 +1,17 @@
 {% load static %}
 <html>
     <head>
-
         <script src="{% static 'admin/js/vendor/jquery/jquery.min.js' %}"></script>
         <script src="{% static 'admin/js/jquery.init.js' %}"></script>
         <script src="{% static 'include.js' %}"></script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <script>
+            function submit(form){
+                //var queryString = $('#' + form).serialize();
+                //alert(queryString)
+                document.forms[form].submit()
+            }
+        </script>
         <!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />-->
         <style>
             .reset{
@@ -30,38 +36,61 @@
                 <h3>{{ error|safe }}</h3>
             </div>
         {% endif %}
-        <div style="margin-top:50px" class="w3-container">
-            {% block table_display %}
-            <div class="w3-responsive">
-                <div class="w3-row">
-                    <form name="selection" method="post">
-                        <div class="w3-center w3-half">
-                            {{form.selected}}
-                        </div>
-                        <div class="w3-center w3-half">
-                            <!--{{form.selected}}-->
-                        </div>
-                    </form>
-                </div>
-                <div style="margin-top:20px" class="w3-center">
-                    <button onclick="javascript:submit()" class="w3-btn w3-blackboard">Click</button>
-                </div>
+        <div style="margin: 5% 5% 2% 5%" class="w3-responsive w3-white">
+            <div style="margin: 2% 5% 2% 5%" class="w3-responsive">
+                <table class="w3-table w3-center" >
+                    <tr>
+                        <td rowspan="5">
+                            <table align="left" class="w3-table-all" style="width:50%">
+                                <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
+                                <form method="post" id="unreg_form" name="unreg_form">
+                                    {% for form in unreg_formset %}
+                                        {% if not form.student_reg_no.value is None %}
+                                        <tr>
+                                            <td>{{ form.check }}</td>
+                                            <td class="w3-padding-right">{{ form.student_reg_no.value }}</td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </form>
+                            </table>
+                        </td>
+                        <td></td>
+                        <td rowspan="5">
+                            <table align="right" class="w3-table-all" style="width:50%">
+                                <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Registered Candidates</td></tr>
+                                <form method="post" id="reg_form" name="reg_form">
+                                    {% for form in reg_formset %}
+                                        {% if not form.student_reg_no.value is None %}
+                                        <tr>
+                                            <td>{{ form.check }}</td>
+                                            <td class="w3-padding-right">{{ form.student_reg_no.value }}</td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </form>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td>
+                        <button onclick="submit('unreg_form')"
+                                class="reset w3-btn-floating w3-blackboard"
+                                style="margin-top:35px">&rarr;
+                        </button>
+                    </td></tr>
+                    <tr><td>
+                        <button onclick="submit('reg_form')"
+                                class="reset w3-btn-floating w3-blackboard"
+                                style="margin-top:35px">&larr;
+                        </button>
+                    </td></tr>
+                    <tr><td></td></tr>
+                    <tr><td></td></tr>
+                </table>
             </div>
-            {% endblock %}
         </div>
     </body>
     <script>
-        function submit(){
-            deselected = document.getElementById('id_selected_from');
-            for(i=0; i<deselected.options.length; i++){
-                deselected.options[i].selected=false;
-            }
-            selected = document.getElementById('id_selected_to');
-            for(i=0; i<selected.options.length; i++){
-                selected.options[i].selected=true;
-            }
-            document.forms['selection'].submit();
-        }
         w3IncludeHTML();
     </script>
 </html>
