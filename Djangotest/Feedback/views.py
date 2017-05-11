@@ -815,7 +815,8 @@ def course_feedback_assignment(request):
 def course_registration(request):
     entries = 1
     myformset = modelformset_factory(Student, StudentForm, extra=entries)
-    course_reg_objects = CourseRegistration.objects.all()
+    course_code = CourseOffered.objects.all()[0]
+    course_reg_objects = CourseRegistration.objects.filter(course_code=course_code)
     registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
     if registered_candidates:
         unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
@@ -823,10 +824,21 @@ def course_registration(request):
         unregistered_candidates = Student.objects.all()
     courses = CourseOffered.objects.all()
     courses_list=map(lambda x: x.course_code, courses)
-
+    course_form = create_course_selection_form(courses,course_code.course_code)
     unreg_form = None
     reg_form = None
     if request.method == 'POST':
+        if "course" in request.POST:
+            print int(request.POST["course"])
+            course_code = CourseOffered.objects.get(course_code=int(request.POST["course"]))
+            course_form = create_course_selection_form(courses, course_code.course_code)
+            course_reg_objects = CourseRegistration.objects.filter(course_code=course_code)
+            registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
+            if registered_candidates:
+                unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
+            else:
+                unregistered_candidates = Student.objects.all()
+            request.POST["course"].delete()
         keys = request.POST.keys()
         if keys:
             submitted_form = keys[0][4]
@@ -840,14 +852,13 @@ def course_registration(request):
             if submitted_form == "1":
                 for i in unreg_indices:
                     candidate = unregistered_candidates[i]
-                    print candidate
-                    CourseRegistration.objects.create(student_reg_no=candidate, course_code=CourseOffered.objects.all()[0])
+                    CourseRegistration.objects.create(student_reg_no=candidate, course_code=course_code)
             else:
                 for i in reg_indices:
                     candidate = registered_candidates[i]
                     CourseRegistration.objects.get(student_reg_no=candidate).delete()
 
-            registered_candidates = map(lambda x: x.student_reg_no, CourseRegistration.objects.all())
+            registered_candidates = map(lambda x: x.student_reg_no,CourseRegistration.objects.filter(course_code=course_code))
             if registered_candidates:
                 unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
             else:
@@ -861,7 +872,7 @@ def course_registration(request):
         reg_form = myformset(queryset=Student.objects.none(), prefix='form2')
     else:
         reg_form = myformset(queryset=Student.objects.filter(student_reg_no__in=registered_candidates), prefix='form2')
-    return render_to_response('course_registration.html', {'select_list' : courses_list,'unreg_formset': unreg_form,
+    return render_to_response('course_registration.html', {'selection_form' : course_form, 'unreg_formset': unreg_form,
                                                            'reg_formset': reg_form, 'error': ''})
 
 @login_required

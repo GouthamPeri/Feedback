@@ -177,3 +177,14 @@ class FeedbackTypeForm(forms.ModelForm):
     class Meta:
         model = FeedbackType
         fields = ['cycle_no','feedback_type_desc']
+
+def create_course_selection_form(courses,selected_course=None):
+    choices=[]
+    for course in courses:
+        choices.append((course.course_code,course.course_code))
+    class CourseSelectionForm(forms.Form):
+        course = forms.ChoiceField(choices=choices,
+                                     widget=forms.Select(attrs={"onchange": "this.form.submit()"},
+                                                         ), initial=selected_course)
+
+    return CourseSelectionForm

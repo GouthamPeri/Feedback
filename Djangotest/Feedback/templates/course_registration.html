@@ -37,13 +37,12 @@
             </div>
         {% endif %}
         <div>
-            <form method="post" id="course_select" name="course_select">
-                <select name="course" id="select_course" class="w3-select">
-                {% for i in select_list %}
-                      <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-                </select>
-            </form>
+            <center>
+
+            <br><br><label>Select Course</label><br><br>
+            {{ selection_form | safe}}
+
+            </center>
         </div>
         <div style="margin: 5% 5% 2% 5%" class="w3-responsive w3-white">
             <div style="margin: 2% 5% 2% 5%" class="w3-responsive">
