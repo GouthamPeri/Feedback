@@ -375,6 +375,7 @@ def course_offered(request):
                 error = "ERROR: Course code does not exist/Error performing deletion"
 
     else:
+        print myformset()
         formset = myformset(queryset=CourseOffered.objects.none())
         countform = FieldCountForm()
         deleteform = DeleteForm()
@@ -820,6 +821,8 @@ def course_registration(request):
         unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
     else:
         unregistered_candidates = Student.objects.all()
+    courses = CourseOffered.objects.all()
+    courses_list=map(lambda x: x.course_code, courses)
 
     unreg_form = None
     reg_form = None
@@ -858,9 +861,7 @@ def course_registration(request):
         reg_form = myformset(queryset=Student.objects.none(), prefix='form2')
     else:
         reg_form = myformset(queryset=Student.objects.filter(student_reg_no__in=registered_candidates), prefix='form2')
-
-
-    return render_to_response('course_registration.html', {'unreg_formset': unreg_form,
+    return render_to_response('course_registration.html', {'select_list' : courses_list,'unreg_formset': unreg_form,
                                                            'reg_formset': reg_form, 'error': ''})
 
 @login_required

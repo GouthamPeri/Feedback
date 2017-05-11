@@ -44,7 +44,7 @@
                                 {% if not form.course_code.value is None %}
                                     <td>{{ form.check }}</td>
                                     <td>{{ form.course_code.value }}</td>
-                                    <td>{{ form.regulation_code.value }}</td>
+                                    <td>{{ form.regulation_code.get_regulation_code_display }}</td>
                                     <td>{{ form.program_code.value }}</td>
                                     <td>{{ form.subject_code.value }}</td>
                                     <td>{{ form.academic_year.value }}</td>

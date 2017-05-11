@@ -169,7 +169,7 @@ class CourseRegistrationForm(forms.ModelForm):
     course_code = forms.ChoiceField()
     class Meta:
         model = Student
-        fields = ['student_reg_no']
+        fields = ['course_code','student_reg_no']
 
 
 class FeedbackTypeForm(forms.ModelForm):
