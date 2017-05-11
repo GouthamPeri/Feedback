@@ -49,21 +49,26 @@
                 <h3>{{ error|safe }}</h3>
             </div>
         {% endif %}
-        <div>
-            <center>
-            <form name="course_select" method="post">
-                <br><br><label>Select Course</label><br><br>
-                {{ selection_form | safe}}
-            </form>
-            </center>
+        <div style="margin: 5% 5% 0% 5%" class="w3-responsive w3-oxblood">
+            <h3 class="w3-center">Course Registration</h3>
         </div>
-        <div style="margin: 5% 5% 2% 5%" class="w3-responsive w3-white">
+        <div style="margin: 0% 5% 2% 5%" class="w3-responsive w3-white">
+             <div style="margin: 3% 5% 2% 5%">
+                <center>
+                <form name="course_select" method="post">
+                    {{ selection_form | safe}}
+                </form>
+                </center>
+            </div>
             <div style="margin: 2% 5% 2% 5%" class="w3-responsive">
                 <table class="w3-table w3-center" >
+                    <col width=45%>
+                    <col width=10%>
+                    <col width=45%>
                     <tr>
                         <td rowspan="5">
                             <table align="left" class="w3-table-all" style="width:50%">
-                                <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
+                                <tr class="w3-blackboard"><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
                                 <form method="post" id="unreg_form" class="form" name="unreg_form">
                                     {% for form in unreg_formset %}
                                         {% if not form.student_reg_no.value is None %}

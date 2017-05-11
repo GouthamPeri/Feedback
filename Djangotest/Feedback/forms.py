@@ -185,7 +185,7 @@ def create_course_selection_form(courses,selected_course=None):
     class CourseSelectionForm(forms.Form):
         course = forms.ChoiceField(choices=choices,
                                    widget=forms.Select(attrs={"onchange": "this.form.submit()",
-                                                                "id": "selected_course"}),
+                                                                "id": "selected_course", 'class': 'w3-select-30'}),
                                    initial=selected_course)
 
     return CourseSelectionForm
