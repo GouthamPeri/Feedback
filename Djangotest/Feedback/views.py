@@ -79,6 +79,10 @@ def dept_admin(request):
 
 
 @login_required
+def student_header(request):
+    return render_to_response("student_header.html", {'username': request.user.username})
+
+@login_required
 @user_passes_test(is_colg_admin)
 def academic_year(request):
     error = ''
@@ -927,3 +931,7 @@ def feedback_type(request):
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
+
+
+def submit_feedback(request):
+    return render_to_response('submit_feedback.html')
