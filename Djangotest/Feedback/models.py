@@ -158,9 +158,10 @@ class Student(models.Model):
 
 class CourseRegistration(models.Model):
     class Meta:
-        unique_together = (('course_code','student_reg_no'),)
+        unique_together = ('course_code', 'student_reg_no',)
+    auto_increment_id = models.AutoField(primary_key=True)
     course_code = models.ForeignKey(CourseOffered, on_delete=models.PROTECT)
-    student_reg_no = models.OneToOneField(Student, primary_key=True, on_delete=models.PROTECT)
+    student_reg_no = models.ForeignKey(Student, on_delete=models.PROTECT)
 
     def __str__(self):
         return str(self.student_reg_no)

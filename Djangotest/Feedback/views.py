@@ -824,13 +824,16 @@ def course_registration(request):
         unregistered_candidates = Student.objects.all()
     courses = CourseOffered.objects.all()
     courses_list=map(lambda x: x.course_code, courses)
-    course_form = create_course_selection_form(courses,course_code.course_code)
+    course_form = create_course_selection_form(courses, course_code.course_code)
     unreg_form = None
     reg_form = None
     if request.method == 'POST':
+        print request.POST
         if "course" in request.POST:
-            print int(request.POST["course"])
-            course_code = CourseOffered.objects.get(course_code=int(request.POST["course"]))
+            course_code_input = request.POST["course"]
+            if type(course_code_input).__name__ == "list":
+                course_code_input = course_code_input[0]
+            course_code = CourseOffered.objects.get(course_code=int(course_code_input))
             course_form = create_course_selection_form(courses, course_code.course_code)
             course_reg_objects = CourseRegistration.objects.filter(course_code=course_code)
             registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
@@ -838,8 +841,9 @@ def course_registration(request):
                 unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
             else:
                 unregistered_candidates = Student.objects.all()
-            request.POST["course"].delete()
         keys = request.POST.keys()
+        if "course" in keys:
+            keys.remove("course")
         if keys:
             submitted_form = keys[0][4]
             indices = [key.split('-')[1] for key in keys]
@@ -852,13 +856,16 @@ def course_registration(request):
             if submitted_form == "1":
                 for i in unreg_indices:
                     candidate = unregistered_candidates[i]
+                    print candidate
+                    print course_code
                     CourseRegistration.objects.create(student_reg_no=candidate, course_code=course_code)
             else:
                 for i in reg_indices:
                     candidate = registered_candidates[i]
-                    CourseRegistration.objects.get(student_reg_no=candidate).delete()
+                    CourseRegistration.objects.get(student_reg_no=candidate, course_code=course_code).delete()
 
-            registered_candidates = map(lambda x: x.student_reg_no,CourseRegistration.objects.filter(course_code=course_code))
+            registered_candidates = map(lambda x: x.student_reg_no,
+                                        CourseRegistration.objects.filter(course_code=course_code))
             if registered_candidates:
                 unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
             else:

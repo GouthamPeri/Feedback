@@ -184,7 +184,8 @@ def create_course_selection_form(courses,selected_course=None):
         choices.append((course.course_code,course.course_code))
     class CourseSelectionForm(forms.Form):
         course = forms.ChoiceField(choices=choices,
-                                     widget=forms.Select(attrs={"onchange": "this.form.submit()"},
-                                                         ), initial=selected_course)
+                                   widget=forms.Select(attrs={"onchange": "this.form.submit()",
+                                                                "id": "selected_course"}),
+                                   initial=selected_course)
 
     return CourseSelectionForm
