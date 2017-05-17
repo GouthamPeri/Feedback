@@ -22,6 +22,14 @@ def is_colg_admin(user):
     return user.groups.filter(name="Colg Admin").exists();
 
 
+def is_student(user):
+    return user.groups.filter(name="Student").exists();
+
+
+def is_faculty(user):
+    return user.groups.filter(name="Faculty").exists();
+
+
 def login_view(request):
     error=''
     if request.method == 'POST':
@@ -36,6 +44,8 @@ def login_view(request):
                     return HttpResponseRedirect('/feedback/dept_admin')
                 elif is_colg_admin(user):
                     return HttpResponseRedirect('/feedback/admin')
+                elif is_student(user):
+                    return HttpResponseRedirect('/feedback/submit_feedback')
                 else:
                     return HttpResponseRedirect('/feedback')
             else:
@@ -68,17 +78,18 @@ def index(request):
 
 @login_required
 @user_passes_test(is_colg_admin)
-def admin(request):
-    return render_to_response("admin.html", {'username': request.user.username})
+def admin_header(request):
+    return render_to_response("admin_header.html", {'username': request.user.username})
 
 
 @login_required
 @user_passes_test(is_dept_admin)
-def dept_admin(request):
-    return render_to_response("dept_admin.html", {'username': request.user.username})
+def dept_admin_header(request):
+    return render_to_response("dept_admin_header.html", {'username': request.user.username})
 
 
 @login_required
+@user_passes_test(is_student)
 def student_header(request):
     return render_to_response("student_header.html", {'username': request.user.username})
 
@@ -190,11 +201,13 @@ def faculty(request):
 
 @login_required
 def change_password(request):
-    admin_page = ''
+    header = ''
     if is_colg_admin(request.user):
-        admin_page = 'admin.html'
+        header = 'admin_header.html'
     elif is_dept_admin(request.user):
-        admin_page = 'dept_admin.html'
+        header = 'dept_admin_header.html'
+    elif is_student(request.user):
+        header = 'student_header.html'
     error = ''
     password_form = ChangePasswordForm()
     if request.method == 'POST':
@@ -216,7 +229,7 @@ def change_password(request):
         password_form = ChangePasswordForm()
 
     return render_to_response('change_password.html', {'password_form':password_form, 'error': error,
-                                                       'username':request.user.username, 'admin_page': admin_page})
+                                                       'username':request.user.username, 'header': header})
 
 
 @login_required
@@ -932,6 +945,65 @@ def feedback_type(request):
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
 
-
+@login_required
+@user_passes_test(is_student)
 def submit_feedback(request):
-    return render_to_response('submit_feedback.html')
+    error=''
+    student_id = request.user.username
+    try:
+        student = Student.objects.get(student_reg_no=student_id)
+        registered_courses = CourseRegistration.objects.filter(student_reg_no=student)
+        questions = FeedbackQuestion.objects.all()
+        student_question_form = create_student_question_form(questions, registered_courses)
+    except:
+        error = "You are not allowed to give feedback"
+
+
+
+    return render_to_response('submit_feedback.html', {'questions': questions, 'error': error, 'courses': registered_courses})
+
+
+@login_required
+@user_passes_test(is_dept_admin)
+def feedback_question(request):
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(FeedbackQuestion, FeedbackQuestionForm, extra=entries)
+    formset = myformset(queryset=FeedbackQuestion.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        if 'add_empty_records' in request.POST:  # add rows
+            entries = int(request.POST['add_empty_records'])
+            myformset = modelformset_factory(FeedbackQuestion, FeedbackQuestionForm, extra=entries)
+            formset = myformset(queryset=FeedbackQuestion.objects.none())
+        elif 'form-0-cycle_no' in request.POST:  # add records
+            formset = myformset(request.POST, queryset=FeedbackQuestion.objects.none())
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=FeedbackQuestion.objects.none())
+            else:
+                error = "ERROR: Already exists/Invalid/Empty records"
+        else:  # delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+            objects = FeedbackQuestion.objects.all()
+            try:
+                for i in indices:
+                    objects[i].delete()
+            except ProtectedError as p:
+                error = str(p)
+                error = error[error.find('"') + 1: error.find('"', 4)]
+            except:
+                error = "ERROR in deletion"
+
+    else:
+        formset = myformset(queryset=FeedbackQuestion.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+
+    return render_to_response('feedback_question.html',
+                              {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                               'database': myformset(), 'username': request.user.username,
+                               'error': error})

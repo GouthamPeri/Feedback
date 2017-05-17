@@ -7,8 +7,9 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^login',views.login_view),
     url(r'^logout',views.logout_view),
-    url(r'^admin', views.admin),
-    url(r'^dept_admin', views.dept_admin),
+    url(r'^admin', views.admin_header),
+    url(r'^dept_admin', views.dept_admin_header),
+    url(r'^student_header', views.student_header),
     url(r'^academic_year', views.academic_year),
     url(r'^faculty', views.faculty),
     url(r'^change_password', views.change_password),
@@ -26,5 +27,5 @@ urlpatterns = [
     url(r'^admin/js/jsi18n.js/$', javascript_catalog),
     url(r'^feedback_type', views.feedback_type),
     url(r'^submit_feedback', views.submit_feedback),
-    url(r'^student_header', views.student_header),
+    url(r'^feedback_question', views.feedback_question),
 ]

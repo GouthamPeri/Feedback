@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import formset_factory
 from .models import *
+import datetime
 from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
@@ -70,7 +71,7 @@ def create_faculty_form(dept_code):
             joining_date = cleaned_data.get("joining_date")
             relieved_date = cleaned_data.get("relieved_date")
             if relieved_date < joining_date:
-                raise forms.ValidationError("WRONG DATES!!!!!")
+                raise forms.ValidationError("WRONG DATES!")
 
     return FacultyForm
 
@@ -177,6 +178,9 @@ class FeedbackTypeForm(forms.ModelForm):
     class Meta:
         model = FeedbackType
         fields = ['cycle_no','feedback_type_desc']
+        widgets = {
+            'feedback_type_desc': forms.Textarea()
+        }
 
 def create_course_selection_form(courses,selected_course=None):
     choices=[]
@@ -189,3 +193,29 @@ def create_course_selection_form(courses,selected_course=None):
                                    initial=selected_course)
 
     return CourseSelectionForm
+
+
+class FeedbackQuestionForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = FeedbackQuestion
+        fields = ['effective_from','cycle_no','question_no','question_text']
+        widgets = {
+            'effective_from': forms.DateInput(attrs={'class': 'datepicker'}),
+            'question_text': forms.Textarea()
+        }
+
+    def clean(self):
+        cleaned_data = super(FeedbackQuestionForm, self).clean()
+        effective_from = cleaned_data.get("effective_from")
+        present_date = datetime.datetime.now().date()
+        if effective_from < present_date:
+            raise forms.ValidationError("WRONG DATES!")
+
+
+def create_student_question_form():
+
+    class StudentQuestion:
+        pass
+
+    return StudentQuestion

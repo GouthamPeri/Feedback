@@ -114,7 +114,7 @@ class FeedbackQuestion(models.Model):
     effective_from = models.DateField()
     cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     question_no = models.IntegerField(primary_key=True)
-    question_text = models.CharField(max_length=100)
+    question_text = models.CharField(max_length=1000)
 
     def __str__(self):
         return str(self.question_no)
