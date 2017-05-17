@@ -213,9 +213,14 @@ class FeedbackQuestionForm(forms.ModelForm):
             raise forms.ValidationError("WRONG DATES!")
 
 
-def create_student_question_form():
+def create_student_question_form(questions,registered_courses):
 
-    class StudentQuestion:
-        pass
-
+    class StudentQuestion(forms.Form):
+        def __init__(self, *args, **kwargs):
+            super(StudentQuestion,self).__init__(*args,**kwargs)
+            for question in questions:
+                key = str(question.question_no)
+                self.fields[key]=forms.CharField(widget=forms.TextInput(attrs={'value' : str(question.question_text)}))
+                for course in registered_courses:
+                    self.fields[key + "_" + str(course.course_code.course_code)]=forms.CharField(widget=forms.TextInput(attrs={'value' : str(course.course_code.course_name)}))
     return StudentQuestion

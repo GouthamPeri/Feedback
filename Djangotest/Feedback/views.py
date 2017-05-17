@@ -950,17 +950,16 @@ def feedback_type(request):
 def submit_feedback(request):
     error=''
     student_id = request.user.username
-    try:
-        student = Student.objects.get(student_reg_no=student_id)
-        registered_courses = CourseRegistration.objects.filter(student_reg_no=student)
-        questions = FeedbackQuestion.objects.all()
-        student_question_form = create_student_question_form(questions, registered_courses)
-    except:
-        error = "You are not allowed to give feedback"
+    student = Student.objects.get(student_reg_no=student_id)
+    registered_courses = CourseRegistration.objects.filter(student_reg_no=student)
+    questions = FeedbackQuestion.objects.all()
+    student_question_form = create_student_question_form(questions, registered_courses)
+    form=student_question_form()
+        #error = "You are not allowed to give feedback"
 
 
 
-    return render_to_response('submit_feedback.html', {'questions': questions, 'error': error, 'courses': registered_courses})
+    return render_to_response('submit_feedback.html', {'error': error,'form' : form})
 
 
 @login_required
