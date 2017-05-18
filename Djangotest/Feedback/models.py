@@ -42,6 +42,11 @@ class Regulation(models.Model):
     def __str__(self):
         return self.regulation_code
 
+    def get_reg_code(self):
+        print "Ssadad"
+
+        return str(self.regulation_code)
+
 
 class Program(models.Model):
     program_code = models.IntegerField(primary_key=True)
@@ -84,6 +89,11 @@ class ProgramStructure(models.Model):
 
     def __str__(self):
         return self.subject_code
+
+    @property
+    def get_reg_code(self):
+        print "sadad"
+        return str(self.regulation_code.regulation_code)
 
 
 class SubjectOption(models.Model):
@@ -132,6 +142,12 @@ class CourseOffered(models.Model):
 
     def __str__(self):
         return str(self.course_code)
+
+    @property
+    def get_reg_code(self):
+        print "hi"
+        print str(self.regulation_code.regulation_code.regulation_code)
+        return str(self.regulation_code.regulation_code.regulation_code)
 
 
 class StudentType(models.Model):

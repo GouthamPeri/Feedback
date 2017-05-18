@@ -845,7 +845,6 @@ def course_registration(request):
     unreg_form = None
     reg_form = None
     if request.method == 'POST':
-        print request.POST
         if "course" in request.POST:
             course_code_input = request.POST["course"]
             if type(course_code_input).__name__ == "list":
@@ -870,11 +869,11 @@ def course_registration(request):
             reg_indices = map(int, indices)
             unreg_indices.sort(reverse=True)
             reg_indices.sort(reverse=True)
+            unregistered_candidates = sorted(unregistered_candidates, key=lambda x:x.student_reg_no)
+            registered_candidates = sorted(registered_candidates, key=lambda x:x.student_reg_no)
             if submitted_form == "1":
                 for i in unreg_indices:
                     candidate = unregistered_candidates[i]
-                    print candidate
-                    print course_code
                     CourseRegistration.objects.create(student_reg_no=candidate, course_code=course_code)
             else:
                 for i in reg_indices:

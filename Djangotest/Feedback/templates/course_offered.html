@@ -45,9 +45,21 @@
                                 {% if not form.course_code.value is None %}
                                     <td>{{ form.check }}</td>
                                     <td>{{ form.course_code.value }}</td>
-                                    <td>{{ form.regulation_code.get_regulation_code_display }}</td>
-                                    <td>{{ form.program_code.value }}</td>
-                                    <td>{{ form.subject_code.value }}</td>
+                                    {% for value, text in form.regulation_code.field.choices %}
+                                        {% if value == form.regulation_code.value %}
+                                        <td>{{ text }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for value, text in form.program_code.field.choices %}
+                                        {% if value == form.program_code.value %}
+                                        <td>{{ text }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for value, text in form.subject_code.field.choices %}
+                                        {% if value == form.subject_code.value %}
+                                        <td>{{ text }}</td>
+                                        {% endif %}
+                                    {% endfor %}
                                     <td>{{ form.academic_year.value }}</td>
                                     <td>{{ form.semester.value }}</td>
                                     <td>{{ form.course_name.value }}</td>
