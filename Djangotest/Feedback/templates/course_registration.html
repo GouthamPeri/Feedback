@@ -25,6 +25,25 @@
                 form.submit()
             }
         </script>
+        <script>
+        $(document).ready(function(){
+           $( "#search" ).keyup(function(){
+                regdnos=[];
+                regdnos = $('.regdno').map(function () { return $(this).text(); }).get();
+                var search = $('#search').val();
+                var arrayLength = regdnos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                   if ( regdnos[i].indexOf(search) == -1 ) {
+                           $('.'+regdnos[i]).hide()
+                    }
+                    else
+                    {
+                         $('.'+regdnos[i]).show()
+                    }
+                }
+            });
+        });
+        </script>
         <!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />-->
         <style>
             .reset{
@@ -69,12 +88,18 @@
                         <td rowspan="5">
                             <table align="left" class="w3-table-all" style="width:50%">
                                 <tr class="w3-blackboard"><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
-                                <form method="post" id="unreg_form" class="form" name="unreg_form">
+                                <form method="post" id="unreg_form" class="form" name="unreg_form" onload="filter()">
+                                    <tr><td colspan="2">
+                                        <form method="post">
+                                            <input type="text" id="search">
+                                        </form>
+                                        </td>
+                                    </tr>
                                     {% for form in unreg_formset %}
                                         {% if not form.student_reg_no.value is None %}
                                         <tr>
-                                            <td>{{ form.check }}</td>
-                                            <td class="w3-padding-right">{{ form.student_reg_no.value }}</td>
+                                            <td class="{{ form.student_reg_no.value }}">{{ form.check }}</td>
+                                            <td class="w3-padding-right regdno {{ form.student_reg_no.value }}">{{ form.student_reg_no.value }}</td>
                                         </tr>
                                         {% endif %}
                                     {% endfor %}
