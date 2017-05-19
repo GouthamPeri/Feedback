@@ -1,0 +1,48 @@
+{% load static %}
+<html>
+    <head>
+        <script src="{% static 'include.js' %}">
+        </script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+        </style>
+    </head>
+  <body style="background-color:#C63D0F">
+        <div w3-include-html="student_header.html"></div>
+        {% if error %}
+            <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">
+                <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                <h3>{{ error|safe }}</h3>
+            </div>
+        {% endif %}
+        <div>
+            <form method="post">
+            <table class="w3-margin w3-table" border="1px" align="center">
+                <caption>Comments</caption>
+            {% for course in courses %}
+                <tr>
+                    <td>
+                        {{ course }}
+                    </td>
+                    <td>
+                        <input type="text" name="email" size="100" style="width:500px">
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+                <center>
+                    <input class="w3-btn" type="submit" value="Submit">
+                </center>
+            </form>
+            </div>
+  </body>
+<script>
+    w3IncludeHTML();
+</script>
+</html>

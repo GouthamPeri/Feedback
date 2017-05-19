@@ -212,23 +212,3 @@ class FeedbackQuestionForm(forms.ModelForm):
         if effective_from < present_date:
             raise forms.ValidationError("WRONG DATES!")
 
-
-def create_student_question_form(questions, registered_courses):
-    CHOICES = (
-        ('5', 'Excellent'),
-        ('4', 'Very Good'),
-        ('3', 'Satisfactory'),
-        ('2', 'Average'),
-        ('1', 'Poor'),
-    )
-    class StudentQuestion(forms.Form):
-
-        def __init__(self, *args, **kwargs):
-            super(StudentQuestion,self).__init__(*args,**kwargs)
-            for question in questions:
-                key = str(question.question_no)
-                self.fields[key]=forms.CharField(widget=forms.TextInput(attrs={'value' : str(question.question_text)}))
-                for course in registered_courses:
-                    self.fields[key + "_" + str(course.course_code.course_code)] = forms.CharField(widget=forms.TextInput(attrs={'value' : str(course.course_code.course_name)}))
-                    self.fields[key + "_" + str(course.course_code.course_code) + "_rating"] = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
-    return StudentQuestion

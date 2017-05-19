@@ -971,6 +971,19 @@ def submit_feedback(request):
 
 
 @login_required
+@user_passes_test(is_student)
+def submit_comment(request):
+    error=''
+    student_id = request.user.username
+    student = Student.objects.get(student_reg_no=student_id)
+    registered_courses = CourseRegistration.objects.filter(student_reg_no=student)
+    course_names = [course.course_code.course_name for course in registered_courses]
+    questions = FeedbackQuestion.objects.all()
+
+    return render_to_response('submit_comment.html', {'error': error, 'courses': course_names})
+
+
+@login_required
 @user_passes_test(is_dept_admin)
 def feedback_question(request):
     error = ''

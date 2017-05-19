@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^admin/js/jsi18n.js/$', javascript_catalog),
     url(r'^feedback_type', views.feedback_type),
     url(r'^submit_feedback', views.submit_feedback),
+    url(r'^submit_comment', views.submit_comment),
     url(r'^feedback_question', views.feedback_question),
 ]
