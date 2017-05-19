@@ -230,5 +230,5 @@ def create_student_question_form(questions, registered_courses):
                 self.fields[key]=forms.CharField(widget=forms.TextInput(attrs={'value' : str(question.question_text)}))
                 for course in registered_courses:
                     self.fields[key + "_" + str(course.course_code.course_code)] = forms.CharField(widget=forms.TextInput(attrs={'value' : str(course.course_code.course_name)}))
-                    # self.fields[key + "_" + str(course.course_code.course_code) + "_rating"] =
+                    self.fields[key + "_" + str(course.course_code.course_code) + "_rating"] = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
     return StudentQuestion
