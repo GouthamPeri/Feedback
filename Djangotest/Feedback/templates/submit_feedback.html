@@ -37,44 +37,50 @@
                 <h3>{{ error|safe }}</h3>
             </div>
         {% endif %}
-        <div style="margin: 50px 25px 0% 25px" class="w3-container">
-            {% for question in questions %}
-            <div style="background-color:#FFF" class="question_tile  w3-card-8">
-                <table style="background-color:#FFF" class="w3-margin ">
-                <tr>
-                    <td class="question w3-margin w3-xlarge">
-                        <span>{{ question.question_no }}. </span>{{ question.question_text }}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="options">
-                        <table style="background-color:#FFF" class="w3-table w3-hoverable w3-center w3-margin-right">
-                            <th></th>
-                            <th>Excellent</th>
-                            <th>Very Good</th>
-                            <th>Satisfactory</th>
-                            <th>Average</th>
-                            <th>Poor</th>
-                            {% for course in courses %}
-                               <tr class="w3-padding-large">
-                                   <td> {{ course }} </td>
-                                   <td> <input type="radio" name="{{ question }}_{{ course }}" value="5" class="w3-radio" checked></td>
-                                   <td> <input type="radio" name="{{ question }}_{{ course }}" value="4" class="w3-radio"></td>
-                                   <td> <input type="radio" name="{{ question }}_{{ course }}" value="3" class="w3-radio"></td>
-                                   <td> <input type="radio" name="{{ question }}_{{ course }}" value="2" class="w3-radio"></td>
-                                   <td> <input type="radio" name="{{ question }}_{{ course }}" value="1" class="w3-radio"></td>
-                               </tr>
-                            {% endfor %}
+        <form method="post">
+            <div style="margin: 50px 25px 0% 25px" class="w3-container">
+                {% for question in questions %}
+                    <div style="background-color:#FFF" class="question_tile  w3-card-8">
+                        <table style="background-color:#FFF" class="w3-margin ">
+                            <tr>
+                                <td class="question w3-margin w3-xlarge">
+                                    <span>{{ question.question_no }}. </span>{{ question.question_text }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="options">
+                                    <table style="background-color:#FFF" class="w3-table w3-hoverable w3-center w3-margin-right">
+                                        <th></th>
+                                        <th>Excellent</th>
+                                        <th>Very Good</th>
+                                        <th>Satisfactory</th>
+                                        <th>Average</th>
+                                        <th>Poor</th>
+                                        {% for course in courses %}
+                                           <tr class="w3-padding-large">
+                                               <td> {{ course }} </td>
+                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="5" class="w3-radio" checked></td>
+                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="4" class="w3-radio"></td>
+                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="3" class="w3-radio"></td>
+                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="2" class="w3-radio"></td>
+                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="1" class="w3-radio"></td>
+                                           </tr>
+                                        {% endfor %}
 
+                                    </table>
+                                </td>
+                            </tr>
                         </table>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                {% endfor %}
+
             </div>
-
-            {% endfor %}
-
-        </div>
+            {% if questions %}
+            <div class="w3-center w3-margin w3-padding w3-container">
+                <button class="w3-btn w3-white w3-hover-green w3-round w3-large">Submit Feedback</button>
+            </div>
+            {% endif %}
+        </form>
     </body>
     <script>
     w3IncludeHTML();

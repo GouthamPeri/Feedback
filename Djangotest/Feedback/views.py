@@ -952,7 +952,20 @@ def submit_feedback(request):
     student = Student.objects.get(student_reg_no=student_id)
     registered_courses = CourseRegistration.objects.filter(student_reg_no=student)
     course_names = [course.course_code.course_name for course in registered_courses]
+    course_count = len(course_names)
     questions = FeedbackQuestion.objects.all()
+    question_count = len(questions)
+    if request.method == 'POST':
+        keys = request.POST.keys()
+        print (course_count, question_count)
+        for i in range(course_count):
+            course_name = course_names[i]
+            course_ratings = {}
+            for j in range(question_count):
+                rating = request.POST[keys[i*course_count + j]][0]
+                course_ratings[rating] = course_ratings.get(rating, 0) + 1
+            print course_name, course_ratings
+
 
     return render_to_response('submit_feedback.html', {'error': error, 'questions':questions, 'courses': course_names})
 
