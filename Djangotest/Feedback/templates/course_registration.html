@@ -84,13 +84,13 @@
         tbody, thead tr { display: block; }
 
         .scroll tbody {
-            height: 200px;
+            height: 400px;
             overflow-y: auto;
             overflow-x: hidden;
         }
 
         .scroll tbody td, .scroll thead th {
-            width: 140px;
+            width: 1000px;
         }
 
         .scroll thead th:last-child {
@@ -120,15 +120,16 @@
             </div>
             <div style="margin: 2% 5% 2% 5%" class="w3-responsive w3-center">
 
-                <table width="100%" class="w3-table w3-center" align="center">
+                <table class="w3-table w3-center" align="center">
                     <tr>
-                        <td rowspan="5">
+                        <td width="40%" rowspan="5">
                             <table align="center" class="w3-table-all scroll" style="width:50%">
                                 <thead>
                                     <tr class="w3-blackboard"><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
                                     <tr>
-                                        <td colspan="2">
-                                            <input type="text" id="searchleft">
+                                        <td><img src="{% static 'search_icon.png' %}" width="30px" height="30px"></td>
+                                        <td>
+                                            <input class="w3-input" type="text" id="searchleft">
                                         </td>
                                     </tr>
                                 </thead>
@@ -146,13 +147,15 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td></td>
-                        <td rowspan="5">
-                            <table align="center " class="w3-table-all scroll" style="width:50%">
+                        <td width="20%"></td>
+                        <td width="40%" rowspan="5">
+                            <table align="center" class="w3-table-all scroll" style="width:50%">
                                 <thead>
                                     <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Registered Candidates</td></tr>
-                                    <tr><td colspan="2">
-                                            <input type="text" id="searchright">
+                                    <tr>
+                                        <td><img src="{% static 'search_icon.png' %}" width="30px" height="30px"></td>
+                                        <td>
+                                            <input class="w3-input" type="text" id="searchright">
                                         </td>
                                     </tr>
                                 </thead>
@@ -171,19 +174,23 @@
                             </table>
                         </td>
                     </tr>
-                    <tr><td>
+                    <tr>
+                        <td class="w3-center">
                         <!--document.forms['unreg_form'].submit()-->
                         <button onclick="submit('unreg_form')"
                                 class="reset w3-btn-floating w3-blackboard"
                                 style="margin-top:35px">&rarr;
                         </button>
-                    </td></tr>
-                    <tr><td>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td class="w3-center">
                         <button onclick="submit('reg_form')"
                                 class="reset w3-btn-floating w3-blackboard"
                                 style="margin-top:35px">&larr;
                         </button>
-                    </td></tr>
+                    </td>
+                    </tr>
                     <tr><td></td></tr>
                     <tr><td></td></tr>
                 </table>
