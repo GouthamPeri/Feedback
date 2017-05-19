@@ -70,6 +70,10 @@
             select{
                 width:300px;
             }
+            .scroll{
+                overflow:scroll;
+                height:20px;
+            }
             .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
             .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
         </style>
@@ -99,7 +103,8 @@
                     <col width=45%>
                     <col width=10%>
                     <col width=45%>
-                    <tr>
+                    <tbody>
+                    <tr class="scroll">
                         <td rowspan="5">
                             <table align="left" class="w3-table-all" style="width:50%">
                                 <tr class="w3-blackboard"><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
@@ -157,11 +162,15 @@
                     </td></tr>
                     <tr><td></td></tr>
                     <tr><td></td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </body>
     <script>
+    $(document).function(){
+
+    }
         w3IncludeHTML();
     </script>
 </html>

@@ -21,24 +21,24 @@
                 <h3>{{ error|safe }}</h3>
             </div>
         {% endif %}
-        <div>
+        <div class="w3-container">
             <form method="post">
-            <table class="w3-margin w3-table" border="1px" align="center">
-                <caption>Comments</caption>
-            {% for course in courses %}
-                <tr>
-                    <td>
-                        {{ course }}
-                    </td>
-                    <td>
-                        <input type="text" name="email" size="100" style="width:500px">
-                    </td>
-                </tr>
-            {% endfor %}
+            <table class="w3-center w3-padding w3-margin-right w3-table w3-white w3-card-8" align="center">
+                <caption class="w3-text-white w3-margin w3-xlarge">Comments</caption>
+                {% for course in courses %}
+                    <tr>
+                        <td valign="middle">
+                            {{ course }}
+                        </td>
+                        <td width="50%">
+                            <textarea rows="2" cols="60"></textarea>
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
-                <center>
-                    <input class="w3-btn" type="submit" value="Submit">
-                </center>
+            <center>
+                <input class="w3-btn w3-margin w3-round-large w3-hover-green w3-large" type="submit" value="Submit Comments">
+            </center>
             </form>
             </div>
   </body>
