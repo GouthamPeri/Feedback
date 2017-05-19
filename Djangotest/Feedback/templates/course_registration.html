@@ -76,6 +76,26 @@
             }
             .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
             .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
+        .scroll {
+            width: 716px; /* 140px * 5 column + 16px scrollbar width */
+            border-spacing: 0;
+        }
+
+        tbody, thead tr { display: block; }
+
+        .scroll tbody {
+            height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .scroll tbody td, .scroll thead th {
+            width: 140px;
+        }
+
+        .scroll thead th:last-child {
+            width: 156px; /* 140px + 16px scrollbar width */
+        }
         </style>
         {{ form.media }}
     </head>
@@ -98,22 +118,22 @@
                 </form>
                 </center>
             </div>
-            <div style="margin: 2% 5% 2% 5%" class="w3-responsive">
-                <table class="w3-table w3-center" >
-                    <col width=45%>
-                    <col width=10%>
-                    <col width=45%>
-                    <tbody>
-                    <tr class="scroll">
-                        <td rowspan="5">
-                            <table align="left" class="w3-table-all" style="width:50%">
-                                <tr class="w3-blackboard"><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
-                                <form method="post" id="unreg_form" class="form" name="unreg_form">
-                                    <tr><td colspan="2">
-                                            <input type="text" id="searchleft">
+            <div style="margin: 2% 5% 2% 5%" class="w3-responsive w3-center">
 
+                <table width="100%" class="w3-table w3-center" align="center">
+                    <tr>
+                        <td rowspan="5">
+                            <table align="center" class="w3-table-all scroll" style="width:50%">
+                                <thead>
+                                    <tr class="w3-blackboard"><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="text" id="searchleft">
                                         </td>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                <form method="post" id="unreg_form" class="form" name="unreg_form">
                                     {% for form in unreg_formset %}
                                         {% if not form.student_reg_no.value is None %}
                                         <tr>
@@ -123,18 +143,21 @@
                                         {% endif %}
                                     {% endfor %}
                                 </form>
+                                </tbody>
                             </table>
                         </td>
                         <td></td>
                         <td rowspan="5">
-                            <table align="right" class="w3-table-all" style="width:50%">
-                                <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Registered Candidates</td></tr>
-                                <form method="post" id="reg_form" class="form" name="reg_form">
+                            <table align="center " class="w3-table-all scroll" style="width:50%">
+                                <thead>
+                                    <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Registered Candidates</td></tr>
                                     <tr><td colspan="2">
                                             <input type="text" id="searchright">
-
                                         </td>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                <form method="post" id="reg_form" class="form" name="reg_form">
                                     {% for form in reg_formset %}
                                         {% if not form.student_reg_no.value is None %}
                                         <tr>
@@ -144,6 +167,7 @@
                                         {% endif %}
                                     {% endfor %}
                                 </form>
+                                </tbody>
                             </table>
                         </td>
                     </tr>
@@ -162,15 +186,12 @@
                     </td></tr>
                     <tr><td></td></tr>
                     <tr><td></td></tr>
-                    </tbody>
                 </table>
             </div>
         </div>
     </body>
     <script>
-    $(document).function(){
 
-    }
         w3IncludeHTML();
     </script>
 </html>
