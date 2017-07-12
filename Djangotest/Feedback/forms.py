@@ -159,6 +159,12 @@ class ProgramStructureForm(forms.ModelForm):
 
 
 
+class CourseFeedbackAssignmentViewForm(forms.ModelForm):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
+    class Meta:
+        model = CourseFeedbackAssignment
+        fields = ['course_code', 'cycle_no', 'start_date', 'end_date']
+
 class CourseFeedbackAssignmentForm(forms.ModelForm):
     check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
 

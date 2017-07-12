@@ -1056,8 +1056,7 @@ def course_feedback_assignment(request):
 def create_course_feedback_assignment(request):
 
     error = ''
-    course_feedback_objects = CourseFeedbackAssignment.objects.annotate(Count('course_code'), Count('cycle_no')).distinct()
-    print course_feedback_objects
+    course_feedback_objects = CourseFeedbackAssignment.objects.values_list('course_code__course_code__course_code','cycle_no__cycle_no','start_date','end_date').distinct()
     deleteform = DeleteForm()
     if request.method == 'POST':
         if 'course_code' in request.POST: # add records
@@ -1102,6 +1101,6 @@ def create_course_feedback_assignment(request):
     return render_to_response('course_feedback_view.html', {
                             'deleteform': deleteform,
                             'form': CourseFeedbackAssignmentForm(),
-                            'database': modelformset_factory(CourseFeedbackAssignment, CourseFeedbackAssignmentForm)(queryset=course_feedback_objects),
+                            'database': course_feedback_objects,
                             'username': request.user.username,
                             'error': error})
