@@ -192,8 +192,8 @@ class CourseFeedbackAssignment(models.Model):
     cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    feedback_weighting = models.IntegerField()
-    is_given = models.IntegerField()
+    feedback_weighting = models.IntegerField(default=2)
+    is_given = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.course_code) + self.student_reg_no

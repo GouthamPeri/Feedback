@@ -780,53 +780,6 @@ def program_structure(request):
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
 
-
-@login_required
-@user_passes_test(is_dept_admin)
-def course_feedback_assignment(request):
-    error = ''
-    entries = 1
-    myformset = modelformset_factory(CourseFeedbackAssignment, CourseFeedbackAssignmentForm, extra=entries)
-    formset = myformset(queryset=CourseFeedbackAssignment.objects.none())
-    countform = FieldCountForm()
-    deleteform = DeleteForm()
-    if request.method == 'POST':
-        if 'add_empty_records' in request.POST:  # add rows
-            entries = int(request.POST['add_empty_records'])
-
-            myformset = modelformset_factory(CourseFeedbackAssignment, CourseFeedbackAssignmentForm, extra=entries)
-            formset = myformset(queryset=CourseFeedbackAssignment.objects.none())
-        elif 'form-0-regulation_code' in request.POST:  # add records
-            formset = myformset(request.POST, queryset=CourseFeedbackAssignment.objects.none())
-            if formset.is_valid():
-                formset.save()
-                formset = myformset(queryset=CourseFeedbackAssignment.objects.none())
-            else:
-                error = "ERROR: Already exists/Invalid/Empty records"
-        else:  # delete selected records
-            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = map(int, indices)
-            indices.sort(reverse=True)
-            objects = CourseFeedbackAssignment.objects.all()
-            try:
-                for i in indices:
-                    objects[i].delete()
-            except ProtectedError as p:
-                error = str(p)
-                error = error[error.find('"') + 1: error.find('"', 4)]
-            except:
-                error = "ERROR: Course  does not exist/Error performing deletion"
-
-    else:
-        formset = myformset(queryset=CourseFeedbackAssignment.objects.none())
-        countform = FieldCountForm()
-        deleteform = DeleteForm()
-
-    return render_to_response('program_structure.html',
-                              {'formset': formset, 'countform': countform, 'deleteform': deleteform,
-                               'database': myformset(), 'username': request.user.username,
-                               'error': error})
-
 @login_required
 @user_passes_test(is_dept_admin)
 def course_registration(request):
@@ -899,7 +852,7 @@ def course_registration(request):
                                                            'reg_formset': reg_form, 'error': ''})
 
 @login_required
-@user_passes_test(is_dept_admin)
+@user_passes_test(is_colg_admin)
 def feedback_type(request):
     error = ''
     entries = 1
@@ -984,7 +937,7 @@ def submit_comment(request):
 
 
 @login_required
-@user_passes_test(is_dept_admin)
+@user_passes_test(is_colg_admin)
 def feedback_question(request):
     error = ''
     entries = 1
@@ -1027,3 +980,68 @@ def feedback_question(request):
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
+
+
+@login_required
+@user_passes_test(is_dept_admin)
+def course_feedback_assignment(request):
+    entries = 1
+
+    courses = map(lambda x: x.course_code, CourseOffered.objects.all())
+    cycles = map(lambda x: x.cycle_no, FeedbackType.objects.all())
+    course_feedback_assignment_form = None
+
+    students = Student.objects.filter(course_code=courses[0])
+
+
+    if request.method == 'POST':
+
+        selected_course = request.POST["selected_course"]
+        students = Student.objects.filter(course_code=selected_course)
+
+        if "course" in request.POST:
+            course_code_input = request.POST["course"]
+            cycle_no = request.POST["cycle_no"]
+            if type(course_code_input).__name__ == "list":
+                course_code_input = course_code_input[0]
+            course_code = CourseOffered.objects.get(course_code=int(course_code_input))
+            cycle = FeedbackType.objects.get(cycle_no=int(cycle_no))
+
+            
+            low_weightage = students
+            high_weightage = None
+
+        keys = request.POST.keys()
+        if "course" in keys:
+            keys.remove("course")
+        if keys:
+            submitted_form = keys[0][4]
+            indices = [key.split('-')[1] for key in keys]
+            low_weightage_indices = filter(lambda x: "form1" in x, indices)
+            high_weightage_indices = filter(lambda x: "form2" in x, indices)
+            low_weightage_indices = map(int, indices)
+            high_weightage_indices = map(int, indices)
+            low_weightage_indices.sort(reverse=True)
+            high_weightage_indices.sort(reverse=True)
+            low_weightage_candidates = sorted(low_weightage_candidates, key=lambda x:x.student_reg_no)
+            high_weightage_candidates = sorted(high_weightage_candidates, key=lambda x:x.student_reg_no)
+            if submitted_form == "1":
+                for i in unreg_indices:
+                    candidate = unregistered_candidates[i]
+                    CourseRegistration.objects.create(student_reg_no=candidate, course_code=course_code)
+            else:
+                for i in reg_indices:
+                    candidate = registered_candidates[i]
+                    CourseRegistration.objects.get(student_reg_no=candidate, course_code=course_code).delete()
+
+            registered_candidates = map(lambda x: x.student_reg_no,
+                                        CourseRegistration.objects.filter(course_code=course_code))
+            if registered_candidates:
+                unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
+            else:
+                unregistered_candidates = Student.objects.all()
+
+
+    return render_to_response('course_feedback_assignment.html', {
+        'assgn_form' : course_feedback_assignment_form,
+        'error': ''})

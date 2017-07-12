@@ -158,11 +158,29 @@ class ProgramStructureForm(forms.ModelForm):
                    'number_hpw','number_credits']
 
 
-class CourseFeedbackAssignmentForm(forms.ModelForm):
-    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
-    class Meta:
-        model = CourseFeedbackAssignment
-        fields = ['course_code', 'student_reg_no', 'cycle_no', 'start_date', 'end_date', 'feedback_weighting', 'is_given']
+def create_course_feedback_assignment_form(courses,cycles,selected_course,selected_cycle):
+    course_choices = []
+    cycle_choices = []
+    for course in courses:
+        course_choices.append((course.course_code,course.course_code))
+
+    for cycle in cycles:
+        cycle_choices.append((cycle.cycle_no,cycle.cycle_no))
+
+    class CourseFeebackAssignmentForm(forms.Form):
+        course = forms.ChoiceField(choices=course_choices,
+                                   widget=forms.Select(attrs={"onchange": "this.form.submit()",
+                                                                "id": "selected_course", 'class': 'w3-select-30'}),
+                                   initial=selected_course)
+
+        cycle = forms.ChoiceField(choices=cycle_choices,
+                                   widget=forms.Select(attrs={"onchange": "this.form.submit()",
+                                                              "id": "selected_cycle", 'class': 'w3-select-30'}),
+                                   initial=selected_cycle)
+        starting_date = forms.DateInput(attrs={'class': 'datepicker'})
+        ending_date = forms.DateInput(attrs={'class': 'datepicker'})
+
+    return CourseFeebackAssignmentForm
 
 
 class CourseRegistrationForm(forms.ModelForm):
@@ -211,4 +229,5 @@ class FeedbackQuestionForm(forms.ModelForm):
         present_date = datetime.datetime.now().date()
         if effective_from < present_date:
             raise forms.ValidationError("WRONG DATES!")
+
 
