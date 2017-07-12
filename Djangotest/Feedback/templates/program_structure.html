@@ -47,7 +47,11 @@
                                 {% if not form.subject_type.value is None %}
                                     <td>{{ form.check }}</td>
                                     <td>{{ form.regulation_code.value }}</td>
-                                    <td>{{ form.program_code.value }}</td>
+                                    {% for value, text in form.program_code.field.choices %}
+                                        {% if value == form.program_code.value %}
+                                        <td>{{ text }}</td>
+                                        {% endif %}
+                                    {% endfor %}
                                     <td>{{ form.semester.value }}</td>
                                     <td>{{ form.subject_code.value }}</td>
                                     <td>{{ form.subject_name.value }}</td>
