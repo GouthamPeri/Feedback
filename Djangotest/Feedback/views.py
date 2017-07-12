@@ -987,11 +987,12 @@ def feedback_question(request):
 def course_feedback_assignment(request):
     entries = 1
 
-    courses = map(lambda x: x.course_code, CourseOffered.objects.all())
+    courses = map(lambda x: x.course_code, CourseRegistration.objects.all())
     cycles = map(lambda x: x.cycle_no, FeedbackType.objects.all())
     course_feedback_assignment_form = None
 
-    students = Student.objects.filter(course_code=courses[0])
+    high_weightage_candidates = map(lambda x: x.student_reg_no, CourseFeedbackAssignment.objects.filter(feedback_weighting=2))
+    low_weightage_candidates = map(lambda x: x.student_reg_no, CourseFeedbackAssignment.objects.filter(feedback_weighting=1))
 
 
     if request.method == 'POST':
@@ -1004,12 +1005,9 @@ def course_feedback_assignment(request):
             cycle_no = request.POST["cycle_no"]
             if type(course_code_input).__name__ == "list":
                 course_code_input = course_code_input[0]
-            course_code = CourseOffered.objects.get(course_code=int(course_code_input))
+            course_code = CourseRegistration.objects.get(course_code=int(course_code_input))
             cycle = FeedbackType.objects.get(cycle_no=int(cycle_no))
 
-            
-            low_weightage = students
-            high_weightage = None
 
         keys = request.POST.keys()
         if "course" in keys:
@@ -1019,19 +1017,23 @@ def course_feedback_assignment(request):
             indices = [key.split('-')[1] for key in keys]
             low_weightage_indices = filter(lambda x: "form1" in x, indices)
             high_weightage_indices = filter(lambda x: "form2" in x, indices)
-            low_weightage_indices = map(int, indices)
-            high_weightage_indices = map(int, indices)
+            low_weightage_indices = map(int, low_weightage_indices)
+            high_weightage_indices = map(int, high_weightage_indices)
             low_weightage_indices.sort(reverse=True)
             high_weightage_indices.sort(reverse=True)
             low_weightage_candidates = sorted(low_weightage_candidates, key=lambda x:x.student_reg_no)
             high_weightage_candidates = sorted(high_weightage_candidates, key=lambda x:x.student_reg_no)
             if submitted_form == "1":
-                for i in unreg_indices:
-                    candidate = unregistered_candidates[i]
-                    CourseRegistration.objects.create(student_reg_no=candidate, course_code=course_code)
+                for i in low_weightage_indices:
+                    candidate = low_weightage_candidates[i]
+                    CourseFeedbackAssignment.objects.filter(
+                        course_code = course_code,
+                        cycle_no = cycle,
+                        student_reg_no = candidate
+                    ).update()
             else:
-                for i in reg_indices:
-                    candidate = registered_candidates[i]
+                for i in high_weightage_indices:
+                    candidate = high_weightage_candidates[i]
                     CourseRegistration.objects.get(student_reg_no=candidate, course_code=course_code).delete()
 
             registered_candidates = map(lambda x: x.student_reg_no,
