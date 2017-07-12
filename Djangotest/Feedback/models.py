@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.test import tag
 
 
 class AcademicYear(models.Model):
@@ -182,21 +183,25 @@ class CourseRegistration(models.Model):
     def __str__(self):
         return str(self.student_reg_no)
 
+    @property
+    def code(self):
+        return str(self.course_code)
+
 
 
 class CourseFeedbackAssignment(models.Model):
     class Meta:
         unique_together = (('course_code', 'student_reg_no', 'cycle_no'),)
-    course_code = models.ForeignKey(CourseRegistration, related_name='CourseRegistration_course_code', on_delete=models.PROTECT)
+    course_code = models.ForeignKey(CourseRegistration, related_name='course_code_set', on_delete=models.PROTECT)
     student_reg_no = models.OneToOneField(CourseRegistration, primary_key=True, related_name='CourseRegistration_student_reg_no', on_delete=models.PROTECT)
     cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    feedback_weighting = models.IntegerField()
-    is_given = models.IntegerField()
+    feedback_weighting = models.IntegerField(default=2)
+    is_given = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.course_code) + self.student_reg_no
+        return str(self.course_code)
 
 
 class FeedbackCommentLog(models.Model):
