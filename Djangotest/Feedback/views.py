@@ -993,14 +993,9 @@ def manage_course_feedback_assignment(request):
     entries = 1
 
     course_code, cycle_no  = map(int, request.GET['manage'].split('-'))
-    course = CourseRegistration.objects.filter(course_code=int(course_code)).first()
     cycle = FeedbackType.objects.get(cycle_no=int(cycle_no))
 
     students = CourseRegistration.objects.filter(course_code__course_code=course_code)
-    courses = map(lambda x: x.course_code, students)
-    cycles = map(lambda x: x.cycle_no, FeedbackType.objects.filter(cycle_no=cycle_no))
-    course_feedback_assignment_form = None
-    myformset = modelformset_factory(Student, StudentForm, extra=entries)
 
     course_feedback_object = CourseFeedbackAssignment.objects.filter(course_code__course_code=course_code,
                                                                      cycle_no__cycle_no=cycle_no)[0]
@@ -1028,8 +1023,18 @@ def manage_course_feedback_assignment(request):
                                                                             course_code__course_code__course_code=course_code,
                                                                             cycle_no=cycle).order_by('student_reg_no__student_reg_no__student_reg_no'))
 
+    candidates_given = map(lambda x: x.student_reg_no,
+                                    CourseFeedbackAssignment.objects.filter(is_given=1,
+                                                                            course_code__course_code__course_code=course_code,
+                                                                            cycle_no=cycle).order_by('student_reg_no__student_reg_no__student_reg_no'))
+
+    candidates_not_given = map(lambda x: x.student_reg_no,
+                                        CourseFeedbackAssignment.objects.filter(is_given=0,
+                                                                                course_code__course_code__course_code=course_code,
+                                                                                cycle_no=cycle).order_by('student_reg_no__student_reg_no__student_reg_no'))
 
     if request.method == 'POST':
+
 
         #Course from post
         course_code = request.POST['course_code']
@@ -1045,7 +1050,6 @@ def manage_course_feedback_assignment(request):
             indices = map(int, indices)
             indices.sort(reverse=True)
 
-
             if submitted_form == "1":
                 for i in indices:
                     candidate = low_weightage_candidates[i]
@@ -1054,7 +1058,7 @@ def manage_course_feedback_assignment(request):
                         cycle_no__cycle_no=cycle_no,
                         student_reg_no__student_reg_no__student_reg_no=candidate
                     ).update(feedback_weighting=2)
-            else:
+            elif submitted_form == "2":
                 for i in indices:
                     candidate = high_weightage_candidates[i]
                     CourseFeedbackAssignment.objects.filter(
@@ -1062,12 +1066,50 @@ def manage_course_feedback_assignment(request):
                         cycle_no__cycle_no=cycle_no,
                         student_reg_no__student_reg_no__student_reg_no=candidate
                     ).update(feedback_weighting=1)
+            elif submitted_form == "3":
+                for i in indices:
+                    candidate = candidates_not_given[i]
+                    CourseFeedbackAssignment.objects.filter(
+                        course_code__course_code__course_code=course_code,
+                        cycle_no__cycle_no=cycle_no,
+                        student_reg_no__student_reg_no__student_reg_no=candidate
+                    ).update(is_given=1)
+            else:
+                for i in indices:
+                    candidate = candidates_given[i]
+                    CourseFeedbackAssignment.objects.filter(
+                        course_code__course_code__course_code=course_code,
+                        cycle_no__cycle_no=cycle_no,
+                        student_reg_no__student_reg_no__student_reg_no=candidate
+                    ).update(is_given=0)
+
+    print CourseFeedbackAssignment.objects.filter(is_given=0,
+                                                 course_code__course_code=course_code,
+                                                 cycle_no__cycle_no=cycle_no)
 
     return render_to_response('course_feedback_assignment.html', {
-        'low': CourseFeedbackAssignment.objects.filter(feedback_weighting=1,course_code__course_code=course_code,cycle_no__cycle_no=cycle_no).values('student_reg_no__student_reg_no__student_reg_no').order_by('student_reg_no__student_reg_no__student_reg_no'),
-        'high': CourseFeedbackAssignment.objects.filter(feedback_weighting=2,course_code__course_code=course_code,cycle_no__cycle_no=cycle_no).values('student_reg_no__student_reg_no__student_reg_no').order_by('student_reg_no__student_reg_no__student_reg_no'),
-        'course_code':course_code,
-        'cycle_no':cycle_no,
+        'low': CourseFeedbackAssignment.objects.filter(feedback_weighting=1,
+                                                       course_code__course_code=course_code,
+                                                       cycle_no__cycle_no=cycle_no)
+                              .values('student_reg_no__student_reg_no__student_reg_no')
+                              .order_by('student_reg_no__student_reg_no__student_reg_no'),
+        'high': CourseFeedbackAssignment.objects.filter(feedback_weighting=2,
+                                                        course_code__course_code=course_code,
+                                                        cycle_no__cycle_no=cycle_no)
+                              .values('student_reg_no__student_reg_no__student_reg_no')
+                              .order_by('student_reg_no__student_reg_no__student_reg_no'),
+        'not_given': CourseFeedbackAssignment.objects.filter(is_given=0,
+                                                             course_code__course_code=course_code,
+                                                             cycle_no__cycle_no=cycle_no)
+                              .values('student_reg_no__student_reg_no__student_reg_no')
+                              .order_by('student_reg_no__student_reg_no__student_reg_no'),
+        'given': CourseFeedbackAssignment.objects.filter(is_given=1,
+                                                         course_code__course_code=course_code,
+                                                         cycle_no__cycle_no=cycle_no)
+                            .values('student_reg_no__student_reg_no__student_reg_no')
+                            .order_by('student_reg_no__student_reg_no__student_reg_no'),
+        'course_code': course_code,
+        'cycle_no': cycle_no,
         'error': ''})
 
 
