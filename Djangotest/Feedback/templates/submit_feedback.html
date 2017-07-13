@@ -50,22 +50,19 @@
                             <tr>
                                 <td class="options">
                                     <table style="background-color:#FFF" class="w3-table w3-hoverable w3-center w3-margin-right">
-                                        <th></th>
                                         <th>Excellent</th>
                                         <th>Very Good</th>
                                         <th>Satisfactory</th>
                                         <th>Average</th>
                                         <th>Poor</th>
-                                        {% for course in courses %}
-                                           <tr class="w3-padding-large">
-                                               <td> {{ course }} </td>
-                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="5" class="w3-radio" checked></td>
-                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="4" class="w3-radio"></td>
-                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="3" class="w3-radio"></td>
-                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="2" class="w3-radio"></td>
-                                               <td> <input type="radio" name="{{ question }}_{{ course }}" value="1" class="w3-radio"></td>
-                                           </tr>
-                                        {% endfor %}
+
+                                       <tr class="w3-padding-large">
+                                           <td> <input type="radio" name="{{ question }}" value="5" class="w3-radio" checked></td>
+                                           <td> <input type="radio" name="{{ question }}" value="4" class="w3-radio"></td>
+                                           <td> <input type="radio" name="{{ question }}" value="3" class="w3-radio"></td>
+                                           <td> <input type="radio" name="{{ question }}" value="2" class="w3-radio"></td>
+                                           <td> <input type="radio" name="{{ question }}" value="1" class="w3-radio"></td>
+                                       </tr>
 
                                     </table>
                                 </td>

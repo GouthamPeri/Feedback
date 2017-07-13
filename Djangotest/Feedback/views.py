@@ -908,24 +908,35 @@ def submit_feedback(request):
     error=''
     student_id = request.user.username
     student = Student.objects.get(student_reg_no=student_id)
-    registered_courses = CourseRegistration.objects.filter(student_reg_no=student)
-    course_names = [course.course_code.course_name for course in registered_courses]
-    course_count = len(course_names)
-    questions = FeedbackQuestion.objects.all()
-    question_count = len(questions)
+
     if request.method == 'POST':
-        keys = request.POST.keys()
-        print (course_count, question_count)
-        for i in range(course_count):
-            course_name = course_names[i]
-            course_ratings = {}
-            for j in range(question_count):
-                rating = request.POST[keys[i*course_count + j]][0]
-                course_ratings[rating] = course_ratings.get(rating, 0) + 1
-            print course_name, course_ratings
+        print request.POST
+        questions = None
+        # keys = request.POST.keys()
+        # for j in range(question_count):
+        #     rating = request.POST[keys[i*course_count + j]][0]
+        #     course_ratings[rating] = course_ratings.get(rating, 0) + 1
+        # print course_name, course_ratings
+    else:
+        course_id = request.GET['course']
+        cycle_no = request.GET['cycle']
+        try:
+            feedback_assignment = CourseFeedbackAssignment.objects.filter(
+                student_reg_no__student_reg_no__student_reg_no=student,
+                course_code__course_code__course_code=course_id,
+                cycle_no__cycle_no=cycle_no)
+        except:
+            error = "Nice try"
+
+        questions = FeedbackQuestion.objects.filter(cycle_no__cycle_no=cycle_no)
+        question_count = len(questions)
 
 
-    return render_to_response('submit_feedback.html', {'error': error, 'questions':questions, 'courses': course_names})
+
+    return render_to_response('submit_feedback.html', {'error': error, 'questions': questions,
+                                                       'course': CourseOffered.objects.get(
+                                                           course_code=course_id).course_name})
+
 
 
 @login_required
