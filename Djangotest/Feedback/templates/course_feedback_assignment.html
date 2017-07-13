@@ -20,22 +20,7 @@
         </script>
         <script>
             function submit(form_id){
-                var course = document.getElementById("selected_course").value;
                 var form = document.getElementById(form_id);
-                var input = document.createElement("input");
-                input.type = "hidden";
-                input.name = "course";
-                input.value = course;
-
-                form.appendChild(input);
-                //alert("asfasfas")
-                //document.getElementById(form_id).submit()
-                //document.getElementById(form_id).submit(function(eventObj) {
-                //    alert("sdfsdf");
-                //    $(this).append('<input type="hidden" name="course" value="'
-                //    + $("#selected_course").find(":selected").text() + '" /> ');
-                //    return true;
-                //});
                 form.submit()
             }
         </script>
@@ -147,15 +132,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <form method="post" id="unreg_form" class="form" name="unreg_form">
-                                    {% for form in unreg_formset %}
-                                        {% if not form.student_reg_no.value is None %}
+                                <form method="post" id="form1" class="form" name="form1">
+
+                                    {% for student in low %}
                                         <tr>
-                                            <td class="{{ form.student_reg_no.value }}">{{ form.check }}</td>
-                                            <td class="w3-padding-right regdnoleft {{ form.student_reg_no.value }}">{{ form.student_reg_no.value }}</td>
+                                           <td><input type="checkbox" class="w3-check"
+                                               id="id_form-{{ forloop.counter0 }}-check"
+                                                name="form-{{ forloop.counter0 }}-check"/>
+                                           </td>
+                                            <td class="w3-padding-right regdnoleft {{  form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
                                         </tr>
-                                        {% endif %}
                                     {% endfor %}
+                                    <input type="hidden" value="{{ course_code }}" id="course_code"/>
+                                    <input type="hidden" value="{{ cycle_no }}" id="cycle_no"/>
                                 </form>
                                 </tbody>
                             </table>
@@ -171,15 +160,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <form method="post" id="reg_form" class="form" name="reg_form">
-                                    {% for form in reg_formset %}
-                                        {% if not form.student_reg_no.value is None %}
+                                <form method="post" id="form2" class="form" name=form2">
+
+                                    {% for student in high %}
                                         <tr>
-                                            <td class="{{ form.student_reg_no.value }}">{{ form.check }}</td>
-                                            <td class="w3-padding-right regdnoright {{ form.student_reg_no.value }}">{{ form.student_reg_no.value }}</td>
+                                            <td><input type="checkbox" class="w3-check"
+                                               id="id_form-{{ forloop.counter0 }}-check"
+                                                name="form-{{ forloop.counter0 }}-check"/>
+                                            </td>
+                                            <td class="w3-padding-right regdnoright {{ form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
                                         </tr>
-                                        {% endif %}
                                     {% endfor %}
+                                    <input type="hidden" value="{{ course_code }}" id="course_code"/>
+                                    <input type="hidden" value="{{ cycle_no }}" id="cycle_no"/>
                                 </form>
                                 </tbody>
                             </table>
@@ -187,13 +180,13 @@
                     </tr>
                     <tr><td>
                         <!--document.forms['unreg_form'].submit()-->
-                        <button onclick="submit('unreg_form')"
+                        <button onclick="submit('form1')"
                                 class="reset w3-btn-floating w3-blackboard"
                                 style="margin-top:35px">&rarr;
                         </button>
                     </td></tr>
                     <tr><td>
-                        <button onclick="submit('reg_form')"
+                        <button onclick="submit('form2')"
                                 class="reset w3-btn-floating w3-blackboard"
                                 style="margin-top:35px">&larr;
                         </button>

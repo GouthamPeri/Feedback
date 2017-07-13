@@ -63,9 +63,12 @@
                                 <td>{{ form.cycle_no }}</td>
                                 <td>{{ form.start_date }}</td>
                                 <td>{{ form.end_date }}</td>
-                                <td><button
-                                        name="manage" value="{{form.course_code__course_code__course_code}}-{{form.cycle_no}}"
-                                        class="w3-btn w3-blackboard">Manage</button>
+                                <td>
+                                    <div
+                                        class="manage w3-btn w3-blackboard"
+                                        id="{{form.course_code__course_code__course_code}}-{{form.cycle_no}}">
+                                        Manage
+                                    </div>
                                 </td>
                             </tr>
 
@@ -90,8 +93,16 @@
             </div>
             {% endblock %}
         </div>
+        <form style="display:none" id="mf" name="manage_form" method="get">
+            <input name="manage" type="text" />
+        </form>
     </body>
     <script>
+        $('.manage').click(function(){
+            form = $('#mf')
+            $(form).find('input').val($(this).attr('id'))
+            $('#mf').submit();
+        })
         w3IncludeHTML();
 
     </script>
