@@ -34,11 +34,11 @@
                 var arrayLength = regdnos.length;
                 for (var i = 0; i < arrayLength; i++) {
                    if ( regdnos[i].indexOf(search) == -1 ) {
-                           $('.'+regdnos[i]).hide()
+                           $('.left_'+regdnos[i]).hide()
                     }
                     else
                     {
-                         $('.'+regdnos[i]).show()
+                         $('.left_'+regdnos[i]).show()
                     }
                 }
             });
@@ -49,11 +49,11 @@
                 var arrayLength = regdnos.length;
                 for (var i = 0; i < arrayLength; i++) {
                    if ( regdnos[i].indexOf(search) == -1 ) {
-                           $('.'+regdnos[i]).hide()
+                           $('.right_'+regdnos[i]).hide()
                     }
                     else
                     {
-                         $('.'+regdnos[i]).show()
+                         $('.right_'+regdnos[i]).show()
                     }
                 }
             });
@@ -137,9 +137,9 @@
                                 <form method="post" id="unreg_form" class="form" name="unreg_form">
                                     {% for form in unreg_formset %}
                                         {% if not form.student_reg_no.value is None %}
-                                        <tr>
+                                        <tr class="left_{{ form.student_reg_no.value }}">
                                             <td class="{{ form.student_reg_no.value }}">{{ form.check }}</td>
-                                            <td class="w3-padding-right regdnoleft {{ form.student_reg_no.value }}">{{ form.student_reg_no.value }}</td>
+                                            <td class="w3-padding-right regdnoleft ">{{ form.student_reg_no.value }}</td>
                                         </tr>
                                         {% endif %}
                                     {% endfor %}
@@ -163,9 +163,9 @@
                                 <form method="post" id="reg_form" class="form" name="reg_form">
                                     {% for form in reg_formset %}
                                         {% if not form.student_reg_no.value is None %}
-                                        <tr>
+                                        <tr class="right_{{ form.student_reg_no.value }}">
                                             <td class="{{ form.student_reg_no.value }}">{{ form.check }}</td>
-                                            <td class="w3-padding-right regdnoright {{ form.student_reg_no.value }}">{{ form.student_reg_no.value }}</td>
+                                            <td class="w3-padding-right regdnoright">{{ form.student_reg_no.value }}</td>
                                         </tr>
                                         {% endif %}
                                     {% endfor %}

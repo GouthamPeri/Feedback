@@ -26,33 +26,63 @@
         </script>
         <script>
         $(document).ready(function(){
-           $( "#searchleft" ).keyup(function(){
+           $( "#weight_searchleft" ).keyup(function(){
                 regdnos=[];
                 regdnos = $('.regdnoleft').map(function () { return $(this).text(); }).get();
-                var search = $('#searchleft').val();
+                var search = $('#weight_searchleft').val();
                 var arrayLength = regdnos.length;
                 for (var i = 0; i < arrayLength; i++) {
                    if ( regdnos[i].indexOf(search) == -1 ) {
-                           $('.'+regdnos[i]).hide()
+                           $('.left_weight_'+regdnos[i]).hide()
                     }
                     else
                     {
-                         $('.'+regdnos[i]).show()
+                         $('.left_weight_'+regdnos[i]).show()
                     }
                 }
             });
-            $( "#searchright" ).keyup(function(){
+            $( "#weight_searchright" ).keyup(function(){
                 regdnos=[];
                 regdnos = $('.regdnoright').map(function () { return $(this).text(); }).get();
-                var search = $('#searchright').val();
+                var search = $('#weight_searchright').val();
                 var arrayLength = regdnos.length;
                 for (var i = 0; i < arrayLength; i++) {
                    if ( regdnos[i].indexOf(search) == -1 ) {
-                           $('.'+regdnos[i]).hide()
+                           $('.right_weight_'+regdnos[i]).hide()
                     }
                     else
                     {
-                         $('.'+regdnos[i]).show()
+                         $('.right_weight_'+regdnos[i]).show()
+                    }
+                }
+            });
+            $( "#given_searchleft" ).keyup(function(){
+                regdnos=[];
+                regdnos = $('.regdnoleft').map(function () { return $(this).text(); }).get();
+                var search = $('#given_searchleft').val();
+                var arrayLength = regdnos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                   if ( regdnos[i].indexOf(search) == -1 ) {
+                           $('.left_given_'+regdnos[i]).hide()
+                    }
+                    else
+                    {
+                         $('.left_given_'+regdnos[i]).show()
+                    }
+                }
+            });
+            $( "#given_searchright" ).keyup(function(){
+                regdnos=[];
+                regdnos = $('.regdnoleft').map(function () { return $(this).text(); }).get();
+                var search = $('#given_searchright').val();
+                var arrayLength = regdnos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                   if ( regdnos[i].indexOf(search) == -1 ) {
+                           $('.right_given_'+regdnos[i]).hide()
+                    }
+                    else
+                    {
+                         $('.right_given_'+regdnos[i]).show()
                     }
                 }
             });
@@ -107,7 +137,7 @@
             </div>
         {% endif %}
         <div style="margin: 5% 5% 0% 5%" class="w3-responsive w3-oxblood">
-            <h3 class="w3-center">Course Registration</h3>
+            <h3 class="w3-center">Course Feedback Assignment</h3>
         </div>
         <div style="margin: 0% 5% 2% 5%" class="w3-responsive w3-white">
              <div style="margin: 3% 5% 2% 5%">
@@ -129,7 +159,7 @@
                                         <tr class="w3-blackboard"><td class="w3-center" colspan="2">Low Weightage Candidates</td></tr>
                                         <tr>
                                             <td colspan="2">
-                                                <input type="text" id="searchleft">
+                                                <input type="text" id="weight_searchleft">
                                             </td>
                                         </tr>
                                     </thead>
@@ -137,12 +167,12 @@
                                     <form method="post" id="form1" class="form" name="form1">
 
                                         {% for student in low %}
-                                            <tr>
+                                            <tr class="left_weight_{{ student.student_reg_no__student_reg_no__student_reg_no }}">
                                                <td><input type="checkbox" class="w3-check"
                                                    id="id_form1-{{ forloop.counter0 }}-check"
                                                     name="form1-{{ forloop.counter0 }}-check"/>
                                                </td>
-                                                <td class="w3-padding-right regdnoleft {{  form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                                <td class="w3-padding-right regdnoleft {{  student.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
                                             </tr>
                                         {% endfor %}
                                         <input type="hidden" value="{{ course_code }}" name="course_code"/>
@@ -157,7 +187,7 @@
                                     <thead>
                                         <tr class="w3-blackboard" ><td class="w3-center" colspan="2">High Weightage Candidates</td></tr>
                                         <tr><td colspan="2">
-                                                <input type="text" id="searchright">
+                                                <input type="text" id="weight_searchright">
                                             </td>
                                         </tr>
                                     </thead>
@@ -165,12 +195,12 @@
                                     <form method="post" id="form2" class="form" name=form2">
 
                                         {% for student in high %}
-                                            <tr>
+                                            <tr class="right_weight_{{ student.student_reg_no__student_reg_no__student_reg_no }}">
                                                 <td><input type="checkbox" class="w3-check"
                                                    id="id_form2-{{ forloop.counter0 }}-check"
                                                     name="form2-{{ forloop.counter0 }}-check"/>
                                                 </td>
-                                                <td class="w3-padding-right regdnoright {{ form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                                <td class="w3-padding-right regdnoright">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
                                             </tr>
                                         {% endfor %}
                                         <input type="hidden" value="{{ course_code }}" name="course_code"/>
@@ -202,7 +232,7 @@
                                         <tr class="w3-blackboard"><td class="w3-center" colspan="2">Not given by</td></tr>
                                         <tr>
                                             <td colspan="2">
-                                                <input type="text" id="searchleft">
+                                                <input type="text" id="given_searchleft">
                                             </td>
                                         </tr>
                                     </thead>
@@ -210,12 +240,12 @@
                                     <form method="post" id="form3" class="form" name="form3">
 
                                         {% for student in not_given %}
-                                            <tr>
+                                            <tr class="left_given_{{  student.student_reg_no__student_reg_no__student_reg_no }}">
                                                <td><input type="checkbox" class="w3-check"
                                                    id="id_form3-{{ forloop.counter0 }}-check"
                                                     name="form3-{{ forloop.counter0 }}-check"/>
                                                </td>
-                                                <td class="w3-padding-right regdnoleft {{  form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                                <td class="w3-padding-right regdnoleft">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
                                             </tr>
                                         {% endfor %}
                                         <input type="hidden" value="{{ course_code }}" name="course_code"/>
@@ -230,7 +260,7 @@
                                     <thead>
                                         <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Given by</td></tr>
                                         <tr><td colspan="2">
-                                                <input type="text" id="searchright">
+                                                <input type="text" id="given_searchright">
                                             </td>
                                         </tr>
                                     </thead>
@@ -238,12 +268,12 @@
                                     <form method="post" id="form4" class="form" name=form4">
 
                                         {% for student in given %}
-                                            <tr>
+                                            <tr class="right_given_{{ student.student_reg_no__student_reg_no__student_reg_no }}">
                                                 <td><input type="checkbox" class="w3-check"
                                                    id="id_form4-{{ forloop.counter0 }}-check"
                                                     name="form4-{{ forloop.counter0 }}-check"/>
                                                 </td>
-                                                <td class="w3-padding-right regdnoright {{ form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                                <td class="w3-padding-right regdnoright }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
                                             </tr>
                                         {% endfor %}
                                         <input type="hidden" value="{{ course_code }}" name="course_code"/>

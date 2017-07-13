@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="76c7e85f-0f0e-4368-b829-b70074b788b6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/db.sqlite3" afterPath="$PROJECT_DIR$/Djangotest/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/urls.py" afterPath="$PROJECT_DIR$/Djangotest/Feedback/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/views.py" afterPath="$PROJECT_DIR$/Djangotest/Feedback/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_assignment.html" afterPath="$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_assignment.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/templates/course_registration.html" afterPath="$PROJECT_DIR$/Djangotest/Feedback/templates/course_registration.html" />
     </list>
     <ignored path="feedback.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,10 +37,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
+            <state relative-caret-position="-20546">
               <caret line="52" column="71" selection-start-line="52" selection-start-column="71" selection-end-line="52" selection-end-column="71" />
               <folding />
             </state>
@@ -83,42 +83,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="course_registration.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="course_registration.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/course_registration.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2046">
-              <caret line="93" column="9" selection-start-line="166" selection-start-column="96" selection-end-line="166" selection-end-column="101" />
-              <folding>
-                <marker date="1499954499071" expanded="true" signature="4697:8062" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="4750:6346" ph="..." />
-                <marker date="1499954499071" expanded="false" signature="4837:4846" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="4847:6316" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="4887:5448" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="5058:5407" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="5222:5365" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="5488:6279" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="5588:6238" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="5788:6097" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="6445:8036" ph="..." />
-                <marker date="1499954499071" expanded="false" signature="6532:6541" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="6542:8006" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="6582:7143" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="6752:7102" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="6916:7060" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="7183:7969" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="7279:7928" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="7477:7787" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="8087:8491" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="8134:8465" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="8267:8439" ph="..." />
-                <marker date="1499954499071" expanded="false" signature="8383:8398" ph="..." />
-                <marker date="1499954499071" expanded="false" signature="8400:8406" ph="→" />
-                <marker date="1499954499071" expanded="true" signature="8516:8849" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="8563:8823" ph="..." />
-                <marker date="1499954499071" expanded="true" signature="8625:8797" ph="..." />
-                <marker date="1499954499071" expanded="false" signature="8741:8756" ph="..." />
-                <marker date="1499954499071" expanded="false" signature="8758:8764" ph="←" />
-              </folding>
+            <state relative-caret-position="492">
+              <caret line="165" column="51" selection-start-line="165" selection-start-column="51" selection-end-line="165" selection-end-column="51" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -126,8 +96,8 @@
       <file leaf-file-name="course_feedback_assignment.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_assignment.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3102">
-              <caret line="141" column="75" selection-start-line="141" selection-start-column="75" selection-end-line="141" selection-end-column="75" />
+            <state relative-caret-position="298">
+              <caret line="270" column="127" selection-start-line="270" selection-start-column="127" selection-end-line="270" selection-end-column="127" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#center#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -232,12 +202,12 @@
         <option value="$PROJECT_DIR$/Djangotest/Feedback/models.py" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/submit_feedback.html" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/dept_admin_header.html" />
-        <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/course_registration.html" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_view.html" />
-        <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_assignment.html" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/view_courses.html" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/urls.py" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/views.py" />
+        <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_assignment.html" />
+        <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/course_registration.html" />
       </list>
     </option>
   </component>
@@ -864,57 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_assignment.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3102">
-          <caret line="141" column="75" selection-start-line="141" selection-start-column="75" selection-end-line="141" selection-end-column="75" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#center#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#td#0;n#tr#1;n#table#0;n#center#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#td#0;n#tr#2;n#table#0;n#center#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/course_registration.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2046">
-          <caret line="93" column="9" selection-start-line="166" selection-start-column="96" selection-end-line="166" selection-end-column="101" />
-          <folding>
-            <marker date="1499954499071" expanded="true" signature="4697:8062" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="4750:6346" ph="..." />
-            <marker date="1499954499071" expanded="false" signature="4837:4846" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="4847:6316" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="4887:5448" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="5058:5407" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="5222:5365" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="5488:6279" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="5588:6238" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="5788:6097" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="6445:8036" ph="..." />
-            <marker date="1499954499071" expanded="false" signature="6532:6541" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="6542:8006" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="6582:7143" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="6752:7102" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="6916:7060" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="7183:7969" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="7279:7928" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="7477:7787" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="8087:8491" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="8134:8465" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="8267:8439" ph="..." />
-            <marker date="1499954499071" expanded="false" signature="8383:8398" ph="..." />
-            <marker date="1499954499071" expanded="false" signature="8400:8406" ph="→" />
-            <marker date="1499954499071" expanded="true" signature="8516:8849" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="8563:8823" ph="..." />
-            <marker date="1499954499071" expanded="true" signature="8625:8797" ph="..." />
-            <marker date="1499954499071" expanded="false" signature="8741:8756" ph="..." />
-            <marker date="1499954499071" expanded="false" signature="8758:8764" ph="←" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/program_structure.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1430">
@@ -947,8 +866,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
+        <state relative-caret-position="-20546">
           <caret line="52" column="71" selection-start-line="52" selection-start-column="71" selection-end-line="52" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/course_feedback_assignment.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="270" column="127" selection-start-line="270" selection-start-column="127" selection-end-line="270" selection-end-column="127" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#center#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#td#0;n#tr#1;n#table#0;n#center#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#td#0;n#tr#2;n#table#0;n#center#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/course_registration.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="165" column="51" selection-start-line="165" selection-start-column="51" selection-end-line="165" selection-end-column="51" />
           <folding />
         </state>
       </provider>
