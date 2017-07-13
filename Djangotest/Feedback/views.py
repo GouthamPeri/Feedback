@@ -912,11 +912,7 @@ def submit_feedback(request):
     if request.method == 'POST':
         print request.POST
         questions = None
-        # keys = request.POST.keys()
-        # for j in range(question_count):
-        #     rating = request.POST[keys[i*course_count + j]][0]
-        #     course_ratings[rating] = course_ratings.get(rating, 0) + 1
-        # print course_name, course_ratings
+
     else:
         course_id = request.GET['course']
         cycle_no = request.GET['cycle']
@@ -931,11 +927,11 @@ def submit_feedback(request):
         questions = FeedbackQuestion.objects.filter(cycle_no__cycle_no=cycle_no)
         question_count = len(questions)
 
+        return render_to_response('submit_feedback.html', {'error': error, 'questions': questions,
+                                                           'course': CourseOffered.objects.get(
+                                                               course_code=course_id).course_name})
+    return HttpResponse("Thanks")
 
-
-    return render_to_response('submit_feedback.html', {'error': error, 'questions': questions,
-                                                       'course': CourseOffered.objects.get(
-                                                           course_code=course_id).course_name})
 
 
 
