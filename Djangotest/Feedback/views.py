@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 #from .models import *
 from .forms import *
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, formset_factory
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -13,6 +13,7 @@ from django.db.models import ProtectedError
 from django.utils.functional import curry
 from functools import partial, wraps
 from django.db.models import Count
+
 
 
 def is_dept_admin(user):
@@ -988,29 +989,41 @@ def feedback_question(request):
 def course_feedback_assignment(request):
     entries = 1
 
-    courses = map(lambda x: x.course_code, CourseRegistration.objects.all())
-    cycles = map(lambda x: x.cycle_no, FeedbackType.objects.all())
+    course_code, cycle_no  = map(int, request.POST['manage'].split('-'))
+    course = CourseRegistration.objects.filter(course_code=int(course_code)).first()
+    cycle = FeedbackType.objects.get(cycle_no=int(cycle_no))
+
+    students = CourseRegistration.objects.filter(course_code__course_code=course_code)
+    courses = map(lambda x: x.course_code, students)
+    cycles = map(lambda x: x.cycle_no, FeedbackType.objects.filter(cycle_no=cycle_no))
     course_feedback_assignment_form = None
     myformset = modelformset_factory(Student, StudentForm, extra=entries)
+
+    course_feedback_object = CourseFeedbackAssignment.objects.filter(course_code__course_code=course_code,
+                                                                     cycle_no__cycle_no=cycle_no)[0]
 
 
     high_weightage_candidates = map(lambda x: x.student_reg_no, CourseFeedbackAssignment.objects.filter(feedback_weighting=2))
     low_weightage_candidates = map(lambda x: x.student_reg_no, CourseFeedbackAssignment.objects.filter(feedback_weighting=1))
 
+    new_candidates = CourseRegistration.objects.exclude(student_reg_no__student_reg_no__in= low_weightage_candidates + high_weightage_candidates)
 
-    if request.method == 'POST':
+    for candidate in new_candidates:
+        CourseFeedbackAssignment.objects.create(student_reg_no=candidate,
+                                                course_code=candidate,
+                                                cycle_no=cycle,
+                                                start_date=course_feedback_object.start_date,
+                                                end_date=course_feedback_object.end_date
+                                                )
+
+
+
+    if request.method == 'POST' and request.:
 
         #Course from post
-        selected_course = request.POST["selected_course"]
-        students = Student.objects.filter(course_code=selected_course)
+        selected_course = course_code
+        students = CourseRegistration.objects.filter(course_code=selected_course)
 
-        cycle_no = request.POST["cycle_no"]
-
-        course_code_input = request.POST["course"]
-        if type(course_code_input).__name__ == "list":
-            course_code_input = course_code_input[0]
-        course_code = CourseRegistration.objects.get(course_code=int(course_code_input))
-        cycle = FeedbackType.objects.get(cycle_no=int(cycle_no))
 
 
         keys = request.POST.keys()
@@ -1047,7 +1060,6 @@ def course_feedback_assignment(request):
 
 
     return render_to_response('course_feedback_assignment.html', {
-        'assgn_form' : course_feedback_assignment_form,
         'low': myformset(queryset=CourseFeedbackAssignment.objects.filter(feedback_weighting=1)),
         'high': myformset(queryset=CourseFeedbackAssignment.objects.filter(feedback_weighting=2)),
         'error': ''})
@@ -1056,8 +1068,10 @@ def course_feedback_assignment(request):
 def create_course_feedback_assignment(request):
 
     error = ''
-    course_feedback_objects = CourseFeedbackAssignment.objects.values_list('course_code__course_code__course_code','cycle_no__cycle_no','start_date','end_date').distinct()
+    course_feedback_objects = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no', 'start_date', 'end_date').distinct()
+    print course_feedback_objects
     deleteform = DeleteForm()
+    print request.POST
     if request.method == 'POST':
         if 'course_code' in request.POST: # add records
             try:
@@ -1076,23 +1090,28 @@ def create_course_feedback_assignment(request):
             except Exception as e:
                 print e
                 error = "ERROR: Already exists/Empty records/Invalid Data or Dates"
+        elif 'manage' in request.POST:
+            return course_feedback_assignment(request)
         else: # delete selected records
             print request.POST
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = list(map(int, indices))
             indices.sort(reverse=True)
-            objects = CourseFeedbackAssignment.objects.annotate(Count('course_code'), Count('cycle_no')).distinct()
-            print objects
+
             print indices
             try:
                 for i in indices:
-                    obj = objects[i]
+                    obj = course_feedback_objects[i]
                     print obj
-                    obj.delete()
+                    CourseFeedbackAssignment.objects.filter(
+                        course_code__course_code__course_code=obj['course_code__course_code__course_code'],
+                        cycle_no__cycle_no=obj['cycle_no']).delete()
 
             except ProtectedError as e:
                 error = e
-            except:
+                print e
+            except Exception as e:
+                print e
                 error = "ERROR: Faculty code does not exist/Error performing deletion"
 
     else:

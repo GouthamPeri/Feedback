@@ -51,16 +51,22 @@
                         <th>Cycle No</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th></th>
                     </tr>
                     <form method="post" name="table" action="">
                         {% for form in database %}
                             <tr>
-                                <td>{{ form.check }}</td>
-                                <td>{{ form.0 }}</td>
-                                <td>{{ form.1 }}</td>
-                                <td>{{ form.2 }}</td>
-                                <td>{{ form.3 }}</td>
-
+                                <td><input type="checkbox" class="w3-check"
+                                           id="id_form-{{ forloop.counter0 }}-check"
+                                            name="form-{{ forloop.counter0 }}-check"/></td>
+                                <td>{{ form.course_code__course_code__course_code }}</td>
+                                <td>{{ form.cycle_no }}</td>
+                                <td>{{ form.start_date }}</td>
+                                <td>{{ form.end_date }}</td>
+                                <td><button
+                                        name="manage" value="{{form.course_code__course_code__course_code}}-{{form.cycle_no}}"
+                                        class="w3-btn w3-blackboard">Manage</button>
+                                </td>
                             </tr>
 
                         {% endfor %}
@@ -72,6 +78,7 @@
                             <td>{{ form.cycle_no }}</td>
                             <td>{{ form.start_date }}</td>
                             <td>{{ form.end_date }}</td>
+                            <td></td>
                         </tr>
                     </form>
                     </table>
@@ -79,20 +86,13 @@
                 <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red" style="margin-top:35px;margin-right:70px">&#x2212;</button>
                 <button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green" style="margin-top:35px;margin-left:70px">+</button>
                 </center>
-                <table class="w3-table" style="width:30%">
-                    <tr>
-                    <form method="post" name='count' action="">
-                        <td style="padding-top:50px"><b>Empty Records</b></td>
-                        <td style="padding-top:50px">{{countform.add_empty_records}}</td>
-                        <td><button class="reset w3-btn-floating w3-green" style="margin-top:35px">&#x21bb;</button></td>
-                    </form>
-                    </tr>
-                </table>
+                <div style="padding-bottom: 32px"></div>
             </div>
             {% endblock %}
         </div>
     </body>
     <script>
-    w3IncludeHTML();
-</script>
+        w3IncludeHTML();
+
+    </script>
 </html>

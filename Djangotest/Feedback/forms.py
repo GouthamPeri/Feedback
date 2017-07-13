@@ -235,3 +235,5 @@ class FeedbackQuestionForm(forms.ModelForm):
             raise forms.ValidationError("WRONG DATES!")
 
 
+class CheckBoxForm(forms.Form):
+    check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
