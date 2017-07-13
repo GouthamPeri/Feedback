@@ -112,88 +112,91 @@
         <div style="margin: 0% 5% 2% 5%" class="w3-responsive w3-white">
              <div style="margin: 3% 5% 2% 5%">
                 <center>
-                <form name="course_select" method="post">
-                    {{ selection_form | safe}}
-                </form>
+                    <form name="course_select" method="post">
+                        {{ selection_form | safe}}
+                    </form>
                 </center>
             </div>
             <div style="margin: 2% 5% 2% 5%" class="w3-responsive w3-center">
-
-                <table width="100%" class="w3-table w3-center" align="center">
-                    <tr>
-                        <td rowspan="5">
-                            <table align="center" class="w3-table-all scroll" style="width:50%">
-                                <thead>
-                                    <tr class="w3-blackboard"><td class="w3-center" colspan="2">Unregistered Candidates</td></tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <input type="text" id="searchleft">
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <form method="post" id="form1" class="form" name="form1">
-
-                                    {% for student in low %}
+                Course Code : {{ course_code }} <br>
+                Cycle No : {{ cycle_no }}
+                <center>
+                    <table class="w3-table">
+                        <tr>
+                            <td rowspan="5">
+                                <table class="w3-table-all scroll" style="width:50%">
+                                    <thead>
+                                        <tr class="w3-blackboard"><td class="w3-center" colspan="2">Low Weightage Candidates</td></tr>
                                         <tr>
-                                           <td><input type="checkbox" class="w3-check"
-                                               id="id_form-{{ forloop.counter0 }}-check"
-                                                name="form-{{ forloop.counter0 }}-check"/>
-                                           </td>
-                                            <td class="w3-padding-right regdnoleft {{  form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    <input type="hidden" value="{{ course_code }}" id="course_code"/>
-                                    <input type="hidden" value="{{ cycle_no }}" id="cycle_no"/>
-                                </form>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td></td>
-                        <td rowspan="5">
-                            <table align="center " class="w3-table-all scroll" style="width:50%">
-                                <thead>
-                                    <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Registered Candidates</td></tr>
-                                    <tr><td colspan="2">
-                                            <input type="text" id="searchright">
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <form method="post" id="form2" class="form" name=form2">
-
-                                    {% for student in high %}
-                                        <tr>
-                                            <td><input type="checkbox" class="w3-check"
-                                               id="id_form-{{ forloop.counter0 }}-check"
-                                                name="form-{{ forloop.counter0 }}-check"/>
+                                            <td colspan="2">
+                                                <input type="text" id="searchleft">
                                             </td>
-                                            <td class="w3-padding-right regdnoright {{ form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
                                         </tr>
-                                    {% endfor %}
-                                    <input type="hidden" value="{{ course_code }}" id="course_code"/>
-                                    <input type="hidden" value="{{ cycle_no }}" id="cycle_no"/>
-                                </form>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr><td>
-                        <!--document.forms['unreg_form'].submit()-->
-                        <button onclick="submit('form1')"
-                                class="reset w3-btn-floating w3-blackboard"
-                                style="margin-top:35px">&rarr;
-                        </button>
-                    </td></tr>
-                    <tr><td>
-                        <button onclick="submit('form2')"
-                                class="reset w3-btn-floating w3-blackboard"
-                                style="margin-top:35px">&larr;
-                        </button>
-                    </td></tr>
-                    <tr><td></td></tr>
-                    <tr><td></td></tr>
-                </table>
+                                    </thead>
+                                    <tbody>
+                                    <form method="post" id="form1" class="form" name="form1">
+
+                                        {% for student in low %}
+                                            <tr>
+                                               <td><input type="checkbox" class="w3-check"
+                                                   id="id_form1-{{ forloop.counter0 }}-check"
+                                                    name="form1-{{ forloop.counter0 }}-check"/>
+                                               </td>
+                                                <td class="w3-padding-right regdnoleft {{  form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <input type="hidden" value="{{ course_code }}" name="course_code"/>
+                                        <input type="hidden" value="{{ cycle_no }}" name="cycle_no"/>
+                                    </form>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td></td>
+                            <td rowspan="5">
+                                <table class="w3-table-all scroll" style="width:50%">
+                                    <thead>
+                                        <tr class="w3-blackboard" ><td class="w3-center" colspan="2">High Weightage Candidates</td></tr>
+                                        <tr><td colspan="2">
+                                                <input type="text" id="searchright">
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <form method="post" id="form2" class="form" name=form2">
+
+                                        {% for student in high %}
+                                            <tr>
+                                                <td><input type="checkbox" class="w3-check"
+                                                   id="id_form2-{{ forloop.counter0 }}-check"
+                                                    name="form2-{{ forloop.counter0 }}-check"/>
+                                                </td>
+                                                <td class="w3-padding-right regdnoright {{ form.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <input type="hidden" value="{{ course_code }}" name="course_code"/>
+                                        <input type="hidden" value="{{ cycle_no }}" name="cycle_no"/>
+                                    </form>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr><td>
+                            <!--document.forms['unreg_form'].submit()-->
+                            <button onclick="submit('form1')"
+                                    class="reset w3-btn-floating w3-blackboard"
+                                    style="margin-top:35px">&rarr;
+                            </button>
+                        </td></tr>
+                        <tr><td>
+                            <button onclick="submit('form2')"
+                                    class="reset w3-btn-floating w3-blackboard"
+                                    style="margin-top:35px">&larr;
+                            </button>
+                        </td></tr>
+                        <tr><td></td></tr>
+                        <tr><td></td></tr>
+                    </table>
+                </center>
             </div>
         </div>
     </body>

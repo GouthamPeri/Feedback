@@ -1005,11 +1005,16 @@ def manage_course_feedback_assignment(request):
     course_feedback_object = CourseFeedbackAssignment.objects.filter(course_code__course_code=course_code,
                                                                      cycle_no__cycle_no=cycle_no)[0]
 
+    high_weightage_candidates = map(lambda x: x.student_reg_no,
+                                    CourseFeedbackAssignment.objects.filter(feedback_weighting=2,
+                                                                            course_code__course_code__course_code=course_code,
+                                                                            cycle_no=cycle).order_by('student_reg_no__student_reg_no__student_reg_no'))
+    low_weightage_candidates = map(lambda x: x.student_reg_no,
+                                   CourseFeedbackAssignment.objects.filter(feedback_weighting=1,
+                                                                           course_code__course_code__course_code=course_code,
+                                                                           cycle_no=cycle).order_by('student_reg_no__student_reg_no__student_reg_no'))
 
-    high_weightage_candidates = map(lambda x: x.student_reg_no, CourseFeedbackAssignment.objects.filter(feedback_weighting=2))
-    low_weightage_candidates = map(lambda x: x.student_reg_no, CourseFeedbackAssignment.objects.filter(feedback_weighting=1))
-
-    new_candidates = CourseRegistration.objects.exclude(student_reg_no__student_reg_no__in= low_weightage_candidates + high_weightage_candidates)
+    new_candidates = CourseRegistration.objects.filter(course_code__course_code=course_code).exclude(student_reg_no__student_reg_no__in= low_weightage_candidates + high_weightage_candidates)
 
     for candidate in new_candidates:
         CourseFeedbackAssignment.objects.create(student_reg_no=candidate,
@@ -1018,53 +1023,49 @@ def manage_course_feedback_assignment(request):
                                                 start_date=course_feedback_object.start_date,
                                                 end_date=course_feedback_object.end_date
                                                 )
-
+    high_weightage_candidates = map(lambda x: x.student_reg_no,
+                                    CourseFeedbackAssignment.objects.filter(feedback_weighting=2,
+                                                                            course_code__course_code__course_code=course_code,
+                                                                            cycle_no=cycle).order_by('student_reg_no__student_reg_no__student_reg_no'))
 
 
     if request.method == 'POST':
 
         #Course from post
-        selected_course = course_code
-        students = CourseRegistration.objects.filter(course_code=selected_course)
-
+        course_code = request.POST['course_code']
+        cycle_no = request.POST['cycle_no']
 
 
         keys = request.POST.keys()
-        if "course" in keys:
-            keys.remove("course")
         if keys:
+            keys.remove('course_code')
+            keys.remove('cycle_no')
             submitted_form = keys[0][4]
             indices = [key.split('-')[1] for key in keys]
-            low_weightage_indices = filter(lambda x: "form1" in x, indices)
-            high_weightage_indices = filter(lambda x: "form2" in x, indices)
-            low_weightage_indices = map(int, low_weightage_indices)
-            high_weightage_indices = map(int, high_weightage_indices)
-            low_weightage_indices.sort(reverse=True)
-            high_weightage_indices.sort(reverse=True)
-            low_weightage_candidates = sorted(low_weightage_candidates, key=lambda x:x.student_reg_no)
-            high_weightage_candidates = sorted(high_weightage_candidates, key=lambda x:x.student_reg_no)
+            indices = map(int, indices)
+            indices.sort(reverse=True)
+
+
             if submitted_form == "1":
-                for i in low_weightage_indices:
+                for i in indices:
                     candidate = low_weightage_candidates[i]
                     CourseFeedbackAssignment.objects.filter(
-                        course_code = course_code,
-                        cycle_no = cycle,
-                        student_reg_no = candidate
+                        course_code__course_code__course_code=course_code,
+                        cycle_no__cycle_no=cycle_no,
+                        student_reg_no__student_reg_no__student_reg_no=candidate
                     ).update(feedback_weighting=2)
             else:
-                for i in high_weightage_indices:
+                for i in indices:
                     candidate = high_weightage_candidates[i]
                     CourseFeedbackAssignment.objects.filter(
-                        course_code=course_code,
-                        cycle_no=cycle,
-                        student_reg_no=candidate
+                        course_code__course_code__course_code=course_code,
+                        cycle_no__cycle_no=cycle_no,
+                        student_reg_no__student_reg_no__student_reg_no=candidate
                     ).update(feedback_weighting=1)
 
-    print CourseFeedbackAssignment.objects.filter(feedback_weighting=2).values('student_reg_no__student_reg_no__student_reg_no')
-
     return render_to_response('course_feedback_assignment.html', {
-        'low': CourseFeedbackAssignment.objects.filter(feedback_weighting=1,course_code__course_code=course_code,cycle_no__cycle_no=cycle_no).values('student_reg_no__student_reg_no__student_reg_no'),
-        'high': CourseFeedbackAssignment.objects.filter(feedback_weighting=2,course_code__course_code=course_code,cycle_no__cycle_no=cycle_no).values('student_reg_no__student_reg_no__student_reg_no'),
+        'low': CourseFeedbackAssignment.objects.filter(feedback_weighting=1,course_code__course_code=course_code,cycle_no__cycle_no=cycle_no).values('student_reg_no__student_reg_no__student_reg_no').order_by('student_reg_no__student_reg_no__student_reg_no'),
+        'high': CourseFeedbackAssignment.objects.filter(feedback_weighting=2,course_code__course_code=course_code,cycle_no__cycle_no=cycle_no).values('student_reg_no__student_reg_no__student_reg_no').order_by('student_reg_no__student_reg_no__student_reg_no'),
         'course_code':course_code,
         'cycle_no':cycle_no,
         'error': ''})
