@@ -1189,10 +1189,17 @@ def create_course_feedback_assignment(request):
 
 def view_courses(request):
     given_courses = CourseFeedbackAssignment.objects.values('course_code__course_code__course_name','cycle_no__cycle_no','start_date','end_date').filter(student_reg_no__student_reg_no__student_reg_no = request.user.username,is_given=1)
-    not_given_courses = CourseFeedbackAssignment.objects.values('course_code__course_code__course_name','cycle_no__cycle_no','start_date','end_date').filter(
+    not_given_courses = CourseFeedbackAssignment.objects.values('course_code__course_code__course_name','course_code__course_code__course_code','cycle_no__cycle_no','start_date','end_date').filter(
         student_reg_no__student_reg_no__student_reg_no=request.user.username, is_given=0)
+
+
+    if request.method=='POST':
+        return HttpResponseRedirect('/feedback/submit_feedback?course=' + request.POST["course_code"] + '&cycle=' + request.POST["cycle_no"])
+
+
     return render_to_response('view_courses.html',
                               {
                                   'given_courses' : given_courses,
                                   'not_given_courses' : not_given_courses
                               })
+
