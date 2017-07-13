@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^submit_comment', views.submit_comment),
     url(r'^feedback_question', views.feedback_question),
     url(r'^create_course_feedback', views.create_course_feedback_assignment),
-    url(r'^manage_course_feedback', views.manage_course_feedback_assignment, name="manage")
+    url(r'^manage_course_feedback', views.manage_course_feedback_assignment, name="manage"),
+    url(r'^view_courses', views.view_courses)
 ]

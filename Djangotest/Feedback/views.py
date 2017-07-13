@@ -50,7 +50,7 @@ def login_view(request):
                 elif is_colg_admin(user):
                     return HttpResponseRedirect('/feedback/admin')
                 elif is_student(user):
-                    return HttpResponseRedirect('/feedback/submit_feedback')
+                    return HttpResponseRedirect('/feedback/view_courses')
                 else:
                     return HttpResponseRedirect('/feedback')
             else:
@@ -1174,3 +1174,14 @@ def create_course_feedback_assignment(request):
                             'database': course_feedback_objects,
                             'username': request.user.username,
                             'error': error})
+
+
+def view_courses(request):
+    given_courses = CourseFeedbackAssignment.objects.values('course_code__course_code__course_name','cycle_no__cycle_no','start_date','end_date').filter(student_reg_no__student_reg_no__student_reg_no = request.user.username,is_given=1)
+    not_given_courses = CourseFeedbackAssignment.objects.values('course_code__course_code__course_name','cycle_no__cycle_no','start_date','end_date').filter(
+        student_reg_no__student_reg_no__student_reg_no=request.user.username, is_given=0)
+    return render_to_response('view_courses.html',
+                              {
+                                  'given_courses' : given_courses,
+                                  'not_given_courses' : not_given_courses
+                              })
