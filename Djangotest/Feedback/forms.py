@@ -70,7 +70,7 @@ def create_faculty_form(dept_code):
             cleaned_data = super(FacultyForm, self).clean()
             joining_date = cleaned_data.get("joining_date")
             relieved_date = cleaned_data.get("relieved_date")
-            if relieved_date < joining_date:
+            if relieved_date and relieved_date < joining_date:
                 raise forms.ValidationError("WRONG DATES!")
 
     return FacultyForm

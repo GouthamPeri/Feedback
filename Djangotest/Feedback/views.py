@@ -51,8 +51,8 @@ def login_view(request):
                     return HttpResponseRedirect('/feedback/admin')
                 elif is_student(user):
                     return HttpResponseRedirect('/feedback/view_courses')
-                else:
-                    return HttpResponseRedirect('/feedback')
+                elif is_faculty(user):
+                    return HttpResponseRedirect('/feedback/faculty_home_page')
             else:
                 error = "Invalid Authentication"
         '''else:
@@ -73,7 +73,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('login')
+    return HttpResponseRedirect(reverse('login'))
 
 
 @login_required
@@ -208,11 +208,11 @@ def faculty(request):
 def change_password(request):
     header = ''
     if is_colg_admin(request.user):
-        header = 'admin_header.html'
+        header = reverse('admin')
     elif is_dept_admin(request.user):
-        header = 'dept_admin_header.html'
-    elif is_student(request.user):
-        header = 'student_header.html'
+        header = reverse('dept_admin')
+    elif is_student(request.user) or is_faculty(request.user):
+        header = reverse('student_header')
     error = ''
     password_form = ChangePasswordForm()
     if request.method == 'POST':
@@ -223,7 +223,7 @@ def change_password(request):
                     user.set_password(request.POST['password1'])
                     user.save()
                     logout(request)
-                    return HttpResponseRedirect("login")
+                    return HttpResponseRedirect(reverse('login'))
                 else:
                     error="Passwords mismatch!"
             except:
@@ -959,7 +959,7 @@ def submit_feedback(request):
             feedback_rating_aggregate['rating_' + answer + '_count_' + str(weighting)] += 1
 
         FeedbackRatingAggregate.objects.create(**feedback_rating_aggregate)
-        return HttpResponseRedirect('/feedback/view_courses')
+        return HttpResponseRedirect(reverse('view_courses'))
 
     elif request.method == "GET":
         try:
@@ -971,7 +971,7 @@ def submit_feedback(request):
                 raise ValueError('Already given')
             questions = FeedbackQuestion.objects.filter(cycle_no__cycle_no=cycle_no)
         except:
-            return HttpResponseRedirect('/feedback/view_courses')
+            return HttpResponseRedirect(reverse('view_courses'))
 
         return render_to_response('submit_feedback.html', {'error': error, 'questions': questions,
                                                            'course': CourseOffered.objects.get(
@@ -1217,7 +1217,7 @@ def create_course_feedback_assignment(request):
     else:
         if 'manage' in request.GET:
             print request.GET
-            return HttpResponseRedirect('/feedback/manage_course_feedback?manage=' + request.GET['manage'])
+            return HttpResponseRedirect(reverse('manage')+ '?manage=' + request.GET['manage'])
         deleteform = DeleteForm()
 
 
@@ -1245,3 +1245,11 @@ def view_courses(request):
                                   'not_given_courses' : not_given_courses
                               })
 
+@login_required
+@user_passes_test(is_faculty)
+def faculty_home_page(request):
+    courses = CourseOffered.objects.filter(faculty_name__faculty_code = request.user.username)
+    return render_to_response('faculty_home_page.html',
+                                {
+                                    'courses' : courses
+                                })

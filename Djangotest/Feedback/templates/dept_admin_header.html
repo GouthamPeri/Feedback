@@ -16,31 +16,31 @@
 
         <div class="w3-center w3-oxblood w3-card-4">
 
-        <a href="faculty"><button class="w3-btn w3-oxblood w3-hover-tan">Faculty</button></a>
+        <a href="{% url 'faculty' %}"><button class="w3-btn w3-oxblood w3-hover-tan">Faculty</button></a>
 
         <div class="w3-dropdown-hover">
             <button class="w3-btn w3-oxblood w3-hover-tan" onclick="dropFunction()">Courses</button>
             <div class="w3-dropdown-content w3-card-2 w3-light-grey">
-              <a style="border-bottom:1px solid lightgrey" href="course_offered">Courses Offered</a>
-              <a style="border-bottom:1px solid lightgrey" href="course_registration">Course Registration</a>
-              <a style="border-bottom:1px solid lightgrey" href="create_course_feedback">Course Feedback Assignment</a>
+              <a style="border-bottom:1px solid lightgrey" href="{% url 'course_offered' %} ">Courses Offered</a>
+              <a style="border-bottom:1px solid lightgrey" href="{% url 'course_registration' %}">Course Registration</a>
+              <a style="border-bottom:1px solid lightgrey" href="{% url 'create_course_feedback' %}">Course Feedback Assignment</a>
             </div>
         </div>
 
      <div class="w3-dropdown-hover">
     <button class="w3-btn w3-oxblood w3-hover-tan" onclick="dropFunction()">Subject</button>
     <div class="w3-dropdown-content w3-card-2 w3-light-grey">
-      <a style="border-bottom:1px solid lightgrey" href="subject_type">Subject Type</a>
-      <a style="border-bottom:1px solid lightgrey" href="subject_delivery_type">Subject Delivery Type</a>
-        <a style="border-bottom:1px solid lightgrey" href="subject_option">Subject Option</a>
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'subject_type' %}">Subject Type</a>
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'subject_delivery_type' %}">Subject Delivery Type</a>
+        <a style="border-bottom:1px solid lightgrey" href="{% url 'subject_option' %}">Subject Option</a>
     </div>
   </div>
 
     <div class="w3-dropdown-hover">
     <button class="w3-btn w3-oxblood w3-hover-tan" onclick="dropFunction()">Student</button>
     <div class="w3-dropdown-content w3-card-2 w3-light-grey">
-      <a style="border-bottom:1px solid lightgrey" href="student">Add Student</a>
-      <a style="border-bottom:1px solid lightgrey" href="student_type">Student Type</a>
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'student' %}">Add Student</a>
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'student_type' %}">Student Type</a>
     </div>
   </div>
 
@@ -48,8 +48,8 @@
             <div class="w3-dropdown-hover w3-right">
     <button class="w3-btn w3-oxblood w3-hover-tan w3-margin-right" onclick="dropFunction()">Hey, {{ username }}</button>
     <div class="w3-dropdown-content w3-card-2 w3-light-grey w3-margin-right" style="position:absolute; right:0">
-      <a style="border-bottom:1px solid lightgrey" href="change_password">Change Password</a>
-      <a style="border-bottom:1px solid lightgrey" href="logout">Logout</a>
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'change_password' %}">Change Password</a>
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'logout' %}">Logout</a>
     </div>
   </div>
     </div>

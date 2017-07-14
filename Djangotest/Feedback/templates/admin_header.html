@@ -16,28 +16,28 @@
         </div>
 
         <div class="w3-center w3-oxblood w3-card-4">
-            <a href="academic_year"><button class="w3-btn w3-oxblood w3-hover-tan">Academic Year</button></a>
-            <a href="regulation"><button class="w3-btn w3-oxblood w3-hover-tan">Regulation</button></a>
-            <a href="department"><button class="w3-btn w3-oxblood w3-hover-tan">Departments</button></a>
+            <a href="{% url 'academic_year' %}"><button class="w3-btn w3-oxblood w3-hover-tan">Academic Year</button></a>
+            <a href="{% url 'regulation' %}"><button class="w3-btn w3-oxblood w3-hover-tan">Regulation</button></a>
+            <a href="{% url 'department' %}"><button class="w3-btn w3-oxblood w3-hover-tan">Departments</button></a>
             <div class="w3-dropdown-hover">
                 <button class="w3-btn w3-oxblood w3-hover-tan">Program</button>
                 <div class="w3-dropdown-content w3-card-2 w3-light-grey">
-                    <a style="border-bottom:1px solid lightgrey" href="program">Add Program</a>
-                    <a style="border-bottom:1px solid lightgrey" href="program_structure">Program Structure</a>
+                    <a style="border-bottom:1px solid lightgrey" href="{% url 'program' %}">Add Program</a>
+                    <a style="border-bottom:1px solid lightgrey" href="{% url 'program_structure' %}">Program Structure</a>
                 </div>
             </div>
             <div class="w3-dropdown-hover w3-right">
                 <button class="w3-btn w3-oxblood w3-hover-tan w3-margin-right">Hey, {{ username }}</button>
                 <div class="w3-dropdown-content w3-card-2 w3-light-grey w3-margin-right" style="position:absolute; right:0">
-                    <a style="border-bottom:1px solid lightgrey" href="change_password">Change Password</a>
-                    <a style="border-bottom:1px solid lightgrey" href="logout">Logout</a>
+                    <a style="border-bottom:1px solid lightgrey" href="{% url 'change_password' %}">Change Password</a>
+                    <a style="border-bottom:1px solid lightgrey" href="{% url 'logout' %}">Logout</a>
                 </div>
           </div>
             <div class="w3-dropdown-hover">
             <button class="w3-btn w3-oxblood w3-hover-tan" onclick="dropFunction()">Feedback</button>
             <div class="w3-dropdown-content w3-card-2 w3-light-grey">
-              <a style="border-bottom:1px solid lightgrey" href="feedback_question">Feedback Questions</a>
-              <a style="border-bottom:1px solid lightgrey" href="feedback_type">Feedback Type</a>
+              <a style="border-bottom:1px solid lightgrey" href="{% url 'feedback_question' %}">Feedback Questions</a>
+              <a style="border-bottom:1px solid lightgrey" href="{% url 'feedback_type' %}">Feedback Type</a>
               <a style="border-bottom:1px solid lightgrey" href="#base">Comment Log</a>
               <a style="border-bottom:1px solid lightgrey" href="#base">Rating Log</a>
             </div>
