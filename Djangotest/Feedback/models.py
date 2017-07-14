@@ -207,10 +207,10 @@ class CourseFeedbackAssignment(models.Model):
 class FeedbackCommentLog(models.Model):
     class Meta:
         unique_together=(('feedback_no', 'course_code', 'cycle_no'),)
-    feedback_no = models.IntegerField(primary_key=True)
+    feedback_no = models.AutoField(primary_key=True)
     course_code = models.ForeignKey(CourseOffered, on_delete=models.PROTECT)
     cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
-    feedback_weightING = models.IntegerField()
+    feedback_weighting = models.IntegerField()
     feedback_comments = models.CharField(max_length=100, null=True)
 
     def __str__(self):
@@ -237,16 +237,16 @@ class FeedbackRatingAggregate(models.Model):
         unique_together = (('course_code', 'cycle_no'),)
     course_code = models.OneToOneField(CourseOffered, primary_key=True, on_delete=models.PROTECT)
     cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
-    Rating_5_count_1 = models.IntegerField()
-    Rating_5_count_2 = models.IntegerField()
-    Rating_4_count_1 = models.IntegerField()
-    Rating_4_count_2 = models.IntegerField()
-    Rating_3_count_1 = models.IntegerField()
-    Rating_3_count_2 = models.IntegerField()
-    Rating_2_count_1 = models.IntegerField()
-    Rating_2_count_2 = models.IntegerField()
-    Rating_1_count_1 = models.IntegerField()
-    Rating_1_count_2 = models.IntegerField()
+    rating_5_count_1 = models.IntegerField()
+    rating_5_count_2 = models.IntegerField()
+    rating_4_count_1 = models.IntegerField()
+    rating_4_count_2 = models.IntegerField()
+    rating_3_count_1 = models.IntegerField()
+    rating_3_count_2 = models.IntegerField()
+    rating_2_count_1 = models.IntegerField()
+    rating_2_count_2 = models.IntegerField()
+    rating_1_count_1 = models.IntegerField()
+    rating_1_count_2 = models.IntegerField()
 
     def __str__(self):
         return str(self.course_code)

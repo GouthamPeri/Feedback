@@ -909,28 +909,74 @@ def submit_feedback(request):
     student_id = request.user.username
     student = Student.objects.get(student_reg_no=student_id)
 
+    course_id = request.GET['course']
+    cycle_no = request.GET['cycle']
+
+
     if request.method == 'POST':
         print request.POST
-        questions = None
+        cycle = FeedbackType.objects.get(cycle_no=cycle_no)
+        course = CourseOffered.objects.get(course_code=course_id)
+        feedback_assignment = CourseFeedbackAssignment.objects.get(student_reg_no__student_reg_no__student_reg_no=student,
+                                                                   course_code__course_code__course_code=course_id,
+                                                                   cycle_no__cycle_no=cycle_no)
+        feedback_assignment.is_given = 1
+        weighting = feedback_assignment.feedback_weighting
+        feedback_assignment.save()
 
-    else:
-        course_id = request.GET['course']
-        cycle_no = request.GET['cycle']
+        feedback_comment_object = FeedbackCommentLog(course_code=course,
+                                                     cycle_no=cycle,
+                                                     feedback_weighting=weighting,
+                                                     feedback_comments=request.POST['comments'],
+                                                     )
+
+        feedback_comment_object.save()
+        responses = request.POST.keys()
+        responses.remove('comments')
+
+        feedback_rating_aggregate = {'course_code': course,
+                                            'cycle_no': cycle,
+                                            'rating_5_count_1': 0,
+                                            'rating_5_count_2': 0,
+                                            'rating_4_count_1': 0,
+                                            'rating_4_count_2': 0,
+                                            'rating_3_count_1': 0,
+                                            'rating_3_count_2': 0,
+                                            'rating_2_count_1': 0,
+                                            'rating_2_count_2': 0,
+                                            'rating_1_count_1': 0,
+                                            'rating_1_count_2': 0,
+                                            }
+
+        for response in responses:
+            answer = request.POST[response]
+            FeedbackRatingLog.objects.create(feedback_no=feedback_comment_object,
+                                             course_code=feedback_comment_object,
+                                             cycle_no=feedback_comment_object,
+                                             question_no=int(response),
+                                             feedback_weighting=weighting,
+                                             rating_answer=answer)
+            feedback_rating_aggregate['rating_' + answer + '_count_' + str(weighting)] += 1
+
+        FeedbackRatingAggregate.objects.create(**feedback_rating_aggregate)
+        return HttpResponseRedirect('/feedback/view_courses')
+
+    elif request.method == "GET":
         try:
             feedback_assignment = CourseFeedbackAssignment.objects.filter(
                 student_reg_no__student_reg_no__student_reg_no=student,
                 course_code__course_code__course_code=course_id,
                 cycle_no__cycle_no=cycle_no)
+            if feedback_assignment.is_given == 1:
+                raise ValueError('Already given')
+            questions = FeedbackQuestion.objects.filter(cycle_no__cycle_no=cycle_no)
         except:
-            error = "Nice try"
-
-        questions = FeedbackQuestion.objects.filter(cycle_no__cycle_no=cycle_no)
-        question_count = len(questions)
+            return HttpResponseRedirect('/feedback/view_courses')
 
         return render_to_response('submit_feedback.html', {'error': error, 'questions': questions,
                                                            'course': CourseOffered.objects.get(
                                                                course_code=course_id).course_name})
-    return HttpResponse("Thanks")
+
 
 
 
