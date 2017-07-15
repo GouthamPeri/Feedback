@@ -1307,14 +1307,18 @@ def view_feedback(request):
         return HttpResponseRedirect(reverse('faculty_home_page'))
 
 
+@login_required
+@user_passes_test(is_dept_admin)
 def view_department_feedback(request):
     department = Faculty.objects.get(faculty_code=request.user.username).home_department
     subjects = SubjectOption.objects.filter(offered_by=department)
-    print subjects
     for subject in subjects:
-        courses_with_feedback = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'course_code__course_code__subject_code')\
+        courses_with_feedback = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no__cycle_no', 'course_code__course_code__subject_code','course_code__course_code__faculty_name__faculty_first_name','course_code__course_code__faculty_name__faculty_last_name')\
             .filter(course_code__course_code__subject_code=subject.subject_code).distinct()
-        print courses_with_feedback
 
-    return HttpResponse('Hello')
+    if(request.method=='POST'):
+        return HttpResponseRedirect(
+            reverse('view_feedback') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"])
+
+    return render_to_response('dept_feedback.html',{'courses' : courses_with_feedback})
 
