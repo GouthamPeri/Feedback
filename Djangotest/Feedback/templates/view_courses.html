@@ -44,8 +44,8 @@
                     <ul class="w3-ul w3-card-4 w3-tan">
                         {% for item in not_given_courses %}
                             <form action="" method="POST" name="{{ forloop.counter }}">
-                              <input type="hidden" name="course_code" value="{{ item.course_code__course_code__course_code }}"/>
-                              <input type="hidden" name="cycle_no" value="{{ item.cycle_no__cycle_no }}"/>
+                              <input type="hidden" name="course" value="{{ item.course_code__course_code__course_code }}"/>
+                              <input type="hidden" name="cycle" value="{{ item.cycle_no__cycle_no }}"/>
                               <button class="w3-btn w3-tan" style="width:100%">
                                     <span class="w3-large">Course code : {{ item.course_code__course_code__course_name }}</span><br>
                                     <span>Cycle No : {{ item.cycle_no__cycle_no }}</span><br>

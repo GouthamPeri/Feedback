@@ -146,8 +146,6 @@ class CourseOffered(models.Model):
 
     @property
     def get_reg_code(self):
-        print "hi"
-        print str(self.regulation_code.regulation_code.regulation_code)
         return str(self.regulation_code.regulation_code.regulation_code)
 
 
@@ -224,7 +222,7 @@ class FeedbackRatingLog(models.Model):
     feedback_no = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_feedback_no', on_delete=models.PROTECT)
     course_code = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_course_code', on_delete=models.PROTECT)
     cycle_no = models.ForeignKey(FeedbackCommentLog, related_name='FeedbackCommentLog_cycle_no', on_delete=models.PROTECT)
-    question_no = models.IntegerField(primary_key=True)
+    question_no = models.IntegerField()
     feedback_weighting = models.IntegerField()
     rating_answer = models.IntegerField()
 

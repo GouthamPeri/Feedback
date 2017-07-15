@@ -18,7 +18,6 @@ from functools import partial, wraps
 from django.db.models import Count
 
 
-
 def is_dept_admin(user):
     return user.groups.filter(name="Dept Admin").exists();
 
@@ -905,6 +904,7 @@ def feedback_type(request):
 @login_required
 @user_passes_test(is_student)
 def submit_feedback(request):
+    print "inside"
     error=''
     student_id = request.user.username
     student = Student.objects.get(student_reg_no=student_id)
@@ -934,19 +934,23 @@ def submit_feedback(request):
         responses = request.POST.keys()
         responses.remove('comments')
 
-        feedback_rating_aggregate = {'course_code': course,
-                                            'cycle_no': cycle,
-                                            'rating_5_count_1': 0,
-                                            'rating_5_count_2': 0,
-                                            'rating_4_count_1': 0,
-                                            'rating_4_count_2': 0,
-                                            'rating_3_count_1': 0,
-                                            'rating_3_count_2': 0,
-                                            'rating_2_count_1': 0,
-                                            'rating_2_count_2': 0,
-                                            'rating_1_count_1': 0,
-                                            'rating_1_count_2': 0,
-                                            }
+        try:
+            feedback_rating_aggregate = FeedbackRatingAggregate.objects.get(course_code=course, cycle_no=cycle)
+        except:
+            feedback_rating_aggregate = FeedbackRatingAggregate(
+                                    **{'course_code': course,
+                                    'cycle_no': cycle,
+                                    'rating_5_count_1': 0,
+                                    'rating_5_count_2': 0,
+                                    'rating_4_count_1': 0,
+                                    'rating_4_count_2': 0,
+                                    'rating_3_count_1': 0,
+                                    'rating_3_count_2': 0,
+                                    'rating_2_count_1': 0,
+                                    'rating_2_count_2': 0,
+                                    'rating_1_count_1': 0,
+                                    'rating_1_count_2': 0,
+                                    })
 
         for response in responses:
             answer = request.POST[response]
@@ -956,21 +960,22 @@ def submit_feedback(request):
                                              question_no=int(response),
                                              feedback_weighting=weighting,
                                              rating_answer=answer)
-            feedback_rating_aggregate['rating_' + answer + '_count_' + str(weighting)] += 1
+            feedback_rating_aggregate.__dict__['rating_' + answer + '_count_' + str(weighting)] += 1
 
-        FeedbackRatingAggregate.objects.create(**feedback_rating_aggregate)
+        feedback_rating_aggregate.save()
         return HttpResponseRedirect(reverse('view_courses'))
 
     elif request.method == "GET":
         try:
-            feedback_assignment = CourseFeedbackAssignment.objects.filter(
+            feedback_assignment = CourseFeedbackAssignment.objects.get(
                 student_reg_no__student_reg_no__student_reg_no=student,
                 course_code__course_code__course_code=course_id,
                 cycle_no__cycle_no=cycle_no)
             if feedback_assignment.is_given == 1:
                 raise ValueError('Already given')
             questions = FeedbackQuestion.objects.filter(cycle_no__cycle_no=cycle_no)
-        except:
+        except Exception as e:
+            print e
             return HttpResponseRedirect(reverse('view_courses'))
 
         return render_to_response('submit_feedback.html', {'error': error, 'questions': questions,
@@ -1136,10 +1141,6 @@ def manage_course_feedback_assignment(request):
                         student_reg_no__student_reg_no__student_reg_no=candidate
                     ).update(is_given=0)
 
-    print CourseFeedbackAssignment.objects.filter(is_given=0,
-                                                 course_code__course_code=course_code,
-                                                 cycle_no__cycle_no=cycle_no)
-
     return render_to_response('course_feedback_assignment.html', {
         'low': CourseFeedbackAssignment.objects.filter(feedback_weighting=1,
                                                        course_code__course_code=course_code,
@@ -1170,9 +1171,7 @@ def create_course_feedback_assignment(request):
 
     error = ''
     course_feedback_objects = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no', 'start_date', 'end_date').distinct()
-    print course_feedback_objects
     deleteform = DeleteForm()
-    print request.POST
     if request.method == 'POST':
         if 'course_code' in request.POST: # add records
             try:
@@ -1198,25 +1197,20 @@ def create_course_feedback_assignment(request):
             indices = list(map(int, indices))
             indices.sort(reverse=True)
 
-            print indices
             try:
                 for i in indices:
                     obj = course_feedback_objects[i]
-                    print obj
                     CourseFeedbackAssignment.objects.filter(
                         course_code__course_code__course_code=obj['course_code__course_code__course_code'],
                         cycle_no__cycle_no=obj['cycle_no']).delete()
 
             except ProtectedError as e:
                 error = e
-                print e
             except Exception as e:
-                print e
                 error = "ERROR: Faculty code does not exist/Error performing deletion"
 
     else:
         if 'manage' in request.GET:
-            print request.GET
             return HttpResponseRedirect(reverse('manage')+ '?manage=' + request.GET['manage'])
         deleteform = DeleteForm()
 
@@ -1236,7 +1230,8 @@ def view_courses(request):
 
 
     if request.method=='POST':
-        return HttpResponseRedirect('/feedback/submit_feedback?course=' + request.POST["course_code"] + '&cycle=' + request.POST["cycle_no"])
+        print reverse('submit_feedback') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"]
+        return HttpResponseRedirect(reverse('submit_feedback') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"])
 
 
     return render_to_response('view_courses.html',
@@ -1253,3 +1248,28 @@ def faculty_home_page(request):
                                 {
                                     'courses' : courses
                                 })
+
+
+def get_weighted_average(course_code, cycle_no):
+   course = CourseOffered.objects.get(course_code=course_code)
+   cycle = FeedbackType.objects.get(cycle_no=cycle_no)
+
+   rating_avg = {1 : 0,
+                 2 : 0,
+                 3 : 0,
+                 4 : 0,
+                 5 : 0,
+                 }
+
+   responses = FeedbackRatingAggregate.objects.filter(course_code=course, cycle_no=cycle)
+   for i in range(1, 6):
+       rating_avg[i] = responses['rating_' + str(i) + '_count_2'] * 2 + responses['rating_' + str(i) + '_count_1']
+
+   print rating_avg
+   sum = 0
+   count = 0
+   for key, value in rating_avg:
+       sum += key * value
+       count += value
+
+   print sum/count
