@@ -93,7 +93,6 @@ def dept_admin_header(request):
 
 
 @login_required
-@user_passes_test(is_student)
 def student_header(request):
     return render_to_response("student_header.html", {'username': request.user.username})
 
@@ -1273,3 +1272,15 @@ def get_weighted_average(course_code, cycle_no):
        count += value
 
    print sum/count
+
+@login_required
+@user_passes_test(is_faculty)
+def faculty_home_page(request):
+    courses = CourseFeedbackAssignment.objects.filter(course_code__course_code__faculty_name= Faculty.objects.get(faculty_code=request.user.username)).values('cycle_no__cycle_no','course_code__course_code__course_name').distinct()
+    if request.method == 'POST':
+        return HttpResponseRedirect(
+            '/feedback/submit_feedback?course=' + request.POST["course_code"] + '&cycle=' + request.POST["cycle_no"])
+    return render_to_response('faculty_home_page.html',
+                                {
+                                    'courses' : courses
+                                })

@@ -29,8 +29,26 @@
         </style>
     </head>
   <body style="background-color:#C63D0F">
-        {{ courses.course_name }}
-    </body>
+
+    <div w3-include-html="{% url 'student_header' %}"></div>
+    {% for course in courses %}
+
+    <div style="width:40%;height:200px;float:left;">
+        <ul class="w3-ul w3-card-4 w3-tan">
+            {% for item in courses %}
+                <form action="" method="POST" name="{{ forloop.counter }}">
+                  <button class="w3-btn w3-tan" style="width:100%">
+                        <input type="hidden" name="course_code" value="{{ course.course_code__course_code__course_name }}"/>
+                        <input type="hidden" name="cycle_no" value="{{ course.cycle_no__cycle_no }}"/>
+                        <span class="w3-large">Course Name: {{ course.course_code__course_code__course_name }}</span><br>
+                        <span>Cycle No : {{ course.cycle_no__cycle_no }}</span><br>
+                  </button>
+                </form>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+  </body>
     <script>
     w3IncludeHTML();
 </script>
