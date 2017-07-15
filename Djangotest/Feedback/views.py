@@ -1250,37 +1250,71 @@ def faculty_home_page(request):
 
 
 def get_weighted_average(course_code, cycle_no):
-   course = CourseOffered.objects.get(course_code=course_code)
-   cycle = FeedbackType.objects.get(cycle_no=cycle_no)
+    course = CourseOffered.objects.get(course_code=course_code)
+    cycle = FeedbackType.objects.get(cycle_no=cycle_no)
 
-   rating_avg = {1 : 0,
-                 2 : 0,
-                 3 : 0,
-                 4 : 0,
-                 5 : 0,
-                 }
+    rating_avg = {1 : 0,
+                  2 : 0,
+                  3 : 0,
+                  4 : 0,
+                  5 : 0,
+                  }
 
-   responses = FeedbackRatingAggregate.objects.filter(course_code=course, cycle_no=cycle)
-   for i in range(1, 6):
-       rating_avg[i] = responses['rating_' + str(i) + '_count_2'] * 2 + responses['rating_' + str(i) + '_count_1']
+    response = FeedbackRatingAggregate.objects.get(course_code=course, cycle_no=cycle)
+    print response
+    for i in range(1, 6):
+        rating_avg[i] += response.__dict__['rating_' + str(i) + '_count_2'] * 2 + response.__dict__['rating_' + str(i) + '_count_1']
 
-   print rating_avg
-   sum = 0
-   count = 0
-   for key, value in rating_avg:
-       sum += key * value
-       count += value
+    print rating_avg
+    sum = 0
+    count = 0
+    for key, value in rating_avg.items():
+        sum += key * value
+        count += value
 
-   print sum/count
+    print sum/count
+
+    return sum/count
+
 
 @login_required
 @user_passes_test(is_faculty)
 def faculty_home_page(request):
-    courses = CourseFeedbackAssignment.objects.filter(course_code__course_code__faculty_name= Faculty.objects.get(faculty_code=request.user.username)).values('cycle_no__cycle_no','course_code__course_code__course_name').distinct()
+    courses = CourseFeedbackAssignment.objects.filter(course_code__course_code__faculty_name= Faculty.objects.get(faculty_code=request.user.username))\
+        .values('cycle_no__cycle_no', 'course_code__course_code__course_name', 'course_code__course_code__course_code').distinct()
     if request.method == 'POST':
         return HttpResponseRedirect(
-            '/feedback/submit_feedback?course=' + request.POST["course_code"] + '&cycle=' + request.POST["cycle_no"])
+            reverse('view_feedback') + '?course=' + request.POST["course_code"] + '&cycle=' + request.POST["cycle_no"])
     return render_to_response('faculty_home_page.html',
                                 {
                                     'courses' : courses
                                 })
+
+
+def view_feedback(request):
+    course_code = request.GET['course']
+    cycle_no = request.GET['cycle']
+
+    faculty_name = request.user.username
+    try:
+        CourseOffered.objects.get(course_code=course_code)
+        avg = get_weighted_average(course_code, cycle_no)
+        comments = FeedbackCommentLog.objects.filter(course_code__course_code=course_code,
+                                                     cycle_no__cycle_no=cycle_no).order_by('-feedback_weighting')
+
+        return render_to_response('view_feedback.html', {'weighted_avg': avg, 'comments': comments})
+    except:
+        return HttpResponseRedirect(reverse('faculty_home_page'))
+
+
+def view_department_feedback(request):
+    department = Faculty.objects.get(faculty_code=request.user.username).home_department
+    subjects = SubjectOption.objects.filter(offered_by=department)
+    print subjects
+    for subject in subjects:
+        courses_with_feedback = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'course_code__course_code__subject_code')\
+            .filter(course_code__course_code__subject_code=subject.subject_code).distinct()
+        print courses_with_feedback
+
+    return HttpResponse('Hello')
+

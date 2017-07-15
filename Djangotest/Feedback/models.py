@@ -93,7 +93,6 @@ class ProgramStructure(models.Model):
 
     @property
     def get_reg_code(self):
-        print "sadad"
         return str(self.regulation_code.regulation_code)
 
 
@@ -184,7 +183,6 @@ class CourseRegistration(models.Model):
     @property
     def code(self):
         return str(self.course_code)
-
 
 
 class CourseFeedbackAssignment(models.Model):
