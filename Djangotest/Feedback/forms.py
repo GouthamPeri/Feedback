@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User, Group
 from django.forms import formset_factory
 from .models import *
 import datetime
@@ -72,6 +73,10 @@ def create_faculty_form(dept_code):
             relieved_date = cleaned_data.get("relieved_date")
             if relieved_date and relieved_date < joining_date:
                 raise forms.ValidationError("WRONG DATES!")
+            username = cleaned_data.get('faculty_code').upper()
+            user = User.objects.create_user(username, cleaned_data.get('faculty_email'), username)
+            user.save()
+            user.groups.add(Group.objects.get(name='Faculty'))
 
     return FacultyForm
 
@@ -129,6 +134,13 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['student_reg_no', 'student_first_name', 'student_last_name', 'student_type', 'academic_year_code', 'regulation_code']
+
+    def clean(self):
+        cleaned_data = super(StudentForm, self).clean()
+        username = cleaned_data.get('student_reg_no').upper()
+        user = User.objects.create_user(username, None, username)
+        user.save()
+        user.groups.add(Group.objects.get(name='Student'))
 
 
 class SubjectDeliveryTypeForm(forms.ModelForm):

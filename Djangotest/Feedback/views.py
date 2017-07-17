@@ -166,27 +166,24 @@ def faculty(request):
             else:
                 error = "ERROR: Already exists/Empty records/Invalid Data or Dates"
         else: # delete selected records
-            print request.POST
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = list(map(int, indices))
             indices.sort(reverse=True)
-            objects = Faculty.objects.filter(home_department=dept)
-            print objects
-            print indices
+            objects = Faculty.objects.filter(home_department=dept).order_by('faculty_code')
             try:
                 for i in indices:
                     faculty = objects[i]
-                    print faculty
-                    print faculty.faculty_code
                     if faculty.faculty_code == current_faculty.faculty_code:
                         error = "ERROR: You cannot delete your own record"
                     else:
-                        print "h"
+                        User.objects.get(username=faculty.faculty_code).delete()
                         faculty.delete()
-                        print "h"
+
+
             except ProtectedError as e:
                 error = e
-            except:
+            except Exception as e:
+                print e
                 error = "ERROR: Faculty code does not exist/Error performing deletion"
 
     else:
@@ -196,7 +193,7 @@ def faculty(request):
         deleteform = DeleteForm()
 
     dept = Faculty.objects.get(faculty_code=request.user.username).home_department
-    queryset = Faculty.objects.filter(home_department = dept)
+    queryset = Faculty.objects.filter(home_department = dept).order_by('faculty_code')
     return render_to_response('faculty.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                                     'database': myformset(queryset=queryset), 'username': request.user.username,
                                                     'error': error})
@@ -529,9 +526,11 @@ def student(request):
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = map(int, indices)
             indices.sort(reverse=True)
-            objects = Student.objects.all()
+            objects = Student.objects.all().order_by('student_reg_no')
             try:
                 for i in indices:
+
+                    User.objects.get(username=objects[i].student_reg_no).delete()
                     objects[i].delete()
             except ProtectedError as p:
                 error = str(p)
