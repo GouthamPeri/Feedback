@@ -1322,3 +1322,33 @@ def view_department_feedback(request):
 
     return render_to_response('dept_feedback.html',{'courses' : courses_with_feedback})
 
+
+@login_required
+@user_passes_test(is_colg_admin)
+def all_feedbacks(request):
+    courses_with_feedback = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code',
+                                                                    'cycle_no__cycle_no',
+                                                                    'course_code__course_code__subject_code',
+                                                                    'course_code__course_code__faculty_name__faculty_first_name',
+                                                                    'course_code__course_code__faculty_name__faculty_last_name').distinct()
+    if (request.method == 'POST'):
+        return HttpResponseRedirect(
+            reverse('view_all_feedbacks') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"])
+
+    return render_to_response('all_feedbacks.html', {'courses': courses_with_feedback})
+
+
+def view_all_feedbacks(request):
+    course_code = request.GET['course']
+    cycle_no = request.GET['cycle']
+
+    try:
+        CourseOffered.objects.get(course_code=course_code)
+        avg = get_weighted_average(course_code, cycle_no)
+        comments = FeedbackCommentLog.objects.filter(course_code__course_code=course_code,
+                                                     cycle_no__cycle_no=cycle_no).order_by('-feedback_weighting')
+
+        return render_to_response('view_all_feedbacks.html', {'weighted_avg': avg, 'comments': comments})
+    except:
+        return HttpResponseRedirect(reverse('all_feedbacks'))
+

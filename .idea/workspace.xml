@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="22fe3dd9-e778-4b6f-bb4c-fa681b28f24d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/db.sqlite3" afterPath="$PROJECT_DIR$/Djangotest/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/templates/dept_admin_header.html" afterPath="$PROJECT_DIR$/Djangotest/Feedback/templates/dept_admin_header.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/templates/admin_header.html" afterPath="$PROJECT_DIR$/Djangotest/Feedback/templates/admin_header.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/urls.py" afterPath="$PROJECT_DIR$/Djangotest/Feedback/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Djangotest/Feedback/views.py" afterPath="$PROJECT_DIR$/Djangotest/Feedback/views.py" />
     </list>
     <ignored path="feedback.iws" />
@@ -31,18 +33,20 @@
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#form#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1500294940514" expanded="true" signature="23:2009" ph="..." />
+                <marker date="1500294940514" expanded="true" signature="1374:1930" ph="..." />
+                <marker date="1500294940514" expanded="true" signature="1374:1957" ph="..." />
+                <marker date="1500294940514" expanded="true" signature="1383:1393" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="1320" column="108" selection-start-line="1320" selection-start-column="108" selection-end-line="1320" selection-end-column="108" />
+            <state relative-caret-position="378">
+              <caret line="1352" column="61" selection-start-line="1352" selection-start-column="61" selection-end-line="1352" selection-end-column="61" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -50,10 +54,52 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dept_admin_header.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="view_all_feedbacks.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/view_all_feedbacks.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="704">
+              <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="view_feedback.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/view_feedback.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="13" column="38" selection-start-line="0" selection-start-column="0" selection-end-line="56" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="all_feedbacks.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/all_feedbacks.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="638">
+              <caret line="65" column="31" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin_header.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/admin_header.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="42" column="86" selection-start-line="42" selection-start-column="86" selection-end-line="42" selection-end-column="86" />
+              <folding>
+                <element signature="n#style#0;n#a#4;n#div#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dept_admin_header.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/dept_admin_header.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
+            <state relative-caret-position="946">
               <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
               <folding />
             </state>
@@ -63,8 +109,8 @@
       <file leaf-file-name="dept_feedback.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/dept_feedback.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+            <state relative-caret-position="-440">
+              <caret line="10" column="30" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -74,7 +120,7 @@
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/view_courses.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="286">
-              <caret line="13" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="7" />
+              <caret line="17" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="112" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -83,8 +129,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="35" column="102" selection-start-line="35" selection-start-column="78" selection-end-line="35" selection-end-column="102" />
+            <state relative-caret-position="422">
+              <caret line="37" column="71" selection-start-line="37" selection-start-column="71" selection-end-line="37" selection-end-column="71" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -109,8 +155,12 @@
       <list>
         <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/faculty_home_page.html" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/dept_feedback.html" />
-        <option value="$PROJECT_DIR$/Djangotest/Feedback/views.py" />
         <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/dept_admin_header.html" />
+        <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/all_feedbacks.html" />
+        <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/admin_header.html" />
+        <option value="$PROJECT_DIR$/Djangotest/Feedback/urls.py" />
+        <option value="$PROJECT_DIR$/Djangotest/Feedback/views.py" />
+        <option value="$PROJECT_DIR$/Djangotest/Feedback/templates/view_all_feedbacks.html" />
       </list>
     </option>
   </component>
@@ -145,7 +195,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -238,7 +288,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -397,7 +447,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24960339" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -405,7 +455,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33408833" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33522084" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -440,8 +490,68 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#form#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1500294940514" expanded="true" signature="23:2009" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1374:1930" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1374:1957" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1383:1393" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29040">
+          <caret line="1320" column="108" selection-start-line="1320" selection-start-column="108" selection-end-line="1320" selection-end-column="108" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/dept_admin_header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/dept_feedback.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/view_courses.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="35" column="102" selection-start-line="35" selection-start-column="78" selection-end-line="35" selection-end-column="102" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/faculty_home_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1500294940514" expanded="true" signature="23:2009" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1374:1930" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1374:1957" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1383:1393" ph="..." />
           </folding>
         </state>
       </provider>
@@ -469,15 +579,7 @@
     <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/view_courses.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
-          <caret line="13" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/dept_feedback.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+          <caret line="17" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="112" selection-end-column="3" />
           <folding />
         </state>
       </provider>
@@ -488,37 +590,81 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#form#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="35" column="102" selection-start-line="35" selection-start-column="78" selection-end-line="35" selection-end-column="102" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="1320" column="108" selection-start-line="1320" selection-start-column="108" selection-end-line="1320" selection-end-column="108" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <marker date="1500294940514" expanded="true" signature="23:2009" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1374:1930" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1374:1957" ph="..." />
+            <marker date="1500294940514" expanded="true" signature="1383:1393" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/dept_admin_header.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
+        <state relative-caret-position="946">
           <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/dept_feedback.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-440">
+          <caret line="10" column="30" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/admin_header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="42" column="86" selection-start-line="42" selection-start-column="86" selection-end-line="42" selection-end-column="86" />
+          <folding>
+            <element signature="n#style#0;n#a#4;n#div#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/all_feedbacks.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="65" column="31" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="37" column="71" selection-start-line="37" selection-start-column="71" selection-end-line="37" selection-end-column="71" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/view_feedback.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="38" selection-start-line="0" selection-start-column="0" selection-end-line="56" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/templates/view_all_feedbacks.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Djangotest/Feedback/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="1352" column="61" selection-start-line="1352" selection-start-column="61" selection-end-line="1352" selection-end-column="61" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

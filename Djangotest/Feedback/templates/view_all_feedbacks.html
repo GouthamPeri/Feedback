@@ -1,0 +1,57 @@
+{% load static %}
+<html>
+    <head>
+        <script src="{% static 'include.js' %}">
+        </script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+            .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
+            .myblue {color:#fff!important;background-color:#051C24!important};
+            td {
+                padding: 20px;
+                align:center;
+            }
+            table {
+                table-layout:fixed;
+            }
+            .question_tile {
+                margin: 20px;
+                padding: 16px;
+            }
+            table {border-collapse:collapse; table-layout:fixed; width:100%;}
+            table td {width:100%; word-wrap:break-word;}
+        </style>
+    </head>
+  <body style="background-color:#d9dbdd">
+
+    <div w3-include-html="{% url 'admin' %}"></div>
+    <div style=" width:80%;height:200px;margin-top:75px;margin-left:5%;" class="w3-container">
+        <div style="width:40%;height:200px;float:left;">
+            <ul class="w3-ul w3-card-4 w3-oxblood" style="padding:15px">
+                <center><h2> The Weighted Average is : {{ weighted_avg }}</h2></center>
+            </ul>
+        </div>
+
+        <table class="w3-table w3-striped w3-border">
+            <tr class="w3-oxblood"><th><center>Comments</center></th></tr>
+            <tr>
+                <td>
+                    {% for comment in comments %}
+                    <h3>{{ comment.feedback_comments }}</h3>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+  </body>
+    <script>
+    w3IncludeHTML();
+</script>
+</html>

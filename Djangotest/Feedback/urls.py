@@ -33,5 +33,7 @@ urlpatterns = [
     url(r'^view_courses/$', views.view_courses,name='view_courses'),
     url(r'^faculty_home_page/$', views.faculty_home_page,name='faculty_home_page'),
     url(r'^view_feedback/$', views.view_feedback, name='view_feedback'),
-    url(r'^view_department_feedback/$', views.view_department_feedback, name='view_department_feedback')
+    url(r'^view_department_feedback/$', views.view_department_feedback, name='view_department_feedback'),
+    url(r'^all_feedbacks/$', views.all_feedbacks, name='all_feedbacks'),
+    url(r'^view_all_feedbacks/$', views.view_all_feedbacks, name='view_all_feedbacks')
 ]
