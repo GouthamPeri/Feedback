@@ -1,6 +1,7 @@
 {% load static %}
 <html>
     <head>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
         <script src="{% static 'include.js' %}">
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
@@ -15,7 +16,7 @@
             .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
         </style>
     </head>
-  <body style="background-color:#e9e9e9">
+  <body style="background-color:#d9dbdd">
     <center>
         <div w3-include-html="{% url 'admin' %}"></div>
         {% if error %}

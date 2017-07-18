@@ -1,6 +1,8 @@
 {% load static %}
 <html>
+<title>Feedback</title>
     <head>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
         <script src="{% static 'include.js' %}">
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
@@ -29,7 +31,7 @@
             table td {width:100%; word-wrap:break-word;}
         </style>
     </head>
-  <body>
+  <body style="background-color:#d9dbdd">
 
         <div w3-include-html="{% url 'dept_admin' %}"></div>
         {% if error %}
@@ -41,12 +43,12 @@
 
             <div style=" width:80%;height:200px;margin-top:75px;margin-left:10%;padding:10px;" class="w3-container">
                 <div style="width:40%;height:200px;float:left;">
-                    <ul class="w3-ul w3-card-4 w3-tan">
+                    <ul class="w3-ul w3-card-4 w3-oxblood">
                         {% for course in courses %}
                             <form action="" method="POST" name="{{ forloop.counter }}">
                               <input type="hidden" name="course" value="{{ course.course_code__course_code__course_code }}"/>
                               <input type="hidden" name="cycle" value="{{ course.cycle_no__cycle_no }}"/>
-                              <button class="w3-btn w3-tan" style="width:100%">
+                              <button class="w3-btn w3-oxblood" style="width:100%">
                                     <span class="w3-large">Course code : {{ course.course_code__course_code__course_code }}</span><br>
                                     <span>Cycle No : {{ course.cycle_no__cycle_no }}</span><br>
                                     <span>Faculty  : {{ course.course_code__course_code__faculty_name__faculty_first_name }} {{ course.course_code__course_code__faculty_name__faculty_last_name }}</span>

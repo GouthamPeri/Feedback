@@ -1,9 +1,11 @@
 {% load static %}
 <html>
+    <title>Feedback</title>
     <head>
         <script src="{% static 'include.js' %}">
         </script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
         <style>
             .reset{
                 all: initial;
@@ -31,22 +33,26 @@
   <body style="background-color:#d9dbdd">
 
     <div w3-include-html="{% url 'student_header' %}"></div>
-    <div style=" width:80%;height:200px;margin-top:75px;margin-left:5%;" class="w3-container">
-        <div style="width:40%;height:200px;float:left;">
+    <div style=" width:80%;height:200px;margin-top:75px;margin-left:10%;" class="w3-container">
+
+        <div style="width:40%;height:200px;margin-left:30%;">
             <ul class="w3-ul w3-card-4 w3-oxblood" style="padding:15px">
                 <center><h2> The Weighted Average is : {{ weighted_avg }}</h2></center>
             </ul>
-        </div>
 
-        <table class="w3-table w3-striped w3-border">
-            <tr class="w3-oxblood"><th><center>Comments</center></th></tr>
+        </div>
+        <table class="w3-table w3-white w3-border">
+            <caption class="w3-oxblood"><center><h3>Comments</h3></center></caption>
+            {% for comment in comments %}
+
             <tr>
-                <td>
-                    {% for comment in comments %}
-                    <h3>{{ comment.feedback_comments }}</h3>
-                    {% endfor %}
+                <td style="padding:20px"  class="w3-center" title="">
+                    <label>{{ comment.feedback_comments }}</label>
+                    <!--<hr>-->
                 </td>
             </tr>
+
+            {% endfor %}
         </table>
     </div>
 

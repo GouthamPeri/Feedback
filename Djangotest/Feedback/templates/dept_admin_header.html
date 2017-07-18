@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
+    <title>Department Admin</title>
 {% load static %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "w3.css"%}">
+    <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
 <style>
     .w3-oxblood,.w3-hover-oxblood:hover{color:#fff!important;background-color:#76323f!important}
     .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important}
 </style>
-    <body>
+    <body style="background-color:#d9dbdd">
         <img src="{%static "jntuk.png"%}" style="width:8%;padding-top:10px;float:left"></img>
         <img src="{%static "preloader.png"%}" style="width:8%;padding-top:10px;float:right"></img>
         <div class="w3-white w3-padding-16 w3-center">
@@ -48,7 +50,7 @@
 
 
             <div class="w3-dropdown-hover w3-right">
-    <button class="w3-btn w3-oxblood w3-hover-tan w3-margin-right" onclick="dropFunction()">Hey, {{ username }}</button>
+    <button class="w3-btn w3-oxblood w3-hover-tan w3-margin-right" onclick="dropFunction()">Settings</button>
     <div class="w3-dropdown-content w3-card-2 w3-light-grey w3-margin-right" style="position:absolute; right:0">
       <a style="border-bottom:1px solid lightgrey" href="{% url 'change_password' %}">Change Password</a>
       <a style="border-bottom:1px solid lightgrey" href="{% url 'logout' %}">Logout</a>

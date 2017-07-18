@@ -1,6 +1,7 @@
 {% load static %}
 <html>
     <head>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
         <script src="{% static 'include.js' %}"></script>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
         <link rel="stylesheet" href="{%static 'jquery-ui.min.css'%}"/>
@@ -29,7 +30,7 @@
             .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
         </style>
     </head>
-    <body style="background-color:#e9e9e9">
+    <body style="background-color:#d9dbdd">
         <div w3-include-html="{% url 'admin' %}"></div>
         {% if error %}
             <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">

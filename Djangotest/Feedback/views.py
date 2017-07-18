@@ -1300,7 +1300,7 @@ def view_feedback(request):
         avg = get_weighted_average(course_code, cycle_no)
         comments = FeedbackCommentLog.objects.filter(course_code__course_code=course_code,
                                                      cycle_no__cycle_no=cycle_no).order_by('-feedback_weighting')
-
+        comments = filter(lambda x: x.feedback_comments, comments)
         return render_to_response('view_feedback.html', {'weighted_avg': avg, 'comments': comments})
     except:
         return HttpResponseRedirect(reverse('faculty_home_page'))
@@ -1346,6 +1346,7 @@ def view_all_feedbacks(request):
         avg = get_weighted_average(course_code, cycle_no)
         comments = FeedbackCommentLog.objects.filter(course_code__course_code=course_code,
                                                      cycle_no__cycle_no=cycle_no).order_by('-feedback_weighting')
+        comments = filter(lambda x:x.feedback_comments, comments)
 
         return render_to_response('view_all_feedbacks.html', {'weighted_avg': avg, 'comments': comments})
     except:
