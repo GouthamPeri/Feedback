@@ -185,7 +185,6 @@ def faculty(request):
             except ProtectedError as e:
                 error = e
             except Exception as e:
-                print e
                 error = "ERROR: Faculty code does not exist/Error performing deletion"
 
     else:
@@ -394,7 +393,6 @@ def course_offered(request):
                 error = "ERROR: Course code does not exist/Error performing deletion"
 
     else:
-        print myformset()
         formset = myformset(queryset=CourseOffered.objects.none())
         countform = FieldCountForm()
         deleteform = DeleteForm()
@@ -728,7 +726,6 @@ def subject_option(request):
 
     else:
         formset = myformset(queryset=SubjectOption.objects.none())
-        print(myformset().__dict__)
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
@@ -909,7 +906,6 @@ def feedback_type(request):
 @login_required
 @user_passes_test(is_student)
 def submit_feedback(request):
-    print "inside"
     error=''
     student_id = request.user.username
     student = Student.objects.get(student_reg_no=student_id)
@@ -919,7 +915,6 @@ def submit_feedback(request):
 
 
     if request.method == 'POST':
-        print request.POST
         cycle = FeedbackType.objects.get(cycle_no=cycle_no)
         course = CourseOffered.objects.get(course_code=course_id)
         feedback_assignment = CourseFeedbackAssignment.objects.get(student_reg_no__student_reg_no__student_reg_no=student,
@@ -980,7 +975,6 @@ def submit_feedback(request):
                 raise ValueError('Already given')
             questions = FeedbackQuestion.objects.filter(cycle_no__cycle_no=cycle_no)
         except Exception as e:
-            print e
             return HttpResponseRedirect(reverse('view_courses'))
 
         return render_to_response('submit_feedback.html', {'error': error, 'questions': questions,
@@ -1193,11 +1187,9 @@ def create_course_feedback_assignment(request):
                                                             end_date=end_date)
 
             except Exception as e:
-                print e
                 error = "ERROR: Already exists/Empty records/Invalid Data or Dates"
 
         else: # delete selected records
-            print request.POST
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = list(map(int, indices))
             indices.sort(reverse=True)
@@ -1235,7 +1227,6 @@ def view_courses(request):
 
 
     if request.method=='POST':
-        print reverse('submit_feedback') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"]
         return HttpResponseRedirect(reverse('submit_feedback') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"])
 
 
@@ -1267,18 +1258,15 @@ def get_weighted_average(course_code, cycle_no):
                   }
 
     response = FeedbackRatingAggregate.objects.get(course_code=course, cycle_no=cycle)
-    print response
     for i in range(1, 6):
         rating_avg[i] += response.__dict__['rating_' + str(i) + '_count_2'] * 2 + response.__dict__['rating_' + str(i) + '_count_1']
 
-    print rating_avg
     sum = 0
     count = 0
     for key, value in rating_avg.items():
         sum += key * value
         count += value
 
-    print sum/count
 
     return sum/count
 
