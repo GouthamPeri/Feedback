@@ -47,7 +47,7 @@ class DepartmentForm(forms.ModelForm):
         fields = ['department_code', 'department_name', 'inception_year']
 
 
-def create_faculty_form(dept_code):
+def create_faculty_form(dept_code=None, groups=None):
 
     class FacultyForm(forms.ModelForm):
         check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
@@ -76,7 +76,9 @@ def create_faculty_form(dept_code):
             username = cleaned_data.get('faculty_code').upper()
             user = User.objects.create_user(username, cleaned_data.get('faculty_email'), username)
             user.save()
-            user.groups.add(Group.objects.get(name='Faculty'))
+            for group in groups:
+                user.groups.add(Group.objects.get(name=group))
+
 
     return FacultyForm
 

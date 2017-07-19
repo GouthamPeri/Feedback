@@ -89,7 +89,9 @@ def admin_header(request):
 @login_required
 @user_passes_test(is_dept_admin)
 def dept_admin_header(request):
-    return render_to_response("dept_admin_header.html", {'username': request.user.username})
+    faculty = Faculty.objects.get(faculty_code=request.user.username)
+    faculty_name = faculty.faculty_first_name + " " +faculty.faculty_last_name
+    return render_to_response("dept_admin_header.html", {'username': request.user.username,'name' : faculty_name})
 
 
 @login_required
@@ -146,7 +148,7 @@ def academic_year(request):
 def faculty(request):
     current_faculty = Faculty.objects.get(faculty_code=request.user.username)
     dept = current_faculty.home_department
-    FacultyForm = create_faculty_form(dept)
+    FacultyForm = create_faculty_form(dept,groups=["Faculty"])
     error = ''
     entries = 1
     myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
@@ -596,7 +598,7 @@ def student_type(request):
 
 
 @login_required
-@user_passes_test(is_dept_admin)
+@user_passes_test(is_colg_admin)
 def subject_type(request):
     error = ''
     entries = 1
@@ -643,7 +645,7 @@ def subject_type(request):
 
 
 @login_required
-@user_passes_test(is_dept_admin)
+@user_passes_test(is_colg_admin)
 def subject_delivery_type(request):
     error = ''
     entries = 1
@@ -690,7 +692,7 @@ def subject_delivery_type(request):
 
 
 @login_required
-@user_passes_test(is_dept_admin)
+@user_passes_test(is_colg_admin)
 def subject_option(request):
     error = ''
     entries = 1
@@ -787,71 +789,76 @@ def program_structure(request):
 def course_registration(request):
     entries = 1
     myformset = modelformset_factory(Student, StudentForm, extra=entries)
-    course_code = CourseOffered.objects.all()[0]
-    course_reg_objects = CourseRegistration.objects.filter(course_code=course_code)
-    registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
-    if registered_candidates:
-        unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
-    else:
-        unregistered_candidates = Student.objects.all()
-    courses = CourseOffered.objects.all()
-    courses_list=map(lambda x: x.course_code, courses)
-    course_form = create_course_selection_form(courses, course_code.course_code)
-    unreg_form = None
-    reg_form = None
-    if request.method == 'POST':
-        if "course" in request.POST:
-            course_code_input = request.POST["course"]
-            if type(course_code_input).__name__ == "list":
-                course_code_input = course_code_input[0]
-            course_code = CourseOffered.objects.get(course_code=int(course_code_input))
-            course_form = create_course_selection_form(courses, course_code.course_code)
-            course_reg_objects = CourseRegistration.objects.filter(course_code=course_code)
-            registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
-            if registered_candidates:
-                unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
-            else:
-                unregistered_candidates = Student.objects.all()
-        keys = request.POST.keys()
-        if "course" in keys:
-            keys.remove("course")
-        if keys:
-            submitted_form = keys[0][4]
-            indices = [key.split('-')[1] for key in keys]
-            unreg_indices = filter(lambda x: "form1" in x, indices)
-            reg_indices = filter(lambda x: "form2" in x, indices)
-            unreg_indices = map(int, indices)
-            reg_indices = map(int, indices)
-            unreg_indices.sort(reverse=True)
-            reg_indices.sort(reverse=True)
-            unregistered_candidates = sorted(unregistered_candidates, key=lambda x:x.student_reg_no)
-            registered_candidates = sorted(registered_candidates, key=lambda x:x.student_reg_no)
-            if submitted_form == "1":
-                for i in unreg_indices:
-                    candidate = unregistered_candidates[i]
-                    CourseRegistration.objects.create(student_reg_no=candidate, course_code=course_code)
-            else:
-                for i in reg_indices:
-                    candidate = registered_candidates[i]
-                    CourseRegistration.objects.get(student_reg_no=candidate, course_code=course_code).delete()
+    course_code = CourseOffered.objects.all()
+    if course_code:
+        course_code = course_code[0]
+        course_reg_objects = CourseRegistration.objects.filter(course_code=course_code)
+        registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
+        if registered_candidates:
+            unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
+        else:
+            unregistered_candidates = Student.objects.all()
+        courses = CourseOffered.objects.all()
+        courses_list=map(lambda x: x.course_code, courses)
+        course_form = create_course_selection_form(courses, course_code.course_code)
+        unreg_form = None
+        reg_form = None
+        if request.method == 'POST':
+            if "course" in request.POST:
+                course_code_input = request.POST["course"]
+                if type(course_code_input).__name__ == "list":
+                    course_code_input = course_code_input[0]
+                course_code = CourseOffered.objects.get(course_code=int(course_code_input))
+                course_form = create_course_selection_form(courses, course_code.course_code)
+                course_reg_objects = CourseRegistration.objects.filter(course_code=course_code)
+                registered_candidates = map(lambda x: x.student_reg_no, course_reg_objects)
+                if registered_candidates:
+                    unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
+                else:
+                    unregistered_candidates = Student.objects.all()
+            keys = request.POST.keys()
+            if "course" in keys:
+                keys.remove("course")
+            if keys:
+                submitted_form = keys[0][4]
+                indices = [key.split('-')[1] for key in keys]
+                unreg_indices = filter(lambda x: "form1" in x, indices)
+                reg_indices = filter(lambda x: "form2" in x, indices)
+                unreg_indices = map(int, indices)
+                reg_indices = map(int, indices)
+                unreg_indices.sort(reverse=True)
+                reg_indices.sort(reverse=True)
+                unregistered_candidates = sorted(unregistered_candidates, key=lambda x:x.student_reg_no)
+                registered_candidates = sorted(registered_candidates, key=lambda x:x.student_reg_no)
+                if submitted_form == "1":
+                    for i in unreg_indices:
+                        candidate = unregistered_candidates[i]
+                        CourseRegistration.objects.create(student_reg_no=candidate, course_code=course_code)
+                else:
+                    for i in reg_indices:
+                        candidate = registered_candidates[i]
+                        CourseRegistration.objects.get(student_reg_no=candidate, course_code=course_code).delete()
 
-            registered_candidates = map(lambda x: x.student_reg_no,
-                                        CourseRegistration.objects.filter(course_code=course_code))
-            if registered_candidates:
-                unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
-            else:
-                unregistered_candidates = Student.objects.all()
+                registered_candidates = map(lambda x: x.student_reg_no,
+                                            CourseRegistration.objects.filter(course_code=course_code))
+                if registered_candidates:
+                    unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
+                else:
+                    unregistered_candidates = Student.objects.all()
 
-    if not unregistered_candidates:
-        unreg_form = myformset(queryset=Student.objects.none(), prefix='form1')
+        if not unregistered_candidates:
+            unreg_form = myformset(queryset=Student.objects.none(), prefix='form1')
+        else:
+            unreg_form = myformset(queryset=unregistered_candidates, prefix='form1')
+        if not registered_candidates:
+            reg_form = myformset(queryset=Student.objects.none(), prefix='form2')
+        else:
+            reg_form = myformset(queryset=Student.objects.filter(student_reg_no__in=registered_candidates), prefix='form2')
+        return render_to_response('course_registration.html', {'selection_form' : course_form, 'unreg_formset': unreg_form,
+                                                               'reg_formset': reg_form, 'error': ''})
     else:
-        unreg_form = myformset(queryset=unregistered_candidates, prefix='form1')
-    if not registered_candidates:
-        reg_form = myformset(queryset=Student.objects.none(), prefix='form2')
-    else:
-        reg_form = myformset(queryset=Student.objects.filter(student_reg_no__in=registered_candidates), prefix='form2')
-    return render_to_response('course_registration.html', {'selection_form' : course_form, 'unreg_formset': unreg_form,
-                                                           'reg_formset': reg_form, 'error': ''})
+        return render_to_response('course_registration.html',
+                                  {'error' : "Please add some courses"})
 
 @login_required
 @user_passes_test(is_colg_admin)
@@ -1293,15 +1300,35 @@ def faculty_home_page(request):
 def view_feedback(request):
     course_code = request.GET['course']
     cycle_no = request.GET['cycle']
+    faculty = CourseOffered.objects.get(course_code=course_code).faculty_name
 
-    faculty_name = request.user.username
+    faculty_name = faculty.faculty_first_name + " " + faculty.faculty_last_name
+    rating_aggregate = FeedbackRatingAggregate.objects.get(
+        course_code__course_code=course_code,
+        cycle_no__cycle_no=cycle_no)
+    low_count = CourseFeedbackAssignment.objects.filter(
+        course_code__course_code__course_code=course_code,
+        cycle_no__cycle_no=cycle_no, feedback_weighting=1).count()
+    high_count = CourseFeedbackAssignment.objects.filter(
+        course_code__course_code__course_code=course_code,
+        cycle_no__cycle_no=cycle_no, feedback_weighting=2).count()
+    total_count = high_count + low_count
     try:
         CourseOffered.objects.get(course_code=course_code)
         avg = get_weighted_average(course_code, cycle_no)
         comments = FeedbackCommentLog.objects.filter(course_code__course_code=course_code,
                                                      cycle_no__cycle_no=cycle_no).order_by('-feedback_weighting')
         comments = filter(lambda x: x.feedback_comments, comments)
-        return render_to_response('view_feedback.html', {'weighted_avg': avg, 'comments': comments})
+
+        return render_to_response('view_feedback.html', {'weighted_avg': avg,
+                                                              'comments': comments,
+                                                              'faculty_name': faculty_name,
+                                                              'course_code': course_code,
+                                                              'cycle_no': cycle_no,
+                                                              'low_count': low_count,
+                                                              'high_count': high_count,
+                                                                'total_count' : total_count,
+                                                              'ratings': rating_aggregate})
     except:
         return HttpResponseRedirect(reverse('faculty_home_page'))
 
@@ -1311,6 +1338,7 @@ def view_feedback(request):
 def view_department_feedback(request):
     department = Faculty.objects.get(faculty_code=request.user.username).home_department
     subjects = SubjectOption.objects.filter(offered_by=department)
+    courses_with_feedback=None
     for subject in subjects:
         courses_with_feedback = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no__cycle_no', 'course_code__course_code__subject_code','course_code__course_code__faculty_name__faculty_first_name','course_code__course_code__faculty_name__faculty_last_name')\
             .filter(course_code__course_code__subject_code=subject.subject_code).distinct()
@@ -1340,7 +1368,19 @@ def all_feedbacks(request):
 def view_all_feedbacks(request):
     course_code = request.GET['course']
     cycle_no = request.GET['cycle']
+    faculty = CourseOffered.objects.get(course_code=course_code).faculty_name
 
+    faculty_name = faculty.faculty_first_name + " " + faculty.faculty_last_name
+    rating_aggregate = FeedbackRatingAggregate.objects.get(
+        course_code__course_code=course_code,
+        cycle_no__cycle_no=cycle_no)
+    low_count = CourseFeedbackAssignment.objects.filter(
+        course_code__course_code__course_code=course_code,
+        cycle_no__cycle_no=cycle_no,feedback_weighting=1).count()
+    high_count =CourseFeedbackAssignment.objects.filter(
+        course_code__course_code__course_code=course_code,
+        cycle_no__cycle_no=cycle_no,feedback_weighting=2).count()
+    total_count = high_count + low_count
     try:
         CourseOffered.objects.get(course_code=course_code)
         avg = get_weighted_average(course_code, cycle_no)
@@ -1348,7 +1388,66 @@ def view_all_feedbacks(request):
                                                      cycle_no__cycle_no=cycle_no).order_by('-feedback_weighting')
         comments = filter(lambda x:x.feedback_comments, comments)
 
-        return render_to_response('view_all_feedbacks.html', {'weighted_avg': avg, 'comments': comments})
+        return render_to_response('view_all_feedbacks.html', {'weighted_avg': avg,
+                                                              'comments': comments,
+                                                              'faculty_name' :faculty_name,
+                                                              'course_code':course_code,
+                                                              'cycle_no':cycle_no,
+                                                              'low_count' : low_count,
+                                                              'high_count':high_count,
+                                                              'total_count' : total_count,
+                                                              'ratings':rating_aggregate})
     except:
         return HttpResponseRedirect(reverse('all_feedbacks'))
 
+@login_required
+@user_passes_test(is_colg_admin)
+def create_dept_admin(request):
+    FacultyForm = create_faculty_form(groups=["Faculty","Dept Admin"])
+    dept_admins = map(lambda x:x.username,User.objects.filter(groups__name='Dept Admin'))
+    error = ''
+    entries = 1
+    myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
+    formset = myformset(queryset=Faculty.objects.none())
+    countform = FieldCountForm()
+    deleteform = DeleteForm()
+    if request.method == 'POST':
+        if 'add_empty_records' in request.POST:  # add rows
+            entries = int(request.POST['add_empty_records'])
+            myformset = modelformset_factory(Faculty, FacultyForm, extra=entries)
+            formset = myformset(queryset=Faculty.objects.none())
+        elif 'form-0-faculty_code' in request.POST:  # add records
+            formset = myformset(request.POST, queryset=Faculty.objects.none())
+            if formset.is_valid():
+                formset.save()
+                formset = myformset(queryset=Faculty.objects.none())
+            else:
+                error = "ERROR: Already exists/Empty records/Invalid Data or Dates"
+        else:  # delete selected records
+            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
+            indices = list(map(int, indices))
+            indices.sort(reverse=True)
+            objects = Faculty.objects.filter(faculty_code__in=dept_admins).order_by('faculty_code')
+            try:
+                for i in indices:
+                    faculty = objects[i]
+                    User.objects.get(username=faculty.faculty_code).delete()
+                    faculty.delete()
+
+
+            except ProtectedError as e:
+                error = e
+            except Exception as e:
+                error = "ERROR: Faculty code does not exist/Error performing deletion"
+
+    else:
+        myformset = modelformset_factory(Faculty, form=FacultyForm, extra=entries)
+        formset = myformset(queryset=Faculty.objects.none())
+        countform = FieldCountForm()
+        deleteform = DeleteForm()
+
+    queryset = Faculty.objects.filter(faculty_code__in=dept_admins).order_by('faculty_code')
+    return render_to_response('add_dept_admin.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
+                                               'database': myformset(queryset=queryset),
+                                               'username': request.user.username,
+                                               'error': error})

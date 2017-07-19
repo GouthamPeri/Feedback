@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'^view_feedback/$', views.view_feedback, name='view_feedback'),
     url(r'^view_department_feedback/$', views.view_department_feedback, name='view_department_feedback'),
     url(r'^all_feedbacks/$', views.all_feedbacks, name='all_feedbacks'),
-    url(r'^view_all_feedbacks/$', views.view_all_feedbacks, name='view_all_feedbacks')
+    url(r'^view_all_feedbacks/$', views.view_all_feedbacks, name='view_all_feedbacks'),
+    url(r'^add_dept_admin/$', views.create_dept_admin, name='add_dept_admin')
 ]

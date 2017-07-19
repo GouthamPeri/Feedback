@@ -35,6 +35,14 @@
                 </div>
           </div>
             <div class="w3-dropdown-hover">
+    <button class="w3-btn w3-oxblood w3-hover-tan" onclick="dropFunction()">Subject</button>
+    <div class="w3-dropdown-content w3-card-2 w3-light-grey">
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'subject_type' %}">Subject Type</a>
+      <a style="border-bottom:1px solid lightgrey" href="{% url 'subject_delivery_type' %}">Subject Delivery Type</a>
+        <a style="border-bottom:1px solid lightgrey" href="{% url 'subject_option' %}">Subject Option</a>
+    </div>
+  </div>
+            <div class="w3-dropdown-hover">
             <button class="w3-btn w3-oxblood w3-hover-tan" onclick="dropFunction()">Feedback</button>
             <div class="w3-dropdown-content w3-card-2 w3-light-grey">
               <a style="border-bottom:1px solid lightgrey" href="{% url 'feedback_question' %}">Feedback Questions</a>
@@ -44,6 +52,7 @@
               <a style="border-bottom:1px solid lightgrey" href="{% url 'all_feedbacks' %}">View Feedbacks</a>
             </div>
           </div>
+            <a href="{% url 'add_dept_admin' %}"><button class="w3-btn w3-oxblood w3-hover-tan">Dept Admins</button></a>
     </div>
 
 

@@ -30,7 +30,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.7', '192.168.5.92', '127.0.0.1','192.168.1.5', 'localhost', '192.168.43.82']
+ALLOWED_HOSTS = ['7.175.93.48', '192.168.5.92', '127.0.0.1','192.168.1.5', 'localhost', '192.168.43.82']
 STATIC_URL="/static/"
 # Application definition
 
@@ -86,7 +86,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'pass',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '3306',
     }
 }
 
