@@ -41,6 +41,7 @@
                         <th>Subject Delivery Type</th>
                         <th>Number Of HPW</th>
                         <th>Number Of Credits</th>
+                        <th>Department</th>
                     </tr>
                     <form method="post" name="table" action="">
                         {% for form in database %}
@@ -60,6 +61,7 @@
                                     <td>{{ form.subject_delivery_type.value }}</td>
                                     <td>{{ form.number_hpw.value }}</td>
                                     <td>{{ form.number_credits.value }}</td>
+                                    <td>{{ form.offered_by.value }}</td>
                                 {% endif %}
                             </tr>
 
@@ -79,6 +81,7 @@
                                 <td>{{ form.subject_delivery_type }}</td>
                                 <td>{{ form.number_hpw }}</td>
                                 <td>{{ form.number_credits }}</td>
+                                <td>{{ form.offered_by }}</td>
                             </tr>
                         {% endfor %}
                     </form>

@@ -82,11 +82,12 @@ class ProgramStructure(models.Model):
     program_code = models.ForeignKey(Program, on_delete=models.PROTECT)
     semester = models.IntegerField()
     subject_code = models.CharField(primary_key=True, max_length=30)
-    subject_name = models.CharField(max_length=30)
+    subject_name = models.CharField(max_length=50)
     subject_type = models.ForeignKey(SubjectType, on_delete=models.PROTECT)
     subject_delivery_type = models.ForeignKey(SubjectDeliveryType, on_delete=models.PROTECT)
     number_hpw = models.IntegerField()
     number_credits = models.IntegerField()
+    offered_by = models.ForeignKey(Department, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.subject_code
@@ -132,8 +133,6 @@ class FeedbackQuestion(models.Model):
 
 class CourseOffered(models.Model):
     course_code = models.IntegerField(primary_key=True)
-    regulation_code = models.ForeignKey(ProgramStructure, related_name='Feedback_regulation_code2', on_delete=models.PROTECT)
-    program_code = models.ForeignKey(ProgramStructure, related_name='Feedback_program_code2', on_delete=models.PROTECT)
     subject_code = models.ForeignKey(ProgramStructure, related_name='Feedback_subject_code2', on_delete=models.PROTECT)
     academic_year = models.ForeignKey(AcademicYear, on_delete=models.PROTECT)
     semester = models.CharField(max_length=7)
@@ -193,7 +192,7 @@ class CourseFeedbackAssignment(models.Model):
     cycle_no = models.ForeignKey(FeedbackType, on_delete=models.PROTECT)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    feedback_weighting = models.IntegerField(default=2)
+    feedback_weighting = models.IntegerField(default=1)
     is_given = models.IntegerField(default=0)
 
     def __str__(self):

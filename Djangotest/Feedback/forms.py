@@ -102,16 +102,13 @@ def create_course_offered_form(dept_code):
         check = forms.CharField(widget=forms.CheckboxInput(attrs={'class': 'w3-check'}))
         class Meta:
             model = CourseOffered
-            fields = ['course_code', 'regulation_code', 'program_code',
-                      'subject_code', 'academic_year', 'semester', 'course_name', 'faculty_name']
+            fields = ['course_code', 'subject_code', 'academic_year', 'semester', 'course_name', 'faculty_name']
 
         def __init__(self, *args, **kwargs):
             super(CourseOfferedForm, self).__init__(*args, **kwargs)
             if dept_code:
                 self.fields['faculty_name'].queryset = Faculty.objects.filter(
                     home_department=dept_code)
-            self.fields['regulation_code'].label_from_instance = lambda obj: str(obj.regulation_code)
-            self.fields['program_code'].label_from_instance = lambda obj: str(obj.program_code)
             self.fields['subject_code'].label_from_instance = lambda obj: str(obj.subject_code)
 
     return CourseOfferedForm
@@ -169,7 +166,7 @@ class ProgramStructureForm(forms.ModelForm):
     class Meta:
         model = ProgramStructure
         fields = ['regulation_code','program_code','semester','subject_code','subject_name','subject_type','subject_delivery_type',
-                   'number_hpw','number_credits']
+                   'number_hpw','number_credits', 'offered_by']
 
 
 

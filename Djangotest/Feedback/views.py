@@ -96,7 +96,13 @@ def dept_admin_header(request):
 
 @login_required
 def student_header(request):
-    return render_to_response("student_header.html", {'username': request.user.username})
+    user = request.user
+    if user.groups.filter(name="Student").exists():
+        return render_to_response("student_header.html", {'username': request.user.username})
+    else:
+        user = Student.objects.get(student_reg_no = user)
+        username = user.first_name + ' ' + user.last_name
+        return render_to_response("student_header.html", {'username': username})
 
 @login_required
 @user_passes_test(is_colg_admin)
@@ -1221,20 +1227,40 @@ def create_course_feedback_assignment(request):
 
 
 def view_courses(request):
-    given_courses = CourseFeedbackAssignment.objects.values('course_code__course_code__course_name','cycle_no__cycle_no','start_date','end_date').filter(student_reg_no__student_reg_no__student_reg_no = request.user.username,is_given=1)
-    not_given_courses = CourseFeedbackAssignment.objects.values('course_code__course_code__course_name','course_code__course_code__course_code','cycle_no__cycle_no','start_date','end_date').filter(
-        student_reg_no__student_reg_no__student_reg_no=request.user.username, is_given=0)
+    today = datetime.datetime.today()
+    given_courses = CourseFeedbackAssignment.objects.values(
+        'course_code__course_code__course_name',
+        'course_code__course_code__course_code',
+        'course_code__course_code__faculty_name__faculty_first_name',
+        'cycle_no__cycle_no','start_date','end_date')\
+        .filter(student_reg_no__student_reg_no__student_reg_no = request.user.username, is_given=1)
 
+    not_given_courses = CourseFeedbackAssignment.objects.values(
+        'course_code__course_code__course_name',
+        'course_code__course_code__course_code',
+        'course_code__course_code__faculty_name__faculty_first_name',
+        'cycle_no__cycle_no','start_date','end_date')\
+        .filter(student_reg_no__student_reg_no__student_reg_no=request.user.username, is_given=0,
+                start_date__lte=today, end_date__gte=today)
+
+    upcoming_courses = CourseFeedbackAssignment.objects.values(
+        'course_code__course_code__course_name',
+        'course_code__course_code__course_code',
+        'course_code__course_code__faculty_name__faculty_first_name',
+        'cycle_no__cycle_no', 'start_date') \
+        .filter(student_reg_no__student_reg_no__student_reg_no=request.user.username, is_given=0,
+                start_date__gt=today)
 
     if request.method=='POST':
         return HttpResponseRedirect(reverse('submit_feedback') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"])
 
-
     return render_to_response('view_courses.html',
                               {
-                                  'given_courses' : given_courses,
-                                  'not_given_courses' : not_given_courses
+                                  'given_courses': given_courses,
+                                  'not_given_courses': not_given_courses,
+                                  'upcoming_courses': upcoming_courses
                               })
+
 
 @login_required
 @user_passes_test(is_faculty)
@@ -1296,10 +1322,10 @@ def view_feedback(request):
         cycle_no__cycle_no=cycle_no)
     low_count = CourseFeedbackAssignment.objects.filter(
         course_code__course_code__course_code=course_code,
-        cycle_no__cycle_no=cycle_no, feedback_weighting=1).count()
+        cycle_no__cycle_no=cycle_no, feedback_weighting=1, is_given=1).count()
     high_count = CourseFeedbackAssignment.objects.filter(
         course_code__course_code__course_code=course_code,
-        cycle_no__cycle_no=cycle_no, feedback_weighting=2).count()
+        cycle_no__cycle_no=cycle_no, feedback_weighting=2, is_given=1).count()
     total_count = high_count + low_count
     try:
         CourseOffered.objects.get(course_code=course_code)
@@ -1325,11 +1351,13 @@ def view_feedback(request):
 @user_passes_test(is_dept_admin)
 def view_department_feedback(request):
     department = Faculty.objects.get(faculty_code=request.user.username).home_department
-    subjects = SubjectOption.objects.filter(offered_by=department)
-    courses_with_feedback=None
+    subjects = ProgramStructure.objects.filter(offered_by=department)
+    courses_with_feedback = []
+    print subjects
     for subject in subjects:
-        courses_with_feedback = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no__cycle_no', 'course_code__course_code__subject_code','course_code__course_code__faculty_name__faculty_first_name','course_code__course_code__faculty_name__faculty_last_name')\
-            .filter(course_code__course_code__subject_code=subject.subject_code).distinct()
+        courses_with_feedback += CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no__cycle_no', 'course_code__course_code__subject_code','course_code__course_code__faculty_name__faculty_first_name','course_code__course_code__faculty_name__faculty_last_name')\
+            .filter(course_code__course_code__subject_code=subject.subject_code, is_given=1).distinct()
+
 
     if(request.method=='POST'):
         return HttpResponseRedirect(
@@ -1345,7 +1373,8 @@ def all_feedbacks(request):
                                                                     'cycle_no__cycle_no',
                                                                     'course_code__course_code__subject_code',
                                                                     'course_code__course_code__faculty_name__faculty_first_name',
-                                                                    'course_code__course_code__faculty_name__faculty_last_name').distinct()
+                                                                    'course_code__course_code__faculty_name__faculty_last_name')\
+        .distinct().filter(is_given=1)
     if (request.method == 'POST'):
         return HttpResponseRedirect(
             reverse('view_all_feedbacks') + '?course=' + request.POST["course"] + '&cycle=' + request.POST["cycle"])
@@ -1364,10 +1393,10 @@ def view_all_feedbacks(request):
         cycle_no__cycle_no=cycle_no)
     low_count = CourseFeedbackAssignment.objects.filter(
         course_code__course_code__course_code=course_code,
-        cycle_no__cycle_no=cycle_no,feedback_weighting=1).count()
-    high_count =CourseFeedbackAssignment.objects.filter(
+        cycle_no__cycle_no=cycle_no, feedback_weighting=1, is_given=1).count()
+    high_count = CourseFeedbackAssignment.objects.filter(
         course_code__course_code__course_code=course_code,
-        cycle_no__cycle_no=cycle_no,feedback_weighting=2).count()
+        cycle_no__cycle_no=cycle_no,feedback_weighting=2, is_given=1).count()
     total_count = high_count + low_count
     try:
         CourseOffered.objects.get(course_code=course_code)
