@@ -1,0 +1,174 @@
+{% load static %}
+<html>
+    <head>
+        <script src="{% static 'include.js' %}">
+        </script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+            .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
+            .myblue {color:#fff!important;background-color:#051C24!important};
+            td {
+                padding: 20px;
+                align:center;
+            }
+            table {
+                table-layout:fixed;
+            }
+            .question_tile {
+                margin: 20px;
+                padding: 16px;
+            }
+            table {border-collapse:collapse; table-layout:fixed; width:100%;}
+            table td {width:100%; word-wrap:break-word;}
+        </style>
+    </head>
+  <body style="background-color:#d9dbdd">
+
+    <div w3-include-html="{% url 'admin' %}"></div>
+    <div class="w3-container">
+        <div style=" width:100%;margin-top:2.5%;" >
+            <div style="width:100%;">
+                <ul class="w3-ul w3-card-4 w3-oxblood" style="padding:10px">
+                    <h4 style="float:left"> Course Code : {{ course_code }}</h4>
+                    <h4 style="float:right"> Cycle Number : {{ cycle_no }}</h4>
+                    <center><h4> Faculty Name : {{ faculty_name }}</h4></center>
+
+                </ul>
+
+            </div>
+        </div>
+        <div style=" width:80%;margin-top:2.5%;margin-left:10%;" >
+            <div style="width:40%;margin-left:30%;">
+                <ul class="w3-ul w3-card-4 w3-oxblood" style="padding:15px">
+                    <center><h2> The Weighted Average is : {{ weighted_avg }}</h2></center>
+                </ul>
+
+            </div>
+        </div>
+        <div style=" width:80%;;margin-top:2.5%;margin-left:10%;" >
+            <div style="width:80%;margin-left:10%;" class="w3-container">
+                <table class="w3-table w3-white w3-border">
+                    <caption class="w3-oxblood"><center><h3>Feedback Count</h3></center></caption>
+                    <tr>
+                        <td style="padding:20px"  class="w3-center">
+                            <label><b>Low Weightage Count</b></label>
+                            <!--<hr>-->
+                        </td>
+                        <td style="padding:20px"  class="w3-center">
+                            <label><b>High Weightage Count</b></label>
+                            <!--<hr>-->
+                        </td>
+                        <td style="padding:20px"  class="w3-center">
+                            <label><b>Total Count</b></label>
+                            <!--<hr>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px"  class="w3-center">
+                            <label>{{low_count}}</label>
+                            <!--<hr>-->
+                        </td>
+                        <td style="padding:20px"  class="w3-center">
+                            <label>{{high_count}}</label>
+                            <!--<hr>-->
+                        </td>
+                        <td style="padding:20px"  class="w3-center">
+                            <label>{{total_count}}</label>
+                            <!--<hr>-->
+                        </td>
+                    </tr>
+                </table>
+                <table class="w3-table w3-white w3-border">
+                    <caption class="w3-oxblood"><center><h3>Feedback Rating Count</h3></center></caption>
+                    <tr>
+                        <td style="padding:20px">
+                            <label  class="w3-center"><b>Rating</b></label>
+                        </td>
+                        <td style="padding:20px">
+                            <label  class="w3-center"><b>5</b></label>
+                        </td>
+                        <td style="padding:20px">
+                            <label  class="w3-center"><b>4</b></label>
+                        </td>
+                        <td style="padding:20px">
+                            <label class="w3-center"><b>3</b></label>
+                        </td>
+                        <td style="padding:20px">
+                            <label class="w3-center"><b>2</b></label>
+                        </td>
+                        <td style="padding:20px">
+                            <label class="w3-center"><b>1</b></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px">
+                            <label class="w3-center"><b>Low Weighted</b></label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_5_count_1}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_4_count_1}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_3_count_1}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_2_count_1}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_1_count_1}}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px">
+                            <label class="w3-center"><b>High Weighted</b></label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_5_count_2}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_4_count_2}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_3_count_2}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_2_count_2}}</label>
+                        </td>
+                        <td style="padding:20px">
+                            <label>{{ratings.rating_1_count_2}}</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div style=" width:80%;margin-top:2.5%;margin-left:10%;padding-bottom:20px">
+            <table class="w3-table w3-white w3-border">
+                <caption class="w3-oxblood"><center><h3>Comments</h3></center></caption>
+                {% for comment in comments %}
+
+                <tr>
+                    <td style="padding:20px">
+                        <label>{{ comment.feedback_comments }}</label>
+                        <!--<hr>-->
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+  </body>
+    <script>
+    w3IncludeHTML();
+</script>
+</html>

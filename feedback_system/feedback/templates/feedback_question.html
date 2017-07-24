@@ -1,0 +1,102 @@
+{% load static %}
+<html>
+    <head>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
+        <script src="{% static 'include.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <link rel="stylesheet" href="{%static 'jquery-ui.min.css'%}"/>
+        <script type="text/javascript" src="{% static 'minifiedjq.js' %}"></script>
+        <script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
+        <script>
+          $(function() {
+            $( ".datepicker" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "1900:2100",
+              // You can put more options here.
+
+            });
+          });
+        </script>
+        <!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />-->
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+            .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
+            .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
+        </style>
+    </head>
+    <body style="background-color:#d9dbdd">
+        <div w3-include-html="{% url 'admin' %}"></div>
+        {% if error %}
+            <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">
+                <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                <h3>{{ error|safe }}</h3>
+            </div>
+        {% endif %}
+        <div style="margin: 5% 1.1% 0% 1.1%" class="w3-responsive w3-oxblood">
+            <h3 class="w3-center">Feedback Question</h3>
+        </div>
+        <div class="w3-container">
+            {% block table_display %}
+            <div class="w3-responsive">
+                <table class="w3-table-all w3-center">
+                    <tr class="w3-blackboard">
+                        <th>Select</th>
+                        <th>Effective From</th>
+                        <th>Cycle No</th>
+                        <th>Question No</th>
+                        <th>Question Text</th>
+                    </tr>
+                    <form method="post" name="table" action="">
+                        {% for form in database %}
+                            <tr>
+                                {% if not form.cycle_no.value is None %}
+                                    <td>{{ form.check }}</td>
+                                    <td>{{ form.effective_from.value }}</td>
+                                    <td>{{ form.cycle_no.value }}</td>
+                                    <td>{{ form.question_no.value }}</td>
+                                    <td>{{ form.question_text.value }}</td>
+                                {% endif %}
+                            </tr>
+
+                        {% endfor %}
+                    </form>
+                    <form method="post" name="add" action="">
+                        {{ formset.management_form }}
+                        {% for form in formset %}
+                        <tr>
+                            <td></td>
+                            <td>{{ form.effective_from }}</td>
+                            <td>{{ form.cycle_no }}</td>
+                            <td>{{ form.question_no }}</td>
+                            <td>{{ form.question_text }}</td>
+                        </tr>
+                        {% endfor %}
+                    </form>
+                    </table>
+                <center>
+                <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red" style="margin-top:35px;margin-right:70px">&#x2212;</button>
+                <button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green" style="margin-top:35px;margin-left:70px">+</button>
+                </center>
+                <table class="w3-table" style="width:30%">
+                    <tr>
+                    <form method="post" name='count' action="">
+                        <td style="padding-top:50px"><b>Empty Records</b></td>
+                        <td style="padding-top:50px">{{countform.add_empty_records}}</td>
+                        <td><button class="reset w3-btn-floating w3-green" style="margin-top:35px">&#x21bb;</button></td>
+                    </form>
+                    </tr>
+                </table>
+            </div>
+            {% endblock %}
+        </div>
+    </body>
+    <script>
+    w3IncludeHTML();
+</script>
+</html>

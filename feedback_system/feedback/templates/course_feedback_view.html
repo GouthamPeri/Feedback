@@ -1,0 +1,110 @@
+{% load static %}
+
+<html>
+    <head>
+        <title>Course Feedback Assignment</title>
+        <script type="text/javascript" src="{% static 'include.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <link rel="stylesheet" href="{%static 'jquery-ui.min.css'%}"/>
+        <script type="text/javascript" src="{% static 'minifiedjq.js' %}"></script>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
+        <script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
+         <script>
+          $(function() {
+            $( ".datepicker" ).datepicker({
+              dateFormat: 'yy-mm-dd',
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "1900:2100",
+              // You can put more options here.
+
+            });
+          });
+        </script>
+        {{ form.media }}
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+            .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
+            .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
+        </style>
+    </head>
+    <body style="background-color:#d9dbdd">
+        <div w3-include-html="{% url 'dept_admin' %}"></div>
+        {% if error %}
+            <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">
+                <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                <h3>{{ error|safe }}</h3>
+            </div>
+        {% endif %}
+        <div style="margin-top:50px" class="w3-responsive w3-white">
+            {% block table_display %}
+            <div class="w3-responsive">
+                <table class="w3-table-all w3-center">
+                    <caption class="w3-padding w3-oxblood w3-xlarge">Course Feedback Assignment</caption>
+                    <tr class="w3-blackboard">
+                        <th>Select</th>
+                        <th>Course Code</th>
+                        <th>Cycle No</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th></th>
+                    </tr>
+                    <form method="post" name="table" action="">
+                        {% for form in database %}
+                            <tr>
+                                <td><input type="checkbox" class="w3-check"
+                                           id="id_form-{{ forloop.counter0 }}-check"
+                                            name="form-{{ forloop.counter0 }}-check"/></td>
+                                <td>{{ form.course_code__course_code__course_code }}</td>
+                                <td>{{ form.cycle_no }}</td>
+                                <td>{{ form.start_date }}</td>
+                                <td>{{ form.end_date }}</td>
+                                <td>
+                                    <div
+                                        class="manage w3-btn w3-blackboard"
+                                        id="{{form.course_code__course_code__course_code}}-{{form.cycle_no}}">
+                                        Manage
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                    </form>
+                    <form method="post" name="add" action="">
+                        <tr>
+                            <td></td>
+                            <td>{{ form.course_code }}</td>
+                            <td>{{ form.cycle_no }}</td>
+                            <td>{{ form.start_date }}</td>
+                            <td>{{ form.end_date }}</td>
+                            <td></td>
+                        </tr>
+                    </form>
+                    </table>
+                <center>
+                <button onclick="document.forms['table'].submit()" class="reset w3-btn-floating w3-red" style="margin-top:35px;margin-right:70px">&#x2212;</button>
+                <button onclick="document.forms['add'].submit()" class="reset w3-btn-floating w3-green" style="margin-top:35px;margin-left:70px">+</button>
+                </center>
+                <div style="padding-bottom: 32px"></div>
+            </div>
+            {% endblock %}
+        </div>
+        <form style="display:none" id="mf" name="manage_form" method="get">
+            <input name="manage" type="text" />
+        </form>
+    </body>
+    <script>
+        $('.manage').click(function(){
+            form = $('#mf')
+            $(form).find('input').val($(this).attr('id'))
+            $('#mf').submit();
+        })
+        w3IncludeHTML();
+
+    </script>
+</html>

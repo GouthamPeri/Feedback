@@ -1,0 +1,92 @@
+{% load static %}
+<html>
+    <head>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
+        <script src="{% static 'include.js' %}">
+        </script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+            .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
+            .myblue {color:#fff!important;background-color:#354458!important};
+            td {
+                padding: 20px;
+                align:center;
+            }
+            table {
+                table-layout:fixed;
+            }
+            .question_tile {
+                margin: 20px;
+                padding: 16px;
+            }
+            table {border-collapse:collapse; table-layout:fixed; width:100%;}
+            table td {width:100%; word-wrap:break-word;}
+        </style>
+    </head>
+  <body style="background-color:#6a5750">
+
+        <div w3-include-html="{% url 'student_header' %}"></div>
+        {% if error %}
+            <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">
+                <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                <h3>{{ error|safe }}</h3>
+            </div>
+        {% endif %}
+        <form method="post">
+            <div style="margin: 50px 25px 0% 25px" class="w3-container">
+                {% for question in questions %}
+                    <div style="background-color:#f6f1ed" class="question_tile  w3-card-8">
+                        <table style="background-color:#f6f1ed" class="m3-margin"> <!--oxblood-->
+                            <tr>
+                                <td class="question w3-margin w3-xlarge" style="padding:10px;">
+                                    <span>{{ question.question_no }}. </span>{{ question.question_text }}
+                                </td>
+                            </tr>
+                            <tr  style="padding:10px">
+                                <td class="options">
+                                    <table  class="w3-table w3-hoverable w3-center w3-margin-right">
+                                        <th >Excellent</th>
+                                        <th >Very Good</th>
+                                        <th >Satisfactory</th>
+                                        <th >Average</th>
+                                        <th >Poor</th>
+
+                                       <tr class="w3-padding-large">
+                                           <td> <input type="radio" name="{{ question }}" value="5" class="w3-radio" checked></td>
+                                           <td> <input type="radio" name="{{ question }}" value="4" class="w3-radio"></td>
+                                           <td> <input type="radio" name="{{ question }}" value="3" class="w3-radio"></td>
+                                           <td> <input type="radio" name="{{ question }}" value="2" class="w3-radio"></td>
+                                           <td> <input type="radio" name="{{ question }}" value="1" class="w3-radio"></td>
+                                       </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endfor %}
+                <div class="question_tile w3-card-8 w3-white">
+                    <table class="w3-table w3-striped w3-border">
+                        <tr class="w3-oxblood"><th><center>Comments</center></th></tr>
+                    </table><br><br>
+                    <input type="text" class="w3-input" name="comments"></input>
+                </div>
+            </div>
+            {% if questions %}
+
+            <div class="w3-center w3-margin w3-padding w3-container">
+                <button class="w3-btn w3-oxblood w3-hover-tan w3-round w3-large">Submit Feedback</button>
+            </div>
+            {% endif %}
+        </form>
+    </body>
+    <script>
+    w3IncludeHTML();
+</script>
+</html>

@@ -1,0 +1,311 @@
+{% load static %}
+<html>
+    <head>
+        <title>Course Feedback Assignment</title>
+        <script src="{% static 'include.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'w3.css'%}"/>
+        <script type="text/javascript" src="{% static 'minifiedjq.js' %}"></script>
+        <link rel="stylesheet" href="{%static 'jquery-ui.min.css'%}"/>
+        <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
+        <script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
+         <script>
+          $(function() {
+            $( ".datepicker" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "1900:2100",
+              // You can put more options here.
+
+            });
+          });
+        </script>
+        <script>
+            function submit(form_id){
+                var form = document.getElementById(form_id);
+                form.submit()
+            }
+        </script>
+        <script>
+        $(document).ready(function(){
+           $( "#weight_searchleft" ).keyup(function(){
+                regdnos=[];
+                regdnos = $('.regdnoleft').map(function () { return $(this).text(); }).get();
+                var search = $('#weight_searchleft').val();
+                var arrayLength = regdnos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                   if ( regdnos[i].indexOf(search) == -1 ) {
+                           $('.left_weight_'+regdnos[i]).hide()
+                    }
+                    else
+                    {
+                         $('.left_weight_'+regdnos[i]).show()
+                    }
+                }
+            });
+            $( "#weight_searchright" ).keyup(function(){
+                regdnos=[];
+                regdnos = $('.regdnoright').map(function () { return $(this).text(); }).get();
+                var search = $('#weight_searchright').val();
+                var arrayLength = regdnos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                   if ( regdnos[i].indexOf(search) == -1 ) {
+                           $('.right_weight_'+regdnos[i]).hide()
+                    }
+                    else
+                    {
+                         $('.right_weight_'+regdnos[i]).show()
+                    }
+                }
+            });
+            $( "#given_searchleft" ).keyup(function(){
+                regdnos=[];
+                regdnos = $('.regdnoleft').map(function () { return $(this).text(); }).get();
+                var search = $('#given_searchleft').val();
+                var arrayLength = regdnos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                   if ( regdnos[i].indexOf(search) == -1 ) {
+                           $('.left_given_'+regdnos[i]).hide()
+                    }
+                    else
+                    {
+                         $('.left_given_'+regdnos[i]).show()
+                    }
+                }
+            });
+            $( "#given_searchright" ).keyup(function(){
+                regdnos=[];
+                regdnos = $('.regdnoleft').map(function () { return $(this).text(); }).get();
+                var search = $('#given_searchright').val();
+                var arrayLength = regdnos.length;
+                for (var i = 0; i < arrayLength; i++) {
+                   if ( regdnos[i].indexOf(search) == -1 ) {
+                           $('.right_given_'+regdnos[i]).hide()
+                    }
+                    else
+                    {
+                         $('.right_given_'+regdnos[i]).show()
+                    }
+                }
+            });
+        });
+        </script>
+        <!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />-->
+        <style>
+            .reset{
+                all: initial;
+                {
+                   all: unset;
+                }
+            }
+            select{
+                width:300px;
+            }
+            .scroll{
+                overflow:scroll;
+                height:20px;
+            }
+            .w3-blackboard,.w3-hover-blackboard:hover{color:#fff!important;background-color:#565656!important};
+            .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
+        .scroll {
+            width: 716px; /* 140px * 5 column + 16px scrollbar width */
+            border-spacing: 0;
+        }
+
+        tbody, thead tr { display: block; }
+
+        .scroll tbody {
+            height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .scroll tbody td, .scroll thead th {
+            width: 140px;
+        }
+
+        .scroll thead th:last-child {
+            width: 156px; /* 140px + 16px scrollbar width */
+        }
+        </style>
+        {{ form.media }}
+    </head>
+    <body style="background-color:#d9dbdd">
+        <div w3-include-html="{% url 'dept_admin' %}"></div>
+        {% if error %}
+            <div style="position:absolute; width:100%; z-index:100;" class="w3-center w3-panel w3-animate-opacity w3-red">
+                <span onclick="this.parentElement.style.display='none'" class="w3-closebtn">&times;</span>
+                <h3>{{ error|safe }}</h3>
+            </div>
+        {% endif %}
+        <div style="margin: 5% 5% 0% 5%" class="w3-responsive w3-oxblood">
+            <h3 class="w3-center">Course Feedback Assignment</h3>
+        </div>
+        <div style="margin: 0% 5% 2% 5%" class="w3-responsive w3-white">
+             <div style="margin: 3% 5% 2% 5%">
+                <center>
+                    <form name="course_select" method="post">
+                        {{ selection_form | safe}}
+                    </form>
+                </center>
+            </div>
+            <div style="margin: 2% 5% 2% 5%" class="w3-responsive w3-center">
+                Course Code : {{ course_code }} <br>
+                Cycle No : {{ cycle_no }}
+                <center>
+                    <table style="width:auto" class="w3-table w3-center" align="center">
+                        <tr>
+                            <td rowspan="5" style="width:40%">
+                                <table class="w3-table-all scroll" style="width:40%">
+                                    <thead>
+                                        <tr class="w3-blackboard"><td class="w3-center" colspan="2">Low Weightage Candidates</td></tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="text" id="weight_searchleft">
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <form method="post" id="form1" class="form" name="form1">
+
+                                        {% for student in low %}
+                                            <tr class="left_weight_{{ student.student_reg_no__student_reg_no__student_reg_no }}">
+                                               <td><input type="checkbox" class="w3-check"
+                                                   id="id_form1-{{ forloop.counter0 }}-check"
+                                                    name="form1-{{ forloop.counter0 }}-check"/>
+                                               </td>
+                                                <td style="width:70%" class="w3-padding-right regdnoleft {{  student.student_reg_no__student_reg_no__student_reg_no }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <input type="hidden" value="{{ course_code }}" name="course_code"/>
+                                        <input type="hidden" value="{{ cycle_no }}" name="cycle_no"/>
+                                    </form>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td></td>
+                            <td rowspan="5" style="width:40%">
+                                <table class="w3-table-all scroll" style="width:50%">
+                                    <thead>
+                                        <tr class="w3-blackboard" ><td class="w3-center" colspan="2">High Weightage Candidates</td></tr>
+                                        <tr><td colspan="2">
+                                                <input type="text" id="weight_searchright">
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <form method="post" id="form2" class="form" name=form2">
+
+                                        {% for student in high %}
+                                            <tr class="right_weight_{{ student.student_reg_no__student_reg_no__student_reg_no }}">
+                                                <td><input type="checkbox" class="w3-check"
+                                                   id="id_form2-{{ forloop.counter0 }}-check"
+                                                    name="form2-{{ forloop.counter0 }}-check"/>
+                                                </td>
+                                                <td style="width:70%" class="w3-padding-right regdnoright">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <input type="hidden" value="{{ course_code }}" name="course_code"/>
+                                        <input type="hidden" value="{{ cycle_no }}" name="cycle_no"/>
+                                    </form>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr><td style="width:15%">
+                            <!--document.forms['unreg_form'].submit()-->
+                            <button onclick="submit('form1')"
+                                    class="reset w3-btn-floating w3-blackboard"
+                                    style="margin-top:35px">&rarr;
+                            </button>
+                        </td></tr>
+                        <tr><td style="width:15%">
+                            <button onclick="submit('form2')"
+                                    class="reset w3-btn-floating w3-blackboard"
+                                    style="margin-top:35px">&larr;
+                            </button>
+                        </td></tr>
+                        <tr><td></td></tr>
+                        <tr><td></td></tr>
+                        <tr>
+                            <td rowspan="5" style="width:40%">
+                                <table class="w3-table-all scroll" style="width:50%">
+                                    <thead>
+                                        <tr class="w3-blackboard"><td class="w3-center" colspan="2">Not given by</td></tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="text" id="given_searchleft">
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <form method="post" id="form3" class="form" name="form3">
+
+                                        {% for student in not_given %}
+                                            <tr class="left_given_{{  student.student_reg_no__student_reg_no__student_reg_no }}">
+                                               <td><input type="checkbox" class="w3-check"
+                                                   id="id_form3-{{ forloop.counter0 }}-check"
+                                                    name="form3-{{ forloop.counter0 }}-check"/>
+                                               </td>
+                                                <td style="width:70%" class="w3-padding-right regdnoleft">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <input type="hidden" value="{{ course_code }}" name="course_code"/>
+                                        <input type="hidden" value="{{ cycle_no }}" name="cycle_no"/>
+                                    </form>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td></td>
+                            <td rowspan="5" style="width:40%">
+                                <table class="w3-table-all scroll" style="width:50%">
+                                    <thead>
+                                        <tr class="w3-blackboard" ><td class="w3-center" colspan="2">Given by</td></tr>
+                                        <tr><td colspan="2">
+                                                <input type="text" id="given_searchright">
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <form method="post" id="form4" class="form" name=form4">
+
+                                        {% for student in given %}
+                                            <tr class="right_given_{{ student.student_reg_no__student_reg_no__student_reg_no }}">
+                                                <td><input type="checkbox" class="w3-check"
+                                                   id="id_form4-{{ forloop.counter0 }}-check"
+                                                    name="form4-{{ forloop.counter0 }}-check"/>
+                                                </td>
+                                                <td style="width:70%" class="w3-padding-right regdnoright }}">{{ student.student_reg_no__student_reg_no__student_reg_no }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <input type="hidden" value="{{ course_code }}" name="course_code"/>
+                                        <input type="hidden" value="{{ cycle_no }}" name="cycle_no"/>
+                                    </form>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr><td style="width:15%">
+                            <!--document.forms['unreg_form'].submit()-->
+                            <button onclick="submit('form3')"
+                                    class="reset w3-btn-floating w3-blackboard"
+                                    style="margin-top:35px">&rarr;
+                            </button>
+                        </td></tr>
+                        <tr><td style="width:15%">
+                            <button onclick="submit('form4')"
+                                    class="reset w3-btn-floating w3-blackboard"
+                                    style="margin-top:35px">&larr;
+                            </button>
+                        </td></tr>
+                        <tr><td></td></tr>
+                        <tr><td></td></tr>
+                    </table>
+                </center>
+            </div>
+        </div>
+    </body>
+    <script>
+
+        w3IncludeHTML();
+    </script>
+</html>
