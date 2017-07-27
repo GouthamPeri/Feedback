@@ -1314,9 +1314,8 @@ def faculty_home_page(request):
 def view_feedback(request):
     course_code = request.GET['course']
     cycle_no = request.GET['cycle']
-    course = CourseOffered.objects.get(course_code=course_code)
-    faculty = course.faculty_name
-    course_name = course.course_name
+    faculty = CourseOffered.objects.get(course_code=course_code).faculty_name
+
     faculty_name = faculty.faculty_first_name + " " + faculty.faculty_last_name
     rating_aggregate = FeedbackRatingAggregate.objects.get(
         course_code__course_code=course_code,
@@ -1343,7 +1342,6 @@ def view_feedback(request):
                                                               'low_count': low_count,
                                                               'high_count': high_count,
                                                                 'total_count' : total_count,
-								'course_name' : course_name,
                                                               'ratings': rating_aggregate})
     except:
         return HttpResponseRedirect(reverse('faculty_home_page'))

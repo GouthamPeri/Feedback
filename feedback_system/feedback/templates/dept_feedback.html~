@@ -50,7 +50,7 @@
                               <input type="hidden" name="cycle" value="{{ course.cycle_no__cycle_no }}"/>
                               <button class="w3-btn w3-oxblood" style="width:100%">
                                     <span class="w3-large">Course code : {{ course.course_code__course_code__course_code }}</span><br>
-				<span>Course Name : {{ course.course_code__course_code__course_name }}</span><br>
+				<span>Course code : {{ course.course_code__course_code__course_name }}</span><br>
                                     <span>Cycle No : {{ course.cycle_no__cycle_no }}</span><br>
                                     <span>Faculty  : {{ course.course_code__course_code__faculty_name__faculty_first_name }} {{ course.course_code__course_code__faculty_name__faculty_last_name }}</span>
                               </button>

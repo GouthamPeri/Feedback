@@ -36,7 +36,7 @@
         <div style=" width:100%;margin-top:2.5%;" >
             <div style="width:100%;">
                 <ul class="w3-ul w3-card-4 w3-oxblood" style="padding:10px">
-                    <h4 style="float:left"> Course : {{ course_name }}</h4>
+                    <h4 style="float:left"> Course Code : {{ course_code }}</h4>
                     <h4 style="float:right"> Cycle Number : {{ cycle_no }}</h4>
                     <center><h4> Faculty Name : {{ faculty_name }}</h4></center>
 
