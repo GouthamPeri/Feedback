@@ -76,13 +76,14 @@
                     <ul class="w3-ul w3-card-4 w3-oxblood" style="margin-bottom:20px">
                         <h2 style="padding:5px" align="center">SUBMITTED FEEDBACK</h2>
                     </ul>
-                    <ul class="w3-ul w3-card-4 w3-tan">
-                          {% for item in given_courses %}
-                            <!--<span onclick="this.parentElement.style.display='none'" class="w3-button w3-white w3-xlarge w3-right"></span>-->
-                              <span class="w3-large w3-left-align">Course: {{ item.course_code__course_code__course_name }}</span><br>
-                              <span>Faculty: {{ item.course_code__course_code__faculty_name__faculty_first_name }}</span><br>
-                              <span>Cycle No: {{ item.cycle_no__cycle_no }}</span><br>
-                              <span>End Date: {{ item.end_date }}</span>
+                    <ul class="w3-ul">
+                        {% for item in given_courses %}
+                            <button class="w3-btn w3-tan" style="margin-bottom:1em; width:100%" >
+                                <span class="w3-large">Course: {{ item.course_code__course_code__course_name }}</span><br>
+                                <span>Faculty: {{ item.course_code__course_code__faculty_name__faculty_first_name }}</span><br>
+                                <span>Cycle No: {{ item.cycle_no__cycle_no }}</span><br>
+                                <span>End Date: {{ item.end_date }}</span>
+                            </button>
                         {% endfor %}
                     </ul>
                 </div>

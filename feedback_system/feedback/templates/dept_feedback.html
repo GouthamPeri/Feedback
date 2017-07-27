@@ -41,9 +41,9 @@
             </div>
         {% endif %}
 
-            <div style=" width:80%;height:200px;margin-top:75px;margin-left:10%;padding:10px;" class="w3-container">
-                <div style="width:40%;height:200px;float:left;">
-                    <ul class="w3-ul w3-card-4 w3-oxblood">
+            <div style="width:80%;height:200px;margin-top:75px;margin-left:10%;padding:10px;" class="w3-container">
+                <div style="width:40%;height:200px;">
+                    <ul class="w3-ul">
                         {% for course in courses %}
                             <form action="" method="POST" name="{{ forloop.counter }}">
                               <input type="hidden" name="course" value="{{ course.course_code__course_code__course_code }}"/>
@@ -54,18 +54,6 @@
                                     <span>Faculty  : {{ course.course_code__course_code__faculty_name__faculty_first_name }} {{ course.course_code__course_code__faculty_name__faculty_last_name }}</span>
                               </button>
                             </form>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div style="margin-left:60%;height: 200px;">
-                    <ul class="w3-ul w3-card-4 w3-tan">
-                          {% for item in given_courses %}
-                          <li class="w3-padding-16">
-                            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-white w3-xlarge w3-right"></span>
-                            <span class="w3-large">Course code : {{ item.course_code__course_code__course_name }}</span><br>
-                            <span>Cycle No : {{ item.cycle_no__cycle_no }}</span><br>
-                            <span>End Date : {{ item.end_date }}</span>
-                          </li>
                         {% endfor %}
                     </ul>
                 </div>
