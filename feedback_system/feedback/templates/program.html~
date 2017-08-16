@@ -16,7 +16,7 @@
             .w3-tan,.w3-hover-tan:hover{color:#fff!important;background-color:#c09f80!important};
         </style>
     </head>
-  <body style="background-color:#d9dbdd">
+    <body style="background-color:#d9dbdd">
     <center>
         <div w3-include-html="{% url 'admin' %}"></div>
         {% if error %}
@@ -26,25 +26,28 @@
             </div>
         {% endif %}
         <div style="margin-top:50px" class="w3-container">
+
             {% block table_display %}
             <div class="w3-responsive">
-                <table class="w3-table-all w3-center w3-white" style="width:50%">
-                    <caption class="w3-padding w3-oxblood w3-xlarge">Departments</caption>
+
+                <table class="w3-table-all w3-center" style="width:50%">
+                    <caption class="w3-padding w3-oxblood w3-xlarge">Add Program</caption>
                     <tr class="w3-blackboard">
                         <th>Select</th>
-                        <th>Department Code</th>
-                        <th>Department Name</th>
+                        <th>Program Code</th>
+                        <th>Program Name</th>
                         <th>Inception Year</th>
+                        <th>Owner Department</th>
                     </tr>
                     <form method="post" name="table" action="">
-                        {{ memberformset.management_form }}
                         {% for form in database %}
                             <tr>
-                                {% if not form.department_code.value is None %}
+                                {% if not form.program_code.value is None %}
                                     <td>{{ form.check }}</td>
-                                    <td>{{ form.department_code.value }}</td>
-                                    <td>{{ form.department_name.value }}</td>
-                                    <td>{{ form.instance.inception_year.academic_year }}</td>
+                                    <td>{{ form.program_code.value }}</td>
+                                    <td>{{ form.program_name.value }}</td>
+                                    <td>{{ form.inception_year.value }}</td>
+                                    <td>{{ form.owner_department.value }}</td>
                                 {% endif %}
                             </tr>
 
@@ -53,12 +56,13 @@
                     <form method="post" name="add" action="">
                         {{ formset.management_form }}
                         {% for form in formset %}
-                        <tr>
-                            <td></td>
-                            <td>{{ form.department_code }}</td>
-                            <td>{{ form.department_name }}</td>
-                            <td>{{ form.inception_year }}</td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td>{{ form.program_code }}</td>
+                                <td>{{ form.program_name}}</td>
+                                <td>{{ form.inception_year}}</td>
+                                <td>{{ form.owner_department}}</td>
+                            </tr>
                         {% endfor %}
                     </form>
                     </table>
@@ -76,7 +80,7 @@
                 </table>
             </div>
             {% endblock %}
-        </div>
+        </divstyle>
     </center>>
     </body>
     <script>

@@ -57,6 +57,7 @@
                         <th>Relieve</th>
                     </tr>
                     <form method="post" name="table" action="">
+			{{ memberformset.management_form }}
                         {% for form in database %}
                             <tr>
                                 {% if not form.faculty_code.value is None %}
@@ -66,7 +67,7 @@
                                     <td>{{ form.faculty_last_name.value }}</td>
                                     <td>{{ form.faculty_tel.value }}</td>
                                     <td>{{ form.faculty_email.value }}</td>
-                                    <td>{{ form.home_department.value }}</td>
+                                    <td>{{ form.instance.home_department.department_name }}</td>
                                     <td>{{ form.joining_date.value }}</td>
                                     <td>{{ form.relieved_date.value }}</td>
                                 {% endif %}

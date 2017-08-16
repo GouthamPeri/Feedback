@@ -44,6 +44,7 @@
                         <th>Department</th>
                     </tr>
                     <form method="post" name="table" action="">
+			{{ memberformset.management_form }}
                         {% for form in database %}
                             <tr>
                                 {% if not form.subject_type.value is None %}
@@ -57,18 +58,18 @@
                                     <td>{{ form.semester.value }}</td>
                                     <td>{{ form.subject_code.value }}</td>
                                     <td>{{ form.subject_name.value }}</td>
-                                    <td>{{ form.subject_type.value }}</td>
-                                    <td>{{ form.subject_delivery_type.value }}</td>
+                                    <td>{{ form.instance.subject_type.subject_type_desc }}</td>
+                                    <td>{{ form.instance.subject_delivery_type.delivery_type_desc }}</td>
                                     <td>{{ form.number_hpw.value }}</td>
                                     <td>{{ form.number_credits.value }}</td>
-                                    <td>{{ form.offered_by.value }}</td>
+                                    <td>{{ form.instance.offered_by.department_name }}</td>
                                 {% endif %}
                             </tr>
 
                         {% endfor %}
                     </form>
                     <form method="post" name="add" action="">
-                        {{ formset.management_form }}
+			{{ formset.management_form }}
                         {% for form in formset %}
                             <tr>
                                 <td></td>

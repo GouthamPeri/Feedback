@@ -177,7 +177,7 @@ def faculty(request):
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = list(map(int, indices))
             indices.sort(reverse=True)
-            objects = Faculty.objects.filter(home_department=dept).order_by('faculty_code')
+            objects = Faculty.objects.all().order_by('faculty_code')
             try:
                 for i in indices:
                     faculty = objects[i]
@@ -199,8 +199,7 @@ def faculty(request):
         countform = FieldCountForm()
         deleteform = DeleteForm()
 
-    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
-    queryset = Faculty.objects.filter(home_department = dept).order_by('faculty_code')
+    queryset = Faculty.objects.all().order_by('faculty_code')
     return render_to_response('faculty.html', {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                                     'database': myformset(queryset=queryset), 'username': request.user.username,
                                                     'error': error})
@@ -388,7 +387,7 @@ def course_offered(request):
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = list(map(int, indices))
             indices.sort(reverse=True)
-            objects = CourseOffered.objects.all()
+            objects = CourseOffered.objects.filter(subject_code__offered_by=dept)
             try:
                 for i in indices:
                     objects[i].delete()
@@ -405,7 +404,7 @@ def course_offered(request):
 
     return render_to_response('course_offered.html',
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
-                               'database': myformset(), 'username': request.user.username,
+                               'database': myformset(queryset=CourseOffered.objects.filter(subject_code__offered_by=dept)), 'username': request.user.username,
                                'error': error})
 
 
@@ -454,53 +453,6 @@ def course_reg(request):
 
 
     return render_to_response('course_registration.html',
-                              {'formset': formset, 'countform': countform, 'deleteform': deleteform,
-                               'database': myformset(), 'username': request.user.username,
-                               'error': error})
-
-
-@login_required
-@user_passes_test(is_dept_admin)
-def course_feedback_assgn(request):
-    error = ''
-    entries = 1
-    myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
-    formset = myformset(queryset=AcademicYear.objects.none())
-    countform = FieldCountForm()
-    deleteform = DeleteForm()
-    if request.method == 'POST':
-        if 'add_empty_records' in request.POST:  # add rows
-            entries = int(request.POST['add_empty_records'])
-
-            myformset = modelformset_factory(AcademicYear, AcademicYearForm, extra=entries)
-            formset = myformset(queryset=AcademicYear.objects.none())
-        elif 'form-0-academic_year_code' in request.POST:  # add records
-            formset = myformset(request.POST, queryset=AcademicYear.objects.none())
-            if formset.is_valid():
-                formset.save()
-                formset = myformset(queryset=AcademicYear.objects.none())
-            else:
-                error = "ERROR: Already exists/Invalid/Empty records"
-        else:  # delete selected records
-            indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
-            indices = list(map(int, indices))
-            indices.sort(reverse=True)
-            objects = AcademicYear.objects.all()
-            try:
-                for i in indices:
-                    objects[i].delete()
-            except ProtectedError as p:
-                error = str(p)
-                error = error[error.find('"') + 1: error.find('"', 4)]
-            except:
-                error = "ERROR: Year code does not exist/Error performing deletion"
-
-    else:
-        formset = myformset(queryset=AcademicYear.objects.none())
-        countform = FieldCountForm()
-        deleteform = DeleteForm()
-
-    return render_to_response('academic_year.html',
                               {'formset': formset, 'countform': countform, 'deleteform': deleteform,
                                'database': myformset(), 'username': request.user.username,
                                'error': error})
@@ -766,7 +718,6 @@ def program_structure(request):
         else:  # delete selected records
             indices = ''.join(request.POST.keys()).replace("form-", '').replace("-check", ' ').split()
             indices = map(int, indices)
-            indices.sort(reverse=True)
             objects = ProgramStructure.objects.all()
             try:
                 for i in indices:
@@ -790,6 +741,8 @@ def program_structure(request):
 @login_required
 @user_passes_test(is_dept_admin)
 def course_registration(request):
+
+    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
     entries = 1
     myformset = modelformset_factory(Student, StudentForm, extra=entries)
     course_code = CourseOffered.objects.all()
@@ -801,7 +754,7 @@ def course_registration(request):
             unregistered_candidates = Student.objects.exclude(student_reg_no__in=registered_candidates)
         else:
             unregistered_candidates = Student.objects.all()
-        courses = CourseOffered.objects.all()
+        courses = CourseOffered.objects.filter(subject_code__offered_by=dept)
         courses_list=map(lambda x: x.course_code, courses)
         course_form = create_course_selection_form(courses, course_code.course_code)
         unreg_form = None
@@ -1175,7 +1128,8 @@ def manage_course_feedback_assignment(request):
 def create_course_feedback_assignment(request):
 
     error = ''
-    course_feedback_objects = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no', 'start_date', 'end_date').distinct()
+    dept = Faculty.objects.get(faculty_code=request.user.username).home_department
+    course_feedback_objects = CourseFeedbackAssignment.objects.values('course_code__course_code__course_code', 'cycle_no', 'start_date', 'end_date', 'course_code__course_code__course_name').distinct()
     deleteform = DeleteForm()
     if request.method == 'POST':
         if 'course_code' in request.POST: # add records
@@ -1220,7 +1174,7 @@ def create_course_feedback_assignment(request):
 
     return render_to_response('course_feedback_view.html', {
                             'deleteform': deleteform,
-                            'form': CourseFeedbackAssignmentForm(),
+                            'form': create_course_feedback_assignment_fornm(dept),
                             'database': course_feedback_objects,
                             'username': request.user.username,
                             'error': error})
@@ -1314,8 +1268,9 @@ def faculty_home_page(request):
 def view_feedback(request):
     course_code = request.GET['course']
     cycle_no = request.GET['cycle']
-    faculty = CourseOffered.objects.get(course_code=course_code).faculty_name
-
+    course = CourseOffered.objects.get(course_code=course_code)
+    faculty = course.faculty_name
+    course_name = course.course_name
     faculty_name = faculty.faculty_first_name + " " + faculty.faculty_last_name
     rating_aggregate = FeedbackRatingAggregate.objects.get(
         course_code__course_code=course_code,
@@ -1342,6 +1297,7 @@ def view_feedback(request):
                                                               'low_count': low_count,
                                                               'high_count': high_count,
                                                                 'total_count' : total_count,
+								'course_name' : course_name,
                                                               'ratings': rating_aggregate})
     except:
         return HttpResponseRedirect(reverse('faculty_home_page'))

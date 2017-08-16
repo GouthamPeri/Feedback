@@ -206,19 +206,20 @@ def create_course_feedback_assignment_form(dept=None):
 
         class Meta:
             model = CourseFeedbackAssignment
-	    widgets = {
-	    'start_date': forms.DateInput(attrs={'class': 'datepicker'}),
-	    'end_date': forms.DateInput(attrs={'class': 'datepicker', 'required': "False"}),
-	    }
-	    fields = ['course_code', 'cycle_no', 'start_date', 'end_date']
+	widgets = {
+	'start_date': forms.DateInput(attrs={'class': 'datepicker'}),
+	'end_date': forms.DateInput(attrs={'class': 'datepicker', 'required': "False"}),
+	}
+	fields = ['course_code', 'cycle_no', 'start_date', 'end_date']
 
 	def __init__(self, *args, **kwargs):
 	    super(CourseFeedbackAssignmentForm, self).__init__(*args, **kwargs)
 	    choices = []
 	    for course in CourseOffered.objects.filter(subject_code__offered_by=dept):
 		choices.append((course.course_code, course.course_name))
-	    self.fields['course_code'] = forms.ChoiceField(choices=choices, widget=forms.Select())
-	    self.fields['course_code'].label_from_instance = lambda obj: str(obj.course_code.course_name)
+		self.fields['course_code'] = forms.ChoiceField(choices=choices,
+		                       widget=forms.Select())
+		self.fields['course_code'].label_from_instance = lambda obj: str(obj.course_code.course_name)
     return CourseFeedbackAssignmentForm
 
 

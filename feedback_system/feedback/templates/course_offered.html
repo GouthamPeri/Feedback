@@ -40,6 +40,7 @@
                         <th>Faculty Name</th>
                     </tr>
                     <form method="post" name="table" action="">
+			{{ memberformset.management_form }}
                         {% for form in database %}
                             <tr>
                                 {% if not form.course_code.value is None %}
@@ -50,7 +51,7 @@
                                         <td>{{ text }}</td>
                                         {% endif %}
                                     {% endfor %}
-                                    <td>{{ form.academic_year.value }}</td>
+                                    <td>{{ form.instance.academic_year.academic_year }}</td>
                                     <td>{{ form.semester.value }}</td>
                                     <td>{{ form.course_name.value }}</td>
                                     <td>{{ form.faculty_name.value }}</td>

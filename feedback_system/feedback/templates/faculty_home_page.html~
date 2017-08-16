@@ -3,8 +3,7 @@
     <title>Faculty</title>
     <head>
         <link rel="shortcut icon" type="image/png" href="{%static "title_logo.png"%}"/>
-        <script src="{% static 'include.js' %}">
-        </script>
+        <script src="{% static 'include.js' %}"/>
         <link rel="stylesheet" href="{% static 'w3.css'%}"/>
         <style>
             .reset{
@@ -50,8 +49,9 @@
         </ul>
     </div>
     {% endfor %}
-  </body>
-    <script>
+	<script>
     w3IncludeHTML();
 </script>
+  </body>
+
 </html>

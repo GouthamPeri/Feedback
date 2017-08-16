@@ -55,6 +55,7 @@
                         <th></th>
                     </tr>
                     <form method="post" name="table" action="">
+			{{ memberformset.management_form }}
                         {% for form in database %}
                             <tr>
                                 <td><input type="checkbox" class="w3-check"
